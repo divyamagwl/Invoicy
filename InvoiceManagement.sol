@@ -36,13 +36,17 @@ contract InvoiceManagement {
     );
   }
 
+  function getCompanyId(address addr) public view returns(uint) {
+    return addrToCompany[addr].companyId;
+  }
+
   //#################################################################
   //# Client
   //#################################################################
 
   struct Client {
     uint clientId;
-    address clientaddr;
+    address clientAddr;
     bool isBlocked;
     uint discount; // In percentage
   }
@@ -50,7 +54,7 @@ contract InvoiceManagement {
   mapping(uint => Client[]) public companyToClients;
 
   function addClient(address _clientAddr) public {
-    uint companyId = addrToCompany[msg.sender].companyId;
+    uint companyId = getCompanyId(msg.sender);
     require(companyId > 0, "Company is not registered");
     uint256 clientId = companyToClients[companyId].length;
 
@@ -63,9 +67,16 @@ contract InvoiceManagement {
   }
 
   function getAllClients() public view returns(Client[] memory) {
-    uint companyId = addrToCompany[msg.sender].companyId;
+    uint companyId = getCompanyId(msg.sender);
     require(companyId > 0, "Company is not registered");
     return companyToClients[companyId];
+  }
+
+  function getClientCompanyId(uint companyId, uint clientId) private view returns(uint) {
+    address clientAddr = companyToClients[companyId][clientId].clientAddr;
+    uint clientCompanyId = getCompanyId(clientAddr);
+    // require(clientCompanyId > 0, "Client Company is not registered on portal");
+    return clientCompanyId;
   }
 
   //#################################################################
@@ -83,32 +94,77 @@ contract InvoiceManagement {
   struct Payment {
     string method; // Coin Name
     string network; // Blockchain network
+    uint totalAmount;
+    uint dueAmount;
+    uint advancePercent; // Percent of payment to be paid in advance
   }
 
-  // EVM has 16 parameter restriction so reduct number of parameter 
+  // EVM has 16 parameter restriction so reduce number of parameter 
   // incase of Stack error
   struct Invoice {
     uint invoiceId;
     uint companyId;
     uint clientId;    
     Item[] items;
-    uint totalAmount;
-    uint dueAmount;
-    uint advancePercent; // Percent of payment to be paid in advance
+    Payment payment;
     bool isSettled; // Amount is paid or not
     string invoiceDate;
     string dueDate;
-    Payment payment;
     string uploadDocURI; // IPFS link
     string note;
   }
 
-  mapping(uint => Invoice[]) public clientToInvoices; // Company will reaise invoice for client 
-  mapping(uint => Invoice[]) public companyToBills; // Clients will pay bill
+  Invoice[] invoices;
+  mapping(uint => mapping(uint => uint[])) public companyToClientToInvoices; // Company will raise invoice for client 
+  mapping(uint => uint[]) public companyToBills; // Clients will pay bill
+
+
+  function addNewInvoice(
+    uint companyId,
+    uint clientId,
+    Item[] memory _items,
+    Payment memory payment,
+    bool isSettled,
+    string memory invoiceDate,
+    string memory dueDate,
+    string memory uploadDocURI ,
+    string memory note
+  ) public {
+    uint256 invoiceId = _invoiceIds.current();
+
+    invoices.push();
+    Invoice storage invoice = invoices[invoiceId];
+    invoice.invoiceId = invoiceId;
+    invoice.companyId = companyId;
+    invoice.clientId = clientId;
+
+    for(uint i = 0; i < _items.length; i++) {
+      Item memory item;
+      item.desc = _items[i].desc;
+      item.qty = _items[i].qty;
+      item.uintPrice = _items[i].uintPrice;
+      item.discount = _items[i].discount;
+      item.tax = _items[i].tax;
+      invoice.items.push(item);
+    }
+
+    invoice.payment = payment;
+    invoice.isSettled = isSettled;
+    invoice.invoiceDate = invoiceDate;
+    invoice.dueDate = dueDate;
+    invoice.uploadDocURI = uploadDocURI;
+    invoice.note = note;
+
+    companyToClientToInvoices[companyId][clientId].push(invoiceId);
+    uint clientCompanyId = getClientCompanyId(companyId, clientId);
+    companyToBills[clientCompanyId].push(invoiceId);
+
+    _invoiceIds.increment();
+  }
 
   // TODO:
-  // 1. Create Invoice
   // 2. Edit Invoice
   // 3. Pay bills
+  // 4. Getters for companyToClientToInvoices and comapanyToBills
   // ...
 }
