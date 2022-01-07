@@ -29,7 +29,7 @@ class Landing extends React.Component {
                                 </div>
                                 <h3 className="mb-4">Welcome to Invoice Management</h3>
                                 <Link to="/signup" className="btn btn-primary shadow-2 mb-4">Sign up</Link>
-                                <button className="btn btn-primary shadow-2 mb-4" onClick={this.loginHandler}>Login</button>
+                                <button className="btn btn-primary shadow-2 mb-4" onClick={this.loginHandler.bind(this)}>Login</button>
                             </div>
                         </div>
                     </div>

@@ -7,8 +7,20 @@ import Breadcrumb from "../App/layout/AdminLayout/Breadcrumb";
 import DEMO from "../store/constant";
 
 class SignUp extends React.Component {
+    constructor (props) {
+        super(props);
+        this.state = {email: '', name: ''};
+    }
     signupHandler(event) {
         window.location.href='/dashboard/'
+        console.log("Email: " + this.state.email);
+        console.log("Name: " + this.state.name);
+    }
+    handleEmailChange (event) {
+        this.setState({email: event.target.value});
+    }
+    handleNameChange(event) {
+        this.setState({name: event.target.value});
     }
     render () {
         return(
@@ -29,10 +41,10 @@ class SignUp extends React.Component {
                                 </div>
                                 <h3 className="mb-4">Sign up</h3>
                                 <div className="input-group mb-3">
-                                    <input type="text" className="form-control" placeholder="Company Name"/>
+                                    <input type="text" className="form-control" placeholder="Company Name"  value={this.state.password} onChange={this.handleNameChange.bind(this)}/>
                                 </div>
                                 <div className="input-group mb-3">
-                                    <input type="email" className="form-control" placeholder="Company Email"/>
+                                    <input type="email" className="form-control" placeholder="Company Email"  value={this.state.email} onChange={this.handleEmailChange.bind(this)}/>
                                 </div>
                                     {/* <div className="input-group mb-4">
                                         <input type="password" className="form-control" placeholder="password"/>
@@ -43,7 +55,7 @@ class SignUp extends React.Component {
                                             <label htmlFor="checkbox-fill-2" className="cr">Checkbox </label>
                                     </div>
                                 </div>
-                                <button className="btn btn-primary shadow-2 mb-4" onClick={this.signupHandler}>Sign up</button>
+                                <button className="btn btn-primary shadow-2 mb-4" onClick={this.signupHandler.bind(this)}>Sign up</button>
                                 <p className="mb-0 text-muted">Allready have an account? <NavLink to="/">Login</NavLink></p>
                             </div>
                         </div>
