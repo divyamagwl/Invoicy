@@ -18,26 +18,39 @@ contract InvoiceManagement {
     uint companyId;
     string name;
     string email;
+    address companyAddr;
   }
 
   mapping(address => Company) public addrToCompany;
+  mapping(uint => Company) public idToCompany;
 
   function createCompany(
     string memory _name,
     string memory _email
-  ) public {
+  ) 
+    public 
+  {
     _companyIds.increment();
     uint256 companyId = _companyIds.current();
 
-    addrToCompany[msg.sender] =  Company(
+    Company memory company = Company(
       companyId,
       _name,
-      _email
+      _email,
+      msg.sender
     );
+
+    addrToCompany[msg.sender] = company;
+    idToCompany[companyId] = company;
   }
 
   function getCompanyId(address addr) public view returns(uint) {
     return addrToCompany[addr].companyId;
+  }
+
+  function getCompanyAddr(uint companyId) public view returns(address) {
+    Company memory company = idToCompany[companyId];
+    return company.companyAddr;
   }
 
   //#################################################################
@@ -72,7 +85,14 @@ contract InvoiceManagement {
     return companyToClients[companyId];
   }
 
-  function getClientCompanyId(uint companyId, uint clientId) private view returns(uint) {
+  function getClientCompanyId(
+    uint companyId, 
+    uint clientId
+  ) 
+    private 
+    view 
+    returns(uint) 
+  {
     address clientAddr = companyToClients[companyId][clientId].clientAddr;
     uint clientCompanyId = getCompanyId(clientAddr);
     // require(clientCompanyId > 0, "Client Company is not registered on portal");
@@ -86,7 +106,7 @@ contract InvoiceManagement {
   struct Item {
     string desc;
     uint qty;
-    uint uintPrice;
+    uint price;
     uint discount;
     uint tax;
   }
@@ -107,6 +127,7 @@ contract InvoiceManagement {
     uint clientId;    
     Item[] items;
     Payment payment;
+    bool workCompleted;
     bool isSettled; // Amount is paid or not
     string invoiceDate;
     string dueDate;
@@ -114,22 +135,23 @@ contract InvoiceManagement {
     string note;
   }
 
-  Invoice[] invoices;
-  mapping(uint => mapping(uint => uint[])) public companyToClientToInvoices; // Company will raise invoice for client 
-  mapping(uint => uint[]) public companyToBills; // Clients will pay bill
-
+  Invoice[] public invoices;
+  mapping(uint => mapping(uint => uint[])) private companyToClientToInvoices; // Supplier raises invoice for client 
+  mapping(uint => uint[]) private companyToBills; // Clients will pay bill
 
   function addNewInvoice(
     uint companyId,
     uint clientId,
     Item[] memory _items,
     Payment memory payment,
-    bool isSettled,
+    bool workCompleted,
     string memory invoiceDate,
     string memory dueDate,
     string memory uploadDocURI ,
     string memory note
-  ) public {
+  ) 
+    public 
+  {
     uint256 invoiceId = _invoiceIds.current();
 
     invoices.push();
@@ -142,14 +164,15 @@ contract InvoiceManagement {
       Item memory item;
       item.desc = _items[i].desc;
       item.qty = _items[i].qty;
-      item.uintPrice = _items[i].uintPrice;
+      item.price = _items[i].price;
       item.discount = _items[i].discount;
       item.tax = _items[i].tax;
       invoice.items.push(item);
     }
 
     invoice.payment = payment;
-    invoice.isSettled = isSettled;
+    invoice.workCompleted = workCompleted;
+    invoice.isSettled = false;
     invoice.invoiceDate = invoiceDate;
     invoice.dueDate = dueDate;
     invoice.uploadDocURI = uploadDocURI;
@@ -162,9 +185,137 @@ contract InvoiceManagement {
     _invoiceIds.increment();
   }
 
-  // TODO:
-  // 2. Edit Invoice
-  // 3. Pay bills
-  // 4. Getters for companyToClientToInvoices and comapanyToBills
-  // ...
+  function getAllInvoicesByClient(
+    uint companyId, 
+    uint clientId
+  ) 
+    public 
+    view 
+    returns (uint[] memory) 
+  {
+    return companyToClientToInvoices[companyId][clientId];
+  }
+
+  function getAllBills(uint companyId) 
+    public 
+    view 
+    returns (uint[] memory) 
+  {
+    return companyToBills[companyId];
+  }
+
+  function getItemsbyInvoice(uint invoiceId) public view 
+    returns (
+      string[] memory, 
+      uint[] memory, 
+      uint[] memory, 
+      uint[] memory, 
+      uint[] memory
+    ) 
+  {
+    Item[] memory items = invoices[invoiceId].items;
+    uint numOfItems = items.length;
+    string[] memory descList = new string[](numOfItems);
+    uint[] memory qtyList = new uint[](numOfItems);
+    uint[] memory priceList = new uint[](numOfItems);
+    uint[] memory discountList = new uint[](numOfItems);
+    uint[] memory taxList = new uint[](numOfItems);
+      
+    for (uint i = 0; i < numOfItems; i++) {
+      Item memory item = items[i];
+      descList[i] = item.desc;
+      qtyList[i] = item.qty;
+      priceList[i] = item.price;
+      discountList[i] = item.discount;
+      taxList[i] = item.tax;
+    }
+        
+    return (
+      descList, 
+      qtyList, 
+      priceList, 
+      discountList, 
+      taxList
+    );
+  }
+
+  function payBill(uint invoiceId) public payable {
+    Invoice storage invoice = invoices[invoiceId];
+
+    uint supplierCompanyId = invoice.companyId; // Supplier -> Service Provider
+    address supplierAddr = getCompanyAddr(supplierCompanyId);
+    require(supplierAddr != address(0), "Supplier does not exist");
+
+    uint advance = invoice.payment.advancePercent;
+    uint dueAmount = invoice.payment.dueAmount;
+    bool workCompleted = invoice.workCompleted;
+
+    if(advance == 100 || advance == 0) {
+      require(msg.value >= dueAmount, "Please transfer money according to due amount");
+      sendFunds(supplierAddr, msg.value);
+      dueAmount = 0;
+    }
+    else {
+      if(!workCompleted) {
+        uint amountToBePaid = dueAmount * (advance / 100);
+        require(msg.value >= amountToBePaid, 
+        "Please transfer money according to due amount and advance");
+        sendFunds(supplierAddr, msg.value);
+        dueAmount -= msg.value;
+      }
+      else {
+        require(msg.value >= dueAmount, "Please transfer money according to due amount");
+        sendFunds(supplierAddr, msg.value);
+        dueAmount = 0;
+      }
+    }
+
+    if(dueAmount == 0) {
+      invoice.isSettled = true;
+    }
+    invoice.payment.dueAmount = dueAmount;
+  }
+
+  function sendFunds(address beneficiary, uint value) private {
+    address payable addr = payable(beneficiary);
+    addr.transfer(value);
+  }
+
+  function updateInvoice(
+    uint invoiceId,
+    Item[] memory _items,
+    Payment memory payment,
+    bool workCompleted,
+    string memory invoiceDate,
+    string memory dueDate,
+    string memory uploadDocURI ,
+    string memory note
+  ) 
+    public 
+  {
+    Invoice storage invoice = invoices[invoiceId];
+
+    for(uint i = 0; i < _items.length; i++) {
+      Item memory item;
+      item.desc = _items[i].desc;
+      item.qty = _items[i].qty;
+      item.price = _items[i].price;
+      item.discount = _items[i].discount;
+      item.tax = _items[i].tax;
+      invoice.items.push(item);
+    }
+
+    invoice.payment = payment;
+    invoice.workCompleted = workCompleted;
+    invoice.invoiceDate = invoiceDate;
+    invoice.dueDate = dueDate;
+    invoice.uploadDocURI = uploadDocURI;
+    invoice.note = note;
+  }
+
+  function updateInvoiceWorkCompleted(uint invoiceId) public {
+    Invoice storage invoice = invoices[invoiceId];
+    invoice.workCompleted = !invoice.workCompleted;
+  }
+
 }
