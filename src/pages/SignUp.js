@@ -4,17 +4,24 @@ import {NavLink} from 'react-router-dom';
 import '../assets/scss/style.scss';
 import Aux from "../hoc/_Aux";
 import Breadcrumb from "../App/layout/AdminLayout/Breadcrumb";
-import DEMO from "../store/constant";
+import {loadWeb3, loadAccount, web3, createCompany } from "../services/web3";
 
 class SignUp extends React.Component {
     constructor (props) {
         super(props);
-        this.state = {email: '', name: ''};
+        this.state = {email: '', name: '', wallet: ''};
     }
-    signupHandler(event) {
-        window.location.href='/dashboard/'
-        console.log("Email: " + this.state.email);
-        console.log("Name: " + this.state.name);
+    async signupHandler(event) {
+        event.preventDefault();
+
+        await loadWeb3();
+        const account = await loadAccount();
+        this.setState({wallet: account});
+
+        const result = await createCompany(this.state.name, this.state.email);
+        if (result) {
+            window.location.href='/dashboard/';
+        }
     }
     handleEmailChange (event) {
         this.setState({email: event.target.value});
@@ -41,7 +48,7 @@ class SignUp extends React.Component {
                                 </div>
                                 <h3 className="mb-4">Sign up</h3>
                                 <div className="input-group mb-3">
-                                    <input type="text" className="form-control" placeholder="Company Name"  value={this.state.password} onChange={this.handleNameChange.bind(this)}/>
+                                    <input type="text" className="form-control" placeholder="Company Name"  value={this.state.name} onChange={this.handleNameChange.bind(this)}/>
                                 </div>
                                 <div className="input-group mb-3">
                                     <input type="email" className="form-control" placeholder="Company Email"  value={this.state.email} onChange={this.handleEmailChange.bind(this)}/>
@@ -49,14 +56,14 @@ class SignUp extends React.Component {
                                     {/* <div className="input-group mb-4">
                                         <input type="password" className="form-control" placeholder="password"/>
                                     </div> */}
-                                <div className="form-group text-left">
+                                {/* <div className="form-group text-left">
                                     <div className="checkbox checkbox-fill d-inline">
                                         <input type="checkbox" name="checkbox-fill-2" id="checkbox-fill-2"/>
                                             <label htmlFor="checkbox-fill-2" className="cr">Checkbox </label>
                                     </div>
-                                </div>
+                                </div> */}
                                 <button className="btn btn-primary shadow-2 mb-4" onClick={this.signupHandler.bind(this)}>Sign up</button>
-                                <p className="mb-0 text-muted">Allready have an account? <NavLink to="/">Login</NavLink></p>
+                                <p className="mb-0 text-muted">Already have an account? <NavLink to="/">Login</NavLink></p>
                             </div>
                         </div>
                     </div>
