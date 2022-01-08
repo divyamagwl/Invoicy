@@ -9,6 +9,12 @@ import avatar2 from '../../assets/images/user/avatar-2.jpg';
 import avatar3 from '../../assets/images/user/avatar-3.jpg';
 
 class Dashboard extends React.Component {
+
+    constructor (props) {
+        super(props);
+        console.log(props.location.state);
+    }
+
     render() {
         const tabContent = (
             <Aux>
