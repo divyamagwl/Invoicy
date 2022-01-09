@@ -15,20 +15,29 @@ class Dashboard extends React.Component {
 
     constructor (props) {
         super(props);
-        this.companyId = props.location.state.companyId;
-        this.wallet = props.location.state.wallet;
+        try {
+            this.companyId = props.location.state.companyId;
+            this.wallet = props.location.state.wallet;
+        }
+        catch (e) {
+            console.log(e);
+            this.props.history.push('/');
+        }
         this.state = {invoices: []};
     }
 
     async getBills() {
-        const ids = await getAllBillsByCompany(this.companyId);
-        ids.forEach(async id => {
-            const data = await getInvoiceDetails(id);
-            const invoice = {'id': id, 'data': data}
-            this.setState({
-                invoices:[...this.state.invoices, invoice]
-            });
-        })
+        try{
+            const ids = await getAllBillsByCompany(this.companyId);
+            ids.forEach(async id => {
+                const data = await getInvoiceDetails(id);
+                const invoice = {'id': id, 'data': data}
+                this.setState({
+                    invoices:[...this.state.invoices, invoice]
+                });
+            })
+        }
+        catch {}
     }
 
     componentDidMount() {
@@ -60,6 +69,7 @@ class Dashboard extends React.Component {
         let settledData  = []
         let pendingData  = []
         let totalMoneySpent = 0
+        let totalMoneyDue = 0
 
         invoices.forEach(invoice => {
             if(invoice.data.isSettled){
@@ -109,9 +119,13 @@ class Dashboard extends React.Component {
                     </td>
                 </tr>
             )
+            totalMoneyDue += parseFloat(web3.utils.fromWei(invoice.data.payment.dueAmount));
             }
         })
-
+        var settledProgressBar = (settledData.length / (settledData.length + pendingData.length) * 100).toString();
+        var pendingProgressBar = (pendingData.length / (settledData.length + pendingData.length) * 100).toString();
+        var paymentProgressBar = (totalMoneySpent / (totalMoneySpent + totalMoneyDue) * 100).toString();
+        
         // invoiceData.
         // const tabContent = (
         //     <Aux>
@@ -184,12 +198,16 @@ class Dashboard extends React.Component {
                                         <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-arrow-up text-c-green f-30 m-r-5"/>{settledData.length}</h3>
                                     </div>
 
-                                    {/* <div className="col-3 text-right">
-                                        <p className="m-b-0">50%</p>
-                                    </div> */}
+                                    <div className="col-3 text-right">
+                                        <p className="m-b-0">{settledProgressBar}%</p>
+                                    </div>
                                 </div>
                                 <div className="progress m-t-30" style={{height: '7px'}}>
-                                    <div className="progress-bar progress-c-theme" role="progressbar" style={{width: '50%'}} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"/>
+                                    <div className="progress-bar progress-c-theme" role="progressbar" 
+                                    style={{width: settledProgressBar.concat("%")}} 
+                                    aria-valuenow={settledProgressBar} 
+                                    aria-valuemin="0" aria-valuemax="100"
+                                    />
                                 </div>
                             </Card.Body>
                         </Card>
@@ -203,12 +221,15 @@ class Dashboard extends React.Component {
                                         <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-arrow-down text-c-red f-30 m-r-5"/>{pendingData.length}</h3>
                                     </div>
 
-                                    {/* <div className="col-3 text-right">
-                                        <p className="m-b-0">36%</p>
-                                    </div> */}
+                                    <div className="col-3 text-right">
+                                        <p className="m-b-0">{pendingProgressBar}%</p>
+                                    </div>
                                 </div>
                                 <div className="progress m-t-30" style={{height: '7px'}}>
-                                    <div className="progress-bar progress-c-theme2" role="progressbar" style={{width: '35%'}} aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"/>
+                                    <div className="progress-bar progress-c-theme2" role="progressbar" 
+                                    style={{width: pendingProgressBar.concat("%")}} 
+                                    aria-valuenow={pendingProgressBar} 
+                                    aria-valuemin="0" aria-valuemax="100"/>
                                 </div>
                             </Card.Body>
                         </Card>
@@ -222,12 +243,15 @@ class Dashboard extends React.Component {
                                         <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-arrow-up text-c-green f-30 m-r-5"/> {totalMoneySpent} ETH</h3>
                                     </div>
 
-                                    {/* <div className="col-3 text-right">
-                                        <p className="m-b-0">70%</p>
-                                    </div> */}
+                                    <div className="col-3 text-right">
+                                        <p className="m-b-0">{paymentProgressBar.substring(0, 5)}%</p>
+                                    </div>
                                 </div>
                                 <div className="progress m-t-30" style={{height: '7px'}}>
-                                    <div className="progress-bar progress-c-theme" role="progressbar" style={{width: '70%'}} aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"/>
+                                    <div className="progress-bar progress-c-theme" role="progressbar" 
+                                    style={{width: paymentProgressBar.concat("%")}} 
+                                    aria-valuenow={paymentProgressBar} 
+                                    aria-valuemin="0" aria-valuemax="100"/>
                                 </div>
                             </Card.Body>
                         </Card>
