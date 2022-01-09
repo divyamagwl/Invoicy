@@ -1,5 +1,5 @@
 import React from 'react';
-import {Row, Col, Card, Table, Tabs, Tab} from 'react-bootstrap';
+import {Row, Col, Card, Table, Tabs, Tab, Button} from 'react-bootstrap';
 
 import Aux from "../hoc/_Aux";
 import DEMO from "../store/constant";
@@ -9,7 +9,7 @@ import avatar2 from '../assets/images/user/avatar-2.jpg';
 import avatar3 from '../assets/images/user/avatar-3.jpg';
 import invoiceData from './invoices.json'
 
-import {web3, getAllBillsByCompany, getInvoiceDetails} from '../services/web3';
+import {web3, getAllBillsByCompany, getInvoiceDetails, payBill} from '../services/web3';
 
 class Dashboard extends React.Component {
 
@@ -17,7 +17,6 @@ class Dashboard extends React.Component {
         super(props);
         this.companyId = props.location.state.companyId;
         this.wallet = props.location.state.wallet;
-        // console.log(this.companyId, this.wallet);
         this.state = {invoices: []};
     }
 
@@ -36,10 +35,31 @@ class Dashboard extends React.Component {
         this.getBills();
     }  
 
+    async payInvoice(invoice) {
+        console.log(invoice)
+        const invoiceId = invoice.id;
+        const advance =  parseInt(invoice.data.payment.advancePercent);
+        const workCompleted = invoice.data.workCompleted;
+        var amount;
+        if(advance === 0 || advance === 100) {
+            amount = invoice.data.payment.dueAmount;
+        }
+        else {
+            if(!workCompleted) {
+                amount = invoice.data.payment.dueAmount * (advance / 100);
+            }
+            else {
+                amount = invoice.data.payment.dueAmount;
+            }
+        }
+        await payBill(invoiceId, amount);
+    }
+
     render() {
         const invoices = this.state.invoices;
         let settledData  = []
         let pendingData  = []
+        let totalMoneySpent = 0
 
         invoices.forEach(invoice => {
             if(invoice.data.isSettled){
@@ -63,6 +83,7 @@ class Dashboard extends React.Component {
                         <td><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">View Details</a></td>
                     </tr>
                 )
+                totalMoneySpent += parseFloat(web3.utils.fromWei(invoice.data.payment.totalAmount));
             }
             else{
             pendingData.push(
@@ -82,7 +103,10 @@ class Dashboard extends React.Component {
                     <td>
                         <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.dueAmount)} ETH</h6>
                     </td>
-                    <td><a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">View Details</a><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">Pay</a></td>
+                    <td>
+                        <a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">View Details</a>
+                        <button style={{border: 0}} onClick={() => this.payInvoice(invoice)} className="label theme-bg text-white f-12">Pay</button>
+                    </td>
                 </tr>
             )
             }
@@ -154,10 +178,10 @@ class Dashboard extends React.Component {
                     <Col md={6} xl={4}>
                         <Card>
                             <Card.Body>
-                                <h6 className='mb-4'>Total Settled Invoices</h6>
+                                <h6 className='mb-4'>Total Settled Bills</h6>
                                 <div className="row d-flex align-items-center">
                                     <div className="col-9">
-                                        <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-arrow-up text-c-green f-30 m-r-5"/> 15</h3>
+                                        <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-arrow-up text-c-green f-30 m-r-5"/>{settledData.length}</h3>
                                     </div>
 
                                     {/* <div className="col-3 text-right">
@@ -173,10 +197,10 @@ class Dashboard extends React.Component {
                     <Col md={6} xl={4}>
                         <Card>
                             <Card.Body>
-                                <h6 className='mb-4'>Total Pending Invoices</h6>
+                                <h6 className='mb-4'>Total Pending Bills</h6>
                                 <div className="row d-flex align-items-center">
                                     <div className="col-9">
-                                        <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-arrow-down text-c-red f-30 m-r-5"/>3</h3>
+                                        <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-arrow-down text-c-red f-30 m-r-5"/>{pendingData.length}</h3>
                                     </div>
 
                                     {/* <div className="col-3 text-right">
@@ -195,7 +219,7 @@ class Dashboard extends React.Component {
                                 <h6 className='mb-4'>Total Money Sent</h6>
                                 <div className="row d-flex align-items-center">
                                     <div className="col-9">
-                                        <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-arrow-up text-c-green f-30 m-r-5"/> $8638.32</h3>
+                                        <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-arrow-up text-c-green f-30 m-r-5"/> {totalMoneySpent} ETH</h3>
                                     </div>
 
                                     {/* <div className="col-3 text-right">

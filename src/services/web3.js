@@ -145,3 +145,27 @@ export const getItemsbyInvoice = async (invoiceId) => {
   return itemArr;
 };
 
+
+export const payBill = async (invoiceId, amount) => {
+  const accounts = await web3.eth.getAccounts();
+  const account = accounts[0];
+
+  const result = await InvoiceManagement_Contract.methods
+    .payBill(invoiceId)
+    .send({
+      from: account,
+      value: amount,
+    })
+    .on("transactionHash", function (hash) {})
+    .on("receipt", function (receipt) {})
+    .on("confirmation", function (confirmationNumber, receipt) {
+      window.alert("Money has been transferred successfully!");
+    })
+    .on("error", function (error, receipt) {
+      console.log(error);
+      window.alert("An error has occured!");
+    });
+
+  window.location.reload();
+  console.log(result);
+};
