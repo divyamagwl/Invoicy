@@ -8,18 +8,47 @@ import avatar1 from '../assets/images/user/avatar-1.jpg';
 import avatar2 from '../assets/images/user/avatar-2.jpg';
 import avatar3 from '../assets/images/user/avatar-3.jpg';
 import invoiceData from './invoices.json'
+
+import {web3, getAllBillsByCompany, getInvoiceDetails} from '../services/web3';
+
 class Dashboard extends React.Component {
+
+    constructor (props) {
+        super(props);
+        this.companyId = props.location.state.companyId;
+        this.wallet = props.location.state.wallet;
+        // console.log(this.companyId, this.wallet);
+        this.state = {invoices: []};
+    }
+
+    async getBills() {
+        const ids = await getAllBillsByCompany(this.companyId);
+        ids.forEach(async id => {
+            const data = await getInvoiceDetails(id);
+            const invoice = {'id': id, 'data': data}
+            this.setState({
+                invoices:[...this.state.invoices, invoice]
+            });
+        })
+    }
+
+    componentDidMount() {
+        this.getBills();
+    }  
+
     render() {
+        const invoices = this.state.invoices;
         let settledData  = []
         let pendingData  = []
-        invoiceData.forEach(invoice => {
+
+        invoices.forEach(invoice => {
             if(invoice.data.isSettled){
                 settledData.push(
                     <tr className="unread" key = {invoice.id}>
                         <td><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></td>
                         <td>
-                            <h6 className="mb-1">{invoice.data.companyName}</h6>
-                            <p className="m-0">{invoice.data.note}</p>
+                            <h6 className="mb-1">{invoice.data.company.name}</h6>
+                            {/* <p className="m-0">{invoice.data.note}</p> */}
                         </td>
                         <td>
                             <h6 className="text-muted"><i className="fa fa-circle text-c-green f-10 m-r-15"/>{invoice.data.invoiceDate}</h6>
@@ -29,7 +58,7 @@ class Dashboard extends React.Component {
                         </td>
     
                         <td>
-                            <h6 className="text-muted">${invoice.data.payment.totalAmount}</h6>
+                            <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.totalAmount)} ETH</h6>
                         </td>
                         <td><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">View Details</a></td>
                     </tr>
@@ -40,8 +69,8 @@ class Dashboard extends React.Component {
                 <tr className="unread" key = {invoice.id}>
                     <td><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></td>
                     <td>
-                        <h6 className="mb-1">{invoice.data.companyName}</h6>
-                        <p className="m-0">{invoice.data.note}</p>
+                        <h6 className="mb-1">{invoice.data.company.name}</h6>
+                        {/* <p className="m-0">{invoice.data.note}</p> */}
                     </td>
                     <td>
                         <h6 className="text-muted"><i className="fa fa-circle text-c-green f-10 m-r-15"/>{invoice.data.invoiceDate}</h6>
@@ -51,9 +80,9 @@ class Dashboard extends React.Component {
                     </td>
 
                     <td>
-                        <h6 className="text-muted">${invoice.data.payment.totalAmount}</h6>
+                        <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.dueAmount)} ETH</h6>
                     </td>
-                    <td><a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">Reject</a><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">Approve</a></td>
+                    <td><a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">View Details</a><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">Pay</a></td>
                 </tr>
             )
             }

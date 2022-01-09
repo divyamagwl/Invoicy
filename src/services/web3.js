@@ -49,7 +49,7 @@ export const createCompany = async (name, email) => {
   else return false;
 };
 
-export const checkCompanyExists = async () => {
+export const getCompanyId = async () => {
   const accounts = await web3.eth.getAccounts();
   const account = accounts[0];
   const companyId = await InvoiceManagement_Contract.methods
@@ -58,6 +58,14 @@ export const checkCompanyExists = async () => {
 
   // console.log(companyId);
   return companyId;
+};
+
+export const getCompanyById = async (companyId) => {
+  const company = await InvoiceManagement_Contract.methods
+    .idToCompany(companyId)
+    .call();
+
+  return company;
 };
 
 
@@ -95,4 +103,45 @@ export const getAllClients = async () => {
 //#################################################################
 //# Invoice
 //#################################################################
+
+export const getAllBillsByCompany = async (companyId) => {
+  const invoiceIds = await InvoiceManagement_Contract.methods
+    .getAllBills(companyId)
+    .call();
+  return invoiceIds;
+};
+
+export const getInvoiceDetails = async (invoiceId) => {
+  const invoice = await InvoiceManagement_Contract.methods
+    .invoices(invoiceId)
+    .call();
+
+  const items = await getItemsbyInvoice(invoiceId);
+  invoice['items'] = items;
+
+  const company = await getCompanyById(invoice.companyId);
+  invoice['company'] = company;
+
+  return invoice;
+};
+
+export const getItemsbyInvoice = async (invoiceId) => {
+  const items = await InvoiceManagement_Contract.methods
+    .getItemsbyInvoice(invoiceId)
+    .call();
+
+  const itemArr = []
+  for(var i = 0; i < items[0].length; i++) {
+    const item = {
+      'desc': items[0][i],
+      'qty': items[1][i],
+      'price': items[2][i],
+      'discount': items[3][i],
+      'tax': items[4][i]
+    }
+    itemArr.push(item);
+  }
+
+  return itemArr;
+};
 

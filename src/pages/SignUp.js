@@ -4,7 +4,7 @@ import {NavLink} from 'react-router-dom';
 import '../assets/scss/style.scss';
 import Aux from "../hoc/_Aux";
 import Breadcrumb from "../App/layout/AdminLayout/Breadcrumb";
-import {loadWeb3, loadAccount, createCompany, checkCompanyExists} from "../services/web3";
+import {loadWeb3, loadAccount, createCompany, getCompanyId} from "../services/web3";
 
 class SignUp extends React.Component {
     constructor (props) {
@@ -20,8 +20,8 @@ class SignUp extends React.Component {
 
         const result = await createCompany(this.state.name, this.state.email);
         if (result) {
-            const companyId = await checkCompanyExists();
-            if(companyId == 0) {
+            const companyId = await getCompanyId();
+            if(companyId === 0) {
                 window.alert('Something Went Wrong!');
                 return;
             }

@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import '../assets/scss/style.scss';
 import Aux from "../hoc/_Aux";
 import Breadcrumb from "../App/layout/AdminLayout/Breadcrumb";
-import {loadWeb3, loadAccount, checkCompanyExists} from "../services/web3";
+import {loadWeb3, loadAccount, getCompanyId} from "../services/web3";
 
 class Landing extends React.Component {
 
@@ -17,8 +17,8 @@ class Landing extends React.Component {
         await loadWeb3();
         const account = await loadAccount();
         this.setState({wallet: account});
-        const companyId = await checkCompanyExists();
-        if(companyId !== 0) {
+        const companyId = await getCompanyId();
+        if(companyId > 0) {
             this.setState({companyId: companyId});
             this.props.history.push({
                 pathname: '/dashboard/',

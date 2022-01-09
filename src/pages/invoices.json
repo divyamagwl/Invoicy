@@ -1,11 +1,16 @@
 [
     {
-        "id":"1",
+        "id":"0",
         "data": {
-            "companyName": "Company X",
-            "invoiceId": 1,
+            "company": {
+                "name": "CompanyX",
+                "email": "xyz@gnail.com",
+                "companyId": 1,
+                "companyAddr": "0x5cB2dB3A9c7C073D619C637dfD99dE2cf2C51037"
+            },
+            "invoiceId": 0,
             "companyId": 1,
-            "clientId": 1,
+            "clientId": 0,
             "items" : [ 
                 {
                     "desc": "",
@@ -31,12 +36,17 @@
         }
     },
     {
-        "id":"2",
+        "id":"1",
         "data": {
-            "companyName": "Company Y",
+            "company": {
+                "name": "CompanyX",
+                "email": "xyz@gnail.com",
+                "companyId": 1,
+                "companyAddr": "0x5cB2dB3A9c7C073D619C637dfD99dE2cf2C51037"
+            },
             "invoiceId": 1,
             "companyId": 1,
-            "clientId": 1,
+            "clientId": 0,
             "items" : [ 
                 {
                     "desc": "",
@@ -62,12 +72,17 @@
         }
     },
     {
-        "id":"3",
+        "id":"2",
         "data": {
-            "companyName": "Company Z",
-            "invoiceId": 1,
+            "company": {
+                "name": "CompanyX",
+                "email": "xyz@gnail.com",
+                "companyId": 1,
+                "companyAddr": "0x5cB2dB3A9c7C073D619C637dfD99dE2cf2C51037"
+            },
+            "invoiceId": 2,
             "companyId": 1,
-            "clientId": 1,
+            "clientId": 0,
             "items" : [ 
                 {
                     "desc": "",
