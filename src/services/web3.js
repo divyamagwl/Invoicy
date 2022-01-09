@@ -44,7 +44,7 @@ export const createCompany = async (name, email) => {
       from: account,
     });
 
-  console.log(result);
+  // console.log(result);
   if (result) return true;
   else return false;
 };
@@ -56,6 +56,43 @@ export const checkCompanyExists = async () => {
     .getCompanyId(account)
     .call();
 
-  if (companyId > 0) return true;
+  // console.log(companyId);
+  return companyId;
+};
+
+
+//#################################################################
+//# Client
+//#################################################################
+
+export const addClient = async (clientAddr, discount) => {
+  const accounts = await web3.eth.getAccounts();
+  const account = accounts[0];
+  const result = await InvoiceManagement_Contract.methods
+    .addClient(clientAddr)
+    .send({
+      from: account,
+    });
+
+  // console.log(result);
+  if (result) return true;
   else return false;
 };
+
+
+export const getAllClients = async () => {
+  const accounts = await web3.eth.getAccounts();
+  const account = accounts[0];
+  const clients = await InvoiceManagement_Contract.methods
+    .getAllClients()
+    .call({
+      from: account,
+    });
+  console.log(clients); // Check this
+  return clients;
+};
+
+//#################################################################
+//# Invoice
+//#################################################################
+

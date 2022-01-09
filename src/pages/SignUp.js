@@ -4,12 +4,12 @@ import {NavLink} from 'react-router-dom';
 import '../assets/scss/style.scss';
 import Aux from "../hoc/_Aux";
 import Breadcrumb from "../App/layout/AdminLayout/Breadcrumb";
-import {loadWeb3, loadAccount, web3, createCompany } from "../services/web3";
+import {loadWeb3, loadAccount, createCompany, checkCompanyExists} from "../services/web3";
 
 class SignUp extends React.Component {
     constructor (props) {
         super(props);
-        this.state = {email: '', name: '', wallet: ''};
+        this.state = {email: '', name: '', wallet: '', companyId: 0};
     }
     async signupHandler(event) {
         event.preventDefault();
@@ -20,7 +20,16 @@ class SignUp extends React.Component {
 
         const result = await createCompany(this.state.name, this.state.email);
         if (result) {
-            window.location.href='/dashboard/';
+            const companyId = await checkCompanyExists();
+            if(companyId == 0) {
+                window.alert('Something Went Wrong!');
+                return;
+            }
+            this.setState({companyId: companyId});
+            this.props.history.push({
+                pathname: '/dashboard/',
+                state: { wallet: this.state.wallet, companyId: this.state.companyId }
+            })
         }
     }
     handleEmailChange (event) {
