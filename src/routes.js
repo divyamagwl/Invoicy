@@ -5,7 +5,7 @@ window.jQuery = $;
 window.$ = $;
 global.jQuery = $;
 
-const DashboardDefault = React.lazy(() => import('./Demo/Dashboard/Default'));
+const DashboardDefault = React.lazy(() => import('./pages/Dashboard'));
 
 const UIBasicButton = React.lazy(() => import('./Demo/UIElements/Basic/Button'));
 const UIBasicBadges = React.lazy(() => import('./Demo/UIElements/Basic/Badges'));
