@@ -10,20 +10,28 @@ import avatar3 from '../assets/images/user/avatar-3.jpg';
 import invoiceData from './invoices.json'
 
 import {web3, getAllBillsByCompany, getInvoiceDetails, payBill} from '../services/web3';
+import {loadWeb3, loadAccount, getCompanyId} from "../services/web3";
+
 
 class BillsDashboard extends React.Component {
 
     constructor (props) {
         super(props);
-        try {
-            this.companyId = props.location.state.companyId;
-            this.wallet = props.location.state.wallet;
+        this.state = {wallet: '', companyId: 0, invoices: []};
+        this.fetchAccount();
+    }
+
+    async fetchAccount(){
+        await loadWeb3();
+        const account = await loadAccount();
+        this.setState({wallet: account});
+        const companyId = await getCompanyId();
+        if(companyId > 0) {
+            this.setState({companyId: companyId});
         }
-        catch (e) {
-            console.log(e);
+        else{
             this.props.history.push('/');
         }
-        this.state = {invoices: []};
     }
 
     async getBills() {

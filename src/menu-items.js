@@ -19,6 +19,13 @@ export default {
                     type: 'item',
                     url: '/bills-dashboard/',
                     icon: 'feather icon-file-text',
+                },
+                {
+                    id: 'add_client',
+                    title: 'Add Client',
+                    type: 'item',
+                    url: '/add-client/',
+                    icon: 'feather icon-user-plus',
                 }
             ]
         },
