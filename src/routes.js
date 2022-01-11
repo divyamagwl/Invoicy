@@ -12,6 +12,7 @@ const InvoicePage = React.lazy(() => import('./components/InvoicePage'))
 const UIBasicButton = React.lazy(() => import('./Demo/UIElements/Basic/Button'));
 const UIBasicBadges = React.lazy(() => import('./Demo/UIElements/Basic/Badges'));
 const UIBasicBreadcrumbPagination = React.lazy(() => import('./Demo/UIElements/Basic/BreadcrumbPagination'));
+const SpecificClient = React.lazy(() => import('./pages/SpecificClient'));
 
 const UIBasicCollapse = React.lazy(() => import('./Demo/UIElements/Basic/Collapse'));
 const UIBasicTabsPills = React.lazy(() => import('./Demo/UIElements/Basic/TabsPills'));
@@ -33,6 +34,8 @@ const routes = [
     { path: '/invoice/', exact: true, name: 'Invoice', component: InvoicePage },
     { path: '/bills-dashboard/', exact: true, name: 'Bills', component: BillsDashboardDefault },
     { path: '/add-client/', exact: true, name: 'Add Client', component: AddClient },
+    { path: '/clients/:id/', exact: true, name: 'Specific Client', component: SpecificClient },
+    
     
     { path: '/basic/button', exact: true, name: 'Basic Button', component: UIBasicButton },
     { path: '/basic/badges', exact: true, name: 'Basic Badges', component: UIBasicBadges },

@@ -1,0 +1,29 @@
+[
+    {
+        "id":"0",
+        "data": {
+            "clientId" : 0,
+            "clientAddr" : "0x123456789",
+            "isBlocked" : false,
+            "discount" : 97
+        }
+    },
+    {
+        "id":"1",
+        "data": {
+            "clientId" : 1,
+            "clientAddr" : "0x987654321",
+            "isBlocked" : false,
+            "discount" : 97
+        }
+    },
+    {
+        "id":"2",
+        "data": {
+            "clientId" : 2,
+            "clientAddr" : "0x1234598765",
+            "isBlocked" : false,
+            "discount" : 97
+        }
+    }
+]
