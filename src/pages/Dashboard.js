@@ -12,6 +12,41 @@ import invoiceData from './invoices.json'
 import {web3, getAllBillsByCompany, getInvoiceDetails, payBill} from '../services/web3';
 import {loadWeb3, loadAccount, getCompanyId} from "../services/web3";
 
+import NVD3Chart from 'react-nvd3';
+
+const pieChartData = [
+    {key: "Type1", y: 33, color: "#1de9b6"},
+    {key: "Type2", y: 33, color: "#f4c22b"},
+    {key: "Type3", y: 33, color: "#ff8a65"},
+];
+
+function lineChart() {
+    var raised = [],
+        pending = [];
+    for (var i = 0; i < 365; i++) {
+        raised.push({
+            'x': i,
+            'y': 400*(Math.sin(i / 70) * 0.25 + 0.5)
+        });
+        pending.push({
+            'x': i,
+            'y': Math.abs(100*(Math.sin(i / 100)))
+        });
+    }
+    return [
+        {
+            values: raised,
+            key: 'Invoices Raised',
+            color: '#1de9b6',
+            area: true
+        },
+        {
+            values: pending,
+            key: 'Pending Invoices',
+            color: '#ff8a65'
+        }
+    ];
+}
 
 class Dashboard extends React.Component {
 
@@ -78,6 +113,12 @@ class Dashboard extends React.Component {
         let pendingData  = []
         let totalMoneySpent = 0
         let totalMoneyDue = 0
+        
+        let topPendingInvoices = [];
+        let clients = [];
+        let totalInvoices = 100
+        let totalPendingInvoices = 56
+        let totalClients = 30
 
         invoices.forEach(invoice => {
             if(invoice.data.isSettled){
@@ -130,32 +171,21 @@ class Dashboard extends React.Component {
             totalMoneyDue += parseFloat(web3.utils.fromWei(invoice.data.payment.dueAmount));
             }
         })
-        var settledProgressBar = (settledData.length / (settledData.length + pendingData.length) * 100).toString();
-        var pendingProgressBar = (pendingData.length / (settledData.length + pendingData.length) * 100).toString();
-        var paymentProgressBar = (totalMoneySpent / (totalMoneySpent + totalMoneyDue) * 100).toString();
         
+
+
         return (
             <Aux>
                 <Row>
+                    {/* Row 1 */}
                     <Col md={6} xl={4}>
                         <Card>
                             <Card.Body>
-                                <h6 className='mb-4'>Total Settled Bills</h6>
+                                <h6 className='mb-4'>Total Invoices Generated</h6>
                                 <div className="row d-flex align-items-center">
                                     <div className="col-9">
-                                        <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-arrow-up text-c-green f-30 m-r-5"/>{settledData.length}</h3>
+                                        <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-file-text f-30 m-r-5"/>{totalInvoices}</h3>
                                     </div>
-
-                                    <div className="col-3 text-right">
-                                        <p className="m-b-0">{settledProgressBar}%</p>
-                                    </div>
-                                </div>
-                                <div className="progress m-t-30" style={{height: '7px'}}>
-                                    <div className="progress-bar progress-c-theme" role="progressbar" 
-                                    style={{width: settledProgressBar.concat("%")}} 
-                                    aria-valuenow={settledProgressBar} 
-                                    aria-valuemin="0" aria-valuemax="100"
-                                    />
                                 </div>
                             </Card.Body>
                         </Card>
@@ -163,21 +193,11 @@ class Dashboard extends React.Component {
                     <Col md={6} xl={4}>
                         <Card>
                             <Card.Body>
-                                <h6 className='mb-4'>Total Pending Bills</h6>
+                                <h6 className='mb-4'>Total Pending Invoices</h6>
                                 <div className="row d-flex align-items-center">
                                     <div className="col-9">
-                                        <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-arrow-down text-c-red f-30 m-r-5"/>{pendingData.length}</h3>
+                                        <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-file-text text-c-red f-30 m-r-5"/>{totalPendingInvoices}</h3>
                                     </div>
-
-                                    <div className="col-3 text-right">
-                                        <p className="m-b-0">{pendingProgressBar}%</p>
-                                    </div>
-                                </div>
-                                <div className="progress m-t-30" style={{height: '7px'}}>
-                                    <div className="progress-bar progress-c-theme2" role="progressbar" 
-                                    style={{width: pendingProgressBar.concat("%")}} 
-                                    aria-valuenow={pendingProgressBar} 
-                                    aria-valuemin="0" aria-valuemax="100"/>
                                 </div>
                             </Card.Body>
                         </Card>
@@ -185,190 +205,90 @@ class Dashboard extends React.Component {
                     <Col xl={4}>
                         <Card>
                             <Card.Body>
-                                <h6 className='mb-4'>Total Money Sent</h6>
+                                <h6 className='mb-4'>Total Clients</h6>
                                 <div className="row d-flex align-items-center">
                                     <div className="col-9">
-                                        <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-arrow-up text-c-green f-30 m-r-5"/> {totalMoneySpent} ETH</h3>
+                                        <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-users f-30 m-r-5"/> {totalClients}</h3>
                                     </div>
+                                </div>
+                            </Card.Body>
+                        </Card>
+                    </Col>
 
-                                    <div className="col-3 text-right">
-                                        <p className="m-b-0">{paymentProgressBar.substring(0, 5)}%</p>
-                                    </div>
-                                </div>
-                                <div className="progress m-t-30" style={{height: '7px'}}>
-                                    <div className="progress-bar progress-c-theme" role="progressbar" 
-                                    style={{width: paymentProgressBar.concat("%")}} 
-                                    aria-valuenow={paymentProgressBar} 
-                                    aria-valuemin="0" aria-valuemax="100"/>
-                                </div>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                    <Col md={10} xl={12}>
-                        <Card className='Recent-Users'>
-                            <Card.Header>
-                                <Card.Title as='h5'>Pending Invoices</Card.Title>
-                            </Card.Header>
-                            <Card.Body className='px-0 py-2'>
-                            <Table responsive hover>
-                            <tbody>
-                                {pendingData}
-                            </tbody>
-                            </Table>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                    <Col md={10} xl={12}>
-                        <Card className='Recent-Users'>
-                            <Card.Header>
-                                <Card.Title as='h5'>Settled Invoices</Card.Title>
-                            </Card.Header>
-                            <Card.Body className='px-0 py-2'>
-                            <Table responsive hover>
-                            <tbody>
-                                {settledData}
-                            </tbody>
-                            </Table>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                    
-                    <Col md={6} xl={4}>
-                        <Card className='card-social'>
-                            <Card.Body className='border-bottom'>
-                                <div className="row align-items-center justify-content-center">
-                                    <div className="col-auto">
-                                        {/* <i className="fa fa-facebook text-primary f-36"/> */}
-                                        <h3>Company X</h3>
-                                    </div>
-                                    <div className="col text-right">
-                                        <h3>12,280</h3>
-                                        <h5 className="text-c-green mb-0"><span className="text-muted">Total Amount to Pay</span></h5>
-                                    </div>
-                                </div>
-                            </Card.Body>
-                            <Card.Body>
-                                <div className="row align-items-center justify-content-center card-active">
-                                    <div className="col-6">
-                                        <h6 className="text-center m-b-10"><span className="text-muted m-r-5">Paid:</span>6,140</h6>
-                                        <div className="progress">
-                                            <div className="progress-bar progress-c-theme" role="progressbar" style={{width: '50%', height: '6px'}} aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"/>
-                                        </div>
-                                    </div>
-                                    <div className="col-6">
-                                        <h6 className="text-center  m-b-10"><span className="text-muted m-r-5">Duration:</span>28 days</h6>
-                                        <div className="progress">
-                                            <div className="progress-bar progress-c-theme2" role="progressbar" style={{width: '10%', height: '6px'}} aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                    <Col md={6} xl={4}>
-                        <Card className='card-social'>
-                            <Card.Body className='border-bottom'>
-                                <div className="row align-items-center justify-content-center">
-                                    <div className="col-auto">
-                                        {/* <i className="fa fa-facebook text-primary f-36"/> */}
-                                        <h3>Company Y</h3>
-                                    </div>
-                                    <div className="col text-right">
-                                        <h3>5,280</h3>
-                                        <h5 className="text-c-green mb-0"><span className="text-muted">Total Amount to Pay</span></h5>
-                                    </div>
-                                </div>
-                            </Card.Body>
-                            <Card.Body>
-                                <div className="row align-items-center justify-content-center card-active">
-                                    <div className="col-6">
-                                        <h6 className="text-center m-b-10"><span className="text-muted m-r-5">Paid:</span>0</h6>
-                                        <div className="progress">
-                                            <div className="progress-bar progress-c-theme" role="progressbar" style={{width: '1%', height: '6px'}} aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"/>
-                                        </div>
-                                    </div>
-                                    <div className="col-6">
-                                        <h6 className="text-center  m-b-10"><span className="text-muted m-r-5">Duration:</span>2 months</h6>
-                                        <div className="progress">
-                                            <div className="progress-bar progress-c-theme2" role="progressbar" style={{width: '2%', height: '6px'}} aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                    
-                    <Col md={6} xl={4}>
+                    {/* Row 2 */}
+                    <Col md={6}>
                         <Card>
                             <Card.Header>
-                                <Card.Title as='h5'>Rating</Card.Title>
+                                <Card.Title as="h5">Types of Invoices</Card.Title>
                             </Card.Header>
-                            <Card.Body>
-                                <div className="row align-items-center justify-content-center m-b-20">
-                                    <div className="col-6">
-                                        <h2 className="f-w-300 d-flex align-items-center float-left m-0">4.7 <i className="fa fa-star f-10 m-l-10 text-c-yellow"/></h2>
-                                    </div>
-                                    <div className="col-6">
-                                        <h6 className="d-flex  align-items-center float-right m-0">0.4 <i className="fa fa-caret-up text-c-green f-22 m-l-10"/></h6>
-                                    </div>
-                                </div>
-
-                                <div className="row">
-                                    <div className="col-xl-12">
-                                        <h6 className="align-items-center float-left"><i className="fa fa-star f-10 m-r-10 text-c-yellow"/>5</h6>
-                                        <h6 className="align-items-center float-right">384</h6>
-                                        <div className="progress m-t-30 m-b-20" style={{height: '6px'}}>
-                                            <div className="progress-bar progress-c-theme" role="progressbar" style={{width: '70%'}} aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"/>
-                                        </div>
-                                    </div>
-
-                                    <div className="col-xl-12">
-                                        <h6 className="align-items-center float-left"><i className="fa fa-star f-10 m-r-10 text-c-yellow"/>4</h6>
-                                        <h6 className="align-items-center float-right">145</h6>
-                                        <div className="progress m-t-30  m-b-20" style={{height: '6px'}}>
-                                            <div className="progress-bar progress-c-theme" role="progressbar" style={{width: '35%'}} aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"/>
-                                        </div>
-                                    </div>
-
-                                    <div className="col-xl-12">
-                                        <h6 className="align-items-center float-left"><i className="fa fa-star f-10 m-r-10 text-c-yellow"/>3</h6>
-                                        <h6 className="align-items-center float-right">24</h6>
-                                        <div className="progress m-t-30  m-b-20" style={{height: '6px'}}>
-                                            <div className="progress-bar progress-c-theme" role="progressbar" style={{width: '25%'}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"/>
-                                        </div>
-                                    </div>
-
-                                    <div className="col-xl-12">
-                                        <h6 className="align-items-center float-left"><i className="fa fa-star f-10 m-r-10 text-c-yellow"/>2</h6>
-                                        <h6 className="align-items-center float-right">1</h6>
-                                        <div className="progress m-t-30  m-b-20" style={{height: '6px'}}>
-                                            <div className="progress-bar progress-c-theme" role="progressbar" style={{width: '10%'}} aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"/>
-                                        </div>
-                                    </div>
-                                    <div className="col-xl-12">
-                                        <h6 className="align-items-center float-left"><i className="fa fa-star f-10 m-r-10 text-c-yellow"/>1</h6>
-                                        <h6 className="align-items-center float-right">0</h6>
-                                        <div className="progress m-t-30  m-b-5" style={{height: '6px'}}>
-                                            <div className="progress-bar" role="progressbar" style={{width: '0%'}} aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"/>
-                                        </div>
-                                    </div>
+                            <Card.Body className="text-center">
+                            <NVD3Chart id="chart" height={300} type="pieChart" datum={pieChartData} x="key" y="y"  />
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                    <Col md={6}>
+                        <Card className='Recent-Users'>
+                            <Card.Header>
+                                <Card.Title as='h5'>Invoices Raised</Card.Title>
+                            </Card.Header>
+                            <Card.Body className="text-center">
+                                <div>
+                                    {
+                                        React.createElement(NVD3Chart, {
+                                            xAxis: {
+                                                tickFormat: function(d){ return d; },
+                                                axisLabel: 'Time (days)'
+                                            },
+                                            yAxis: {
+                                                axisLabel: 'Invoices Count',
+                                                tickFormat: function(d) {return parseFloat(d).toFixed(2); }
+                                            },
+                                            type:'lineChart',
+                                            datum: lineChart(),
+                                            x: 'x',
+                                            y: 'y',
+                                            height: 300,
+                                            renderEnd: function(){
+                                                console.log('renderEnd');
+                                            }
+                                        })
+                                    }
                                 </div>
                             </Card.Body>
                         </Card>
                     </Col>
-                    {/* <Col md={6} xl={8} className='m-b-30'>
-                        <Tabs defaultActiveKey="today" id="uncontrolled-tab-example">
-                            <Tab eventKey="today" title="Today">
-                                {tabContent}
-                            </Tab>
-                            <Tab eventKey="week" title="This Week">
-                                {tabContent}
-                            </Tab>
-                            <Tab eventKey="all" title="All">
-                                {tabContent}
-                            </Tab>
-                        </Tabs>
-                    </Col> */}
+                    
+                    {/* Row 3 */}
+                    <Col md={10} xl={12}>
+                        <Card className='Recent-Users'>
+                            <Card.Header>
+                                <Card.Title as='h5'>Top Pending Invoices</Card.Title>
+                            </Card.Header>
+                            <Card.Body className='px-0 py-2'>
+                            <Table responsive hover>
+                            <tbody>
+                                {topPendingInvoices}
+                            </tbody>
+                            </Table>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+
+                    {/* Row 4 */}
+                    <Col md={10} xl={12}>
+                        <Card className='Recent-Users'>
+                            <Card.Header>
+                                <Card.Title as='h5'>Clients</Card.Title>
+                            </Card.Header>
+                            <Card.Body className='px-0 py-2'>
+                            <Table responsive hover>
+                            <tbody>
+                                {clients}
+                            </tbody>
+                            </Table>
+                            </Card.Body>
+                        </Card>
+                    </Col>
                 </Row>
             </Aux>
         );
