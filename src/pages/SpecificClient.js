@@ -12,9 +12,6 @@ import invoiceData from './invoices.json'
 import {web3} from '../services/web3';
 import {loadWeb3, loadAccount, getCompanyId} from "../services/web3";
 
-import NVD3Chart from 'react-nvd3';
-
-
 const _invoices =
 [
     {
@@ -224,6 +221,7 @@ class Dashboard extends React.Component {
                             <Card.Header>
                                 <Card.Title as='h5'>Invoices</Card.Title>
                             </Card.Header>
+                            
                             <Card.Body className='px-0 py-2'>
                             <Table responsive hover>
                             <tbody>
