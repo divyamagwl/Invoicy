@@ -55,8 +55,13 @@ export const getCompanyId = async () => {
   const companyId = await InvoiceManagement_Contract.methods
     .getCompanyId(account)
     .call();
+  return companyId;
+};
 
-  // console.log(companyId);
+export const getCompanyIdByAddr = async (address) => {
+  const companyId = await InvoiceManagement_Contract.methods
+    .getCompanyId(address)
+    .call();
   return companyId;
 };
 
@@ -76,10 +81,6 @@ export const getCompanyById = async (companyId) => {
 export const addClient = async (clientAddr, discount) => {
   const accounts = await web3.eth.getAccounts();
   const account = accounts[0];
-  const isValidAddr = web3.utils.isAddress(clientAddr)
-  if(!isValidAddr) {
-    return false;
-  }
   const result = await InvoiceManagement_Contract.methods
     .addClient(clientAddr)
     .send({
@@ -99,7 +100,6 @@ export const getAllClients = async () => {
     .call({
       from: account,
     });
-  console.log(clients); // Check this
   return clients;
 };
 
@@ -171,4 +171,11 @@ export const payBill = async (invoiceId, amount) => {
 
   window.location.reload();
   console.log(result);
+};
+
+export const getAllInvoicesByClient = async (companyId, clientId) => {
+  const invoiceIds = await InvoiceManagement_Contract.methods
+    .getAllInvoicesByClient(companyId, clientId)
+    .call();
+  return invoiceIds;
 };

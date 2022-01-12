@@ -1,16 +1,14 @@
 import React from 'react';
-import {Row, Col, Card, Table, Tabs, Tab, Button} from 'react-bootstrap';
+import {Row, Col, Card, Table} from 'react-bootstrap';
 
 import Aux from "../hoc/_Aux";
 import DEMO from "../store/constant";
 
 import avatar1 from '../assets/images/user/avatar-1.jpg';
 import avatar2 from '../assets/images/user/avatar-2.jpg';
-import avatar3 from '../assets/images/user/avatar-3.jpg';
-import invoiceData from './invoices.json'
 
-import {web3} from '../services/web3';
-import {loadWeb3, loadAccount, getCompanyId} from "../services/web3";
+import {loadWeb3, loadAccount, getCompanyId, getInvoiceDetails,
+        web3, getAllClients, getCompanyIdByAddr, getCompanyById, getAllInvoicesByClient} from "../services/web3";
 
 import NVD3Chart from 'react-nvd3';
 
@@ -57,7 +55,8 @@ const _clients =
             "clientAddr" : "0x123456789",
             "isBlocked" : false,
             "discount" : 97,
-            "numInvoices" : 10
+            "numInvoices" : 10,
+            "name": "Comapny Genius"
         }
     },
     {
@@ -67,7 +66,8 @@ const _clients =
             "clientAddr" : "0x987654321",
             "isBlocked" : false,
             "discount" : 97,
-            "numInvoices" : 10
+            "numInvoices" : 10,
+            "name": "Comapny Dumb"
         }
     },
     {
@@ -77,7 +77,8 @@ const _clients =
             "clientAddr" : "0x1234598765",
             "isBlocked" : false,
             "discount" : 97,
-            "numInvoices" : 10
+            "numInvoices" : 10,
+            "name": "Comapny IDK"
         }
     }
 ];
@@ -217,10 +218,37 @@ class Dashboard extends React.Component {
 
     /*Set both clients and topInvoices state vars*/
     async getClients(){
+        await this.fetchAccount();
+        const currentCompanyId = this.state.companyId;
         try{
-            await this.fetchAccount();
-            ; 
-        }catch(e){
+            const clients = await getAllClients();
+            clients.forEach(async client => {
+                const companyId = await getCompanyIdByAddr(client.clientAddr);
+                const company = await getCompanyById(companyId);
+                const data = {
+                    "clientId" : client.clientId,
+                    "clientAddr" : client.clientAddr,
+                    "isBlocked" : client.isBlocked,
+                    "discount" : client.discount,
+                    "name" : company.name
+                }
+                const newClient = {'id': client.clientId, 'data': data}
+                this.setState({
+                    clients: [...this.state.clients, newClient]
+                });
+
+                const ids = await getAllInvoicesByClient(currentCompanyId, client.clientId);
+                ids.forEach(async id => {
+                    const data = await getInvoiceDetails(id);
+                    const invoice = {'id': id, 'data': data}
+                    this.setState({
+                        topInvoices:[...this.state.topInvoices, invoice]
+                    });
+                })
+    
+            })
+
+        } catch(e){
             console.log(e);
         }
     }
@@ -236,7 +264,7 @@ class Dashboard extends React.Component {
         let totalPendingInvoices = 56;
         let totalClients = 30;
 
-        _topPendingInvoices.forEach(invoice => {
+        this.state.topInvoices.forEach(invoice => {
             topPendingInvoices.push(
                 <tr className="unread" key = {invoice.id}>
                     <td><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></td>
@@ -262,13 +290,13 @@ class Dashboard extends React.Component {
             )
         })
 
-        _clients.forEach(client => {
+        this.state.clients.forEach(client => {
             clients.push(
                 <tr className="unread" key = {client.id}>
                     <td><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></td>
                     <td>
                         <h6 className="mb-1">{client.data.clientAddr}</h6>
-                        <p className="m-0">Name</p>
+                        <p className="m-0">{client.data.name}</p>
                     </td>
                     <td>
                         <h6 className="text-muted">{client.data.numInvoices} Invoices</h6>
