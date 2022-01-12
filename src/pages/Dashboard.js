@@ -46,154 +46,6 @@ function lineChart() {
     ];
 }
 
-const _clients = 
-[
-    {
-        "id":"0",
-        "data": {
-            "clientId" : 0,
-            "clientAddr" : "0x123456789",
-            "isBlocked" : false,
-            "discount" : 97,
-            "numInvoices" : 10,
-            "name": "Comapny Genius"
-        }
-    },
-    {
-        "id":"1",
-        "data": {
-            "clientId" : 1,
-            "clientAddr" : "0x987654321",
-            "isBlocked" : false,
-            "discount" : 97,
-            "numInvoices" : 10,
-            "name": "Comapny Dumb"
-        }
-    },
-    {
-        "id":"2",
-        "data": {
-            "clientId" : 2,
-            "clientAddr" : "0x1234598765",
-            "isBlocked" : false,
-            "discount" : 97,
-            "numInvoices" : 10,
-            "name": "Comapny IDK"
-        }
-    }
-];
-
-const _topPendingInvoices =
-[
-    {
-        "id":"0",
-        "data": {
-            "company": {
-                "name": "ClientX",
-                "email": "xyz@gnail.com",
-                "companyId": 1,
-                "companyAddr": "0x5cB2dB3A9c7C073D619C637dfD99dE2cf2C51037"
-            },
-            "invoiceId": 0,
-            "companyId": 1,
-            "clientId": 0,
-            "items" : [ 
-                {
-                    "desc": "",
-                    "qty":1,
-                    "price":1,
-                    "discount":1,
-                    "tax":1
-                }
-            ],
-            "payment": {    
-                "method": "", 
-                "network": "",
-                "totalAmount":1000,
-                "dueAmount":1,
-                "advancePercent":1 
-            },
-            "workCompleted": false,
-            "isSettled": false,
-            "invoiceDate": "09-01-22",
-            "dueDate": "09-02-22",
-            "uploadDocURI": "", 
-            "note": "Important"
-        }
-    },
-    {
-        "id":"1",
-        "data": {
-            "company": {
-                "name": "ClientX",
-                "email": "xyz@gnail.com",
-                "companyId": 1,
-                "companyAddr": "0x5cB2dB3A9c7C073D619C637dfD99dE2cf2C51037"
-            },
-            "invoiceId": 1,
-            "companyId": 1,
-            "clientId": 0,
-            "items" : [ 
-                {
-                    "desc": "",
-                    "qty":1,
-                    "price":1,
-                    "discount":1,
-                    "tax":1
-                }
-            ],
-            "payment": {    
-                "method": "", 
-                "network": "",
-                "totalAmount":1500,
-                "dueAmount":1,
-                "advancePercent":1 
-            },
-            "workCompleted": false,
-            "isSettled": false,
-            "invoiceDate": "09-01-22",
-            "dueDate": "25-02-22",
-            "uploadDocURI": "", 
-            "note": "Important"
-        }
-    },
-    {
-        "id":"2",
-        "data": {
-            "company": {
-                "name": "ClientX",
-                "email": "xyz@gnail.com",
-                "companyId": 1,
-                "companyAddr": "0x5cB2dB3A9c7C073D619C637dfD99dE2cf2C51037"
-            },
-            "invoiceId": 2,
-            "companyId": 1,
-            "clientId": 0,
-            "items" : [ 
-                {
-                    "desc": "",
-                    "qty":1,
-                    "price":1,
-                    "discount":1,
-                    "tax":1
-                }
-            ],
-            "payment": {    
-                "method": "", 
-                "network": "",
-                "totalAmount":2000,
-                "dueAmount":1,
-                "advancePercent":1 
-            },
-            "workCompleted": false,
-            "isSettled": true,
-            "invoiceDate": "09-01-22",
-            "dueDate": "15-03-22",
-            "uploadDocURI": "", 
-            "note": "Important"
-        }
-    }
-]
 
 class Dashboard extends React.Component {
 
@@ -445,3 +297,19 @@ class Dashboard extends React.Component {
 }
 
 export default Dashboard;
+
+// For reference
+// const _clients = 
+// [
+//     {
+//         "id":"0",
+//         "data": {
+//             "clientId" : 0,
+//             "clientAddr" : "0x123456789",
+//             "isBlocked" : false,
+//             "discount" : 97,
+//             "numInvoices" : 10,
+//             "name": "Comapny Genius"
+//         }
+//     }
+// ];

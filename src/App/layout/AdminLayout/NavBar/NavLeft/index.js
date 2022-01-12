@@ -43,7 +43,7 @@ class NavLeft extends Component {
                 <ul className="navbar-nav mr-auto">
                     <li><a href={DEMO.BLANK_LINK} className="full-screen" onClick={this.props.onFullScreen}><i className={iconFullScreen.join(' ')} /></a></li>
                     <li className={navItemClass.join(' ')}>
-                        {this.state.wallet!='' && 
+                        {this.state.wallet!=='' && 
                         <Dropdown alignRight={dropdownRightAlign}>
                             <i className="fa fa-circle text-c-green f-10"/>
                             <Dropdown.Toggle variant={'link'} id="dropdown-basic">
@@ -55,7 +55,7 @@ class NavLeft extends Component {
                                 </Dropdown.Menu>
                             </ul>
                         </Dropdown>}
-                        {this.state.wallet=='' &&                          
+                        {this.state.wallet==='' &&                          
                             <p variant={'link'} id="dropdown-basic"> <i className="fa fa-circle text-c-red f-10 m-r-5"/>
                                 Connect Wallet
                             </p>}

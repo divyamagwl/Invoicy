@@ -1,13 +1,11 @@
 import React from 'react';
-import {Row, Col, Card, Table, Tabs, Tab, Button} from 'react-bootstrap';
+import {Row, Col, Card, Table} from 'react-bootstrap';
 
 import Aux from "../hoc/_Aux";
 import DEMO from "../store/constant";
 
 import avatar1 from '../assets/images/user/avatar-1.jpg';
 import avatar2 from '../assets/images/user/avatar-2.jpg';
-import avatar3 from '../assets/images/user/avatar-3.jpg';
-import invoiceData from './invoices.json'
 
 import {web3, getAllBillsByCompany, getInvoiceDetails, payBill} from '../services/web3';
 import {loadWeb3, loadAccount, getCompanyId} from "../services/web3";
