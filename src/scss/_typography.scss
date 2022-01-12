@@ -1,6 +1,6 @@
 body {
-  font-family: Nunito, sans-serif;
-  font-size: 14px;
+  font-family: Nunito, sans-serif !important;
+  font-size: 14px !important;
   color: #555;
   background: $background-color;
   padding: 0;
@@ -19,11 +19,11 @@ body {
 input,
 textarea,
 select {
-  font-family: Nunito, sans-serif;
-  font-size: 14px;
+  font-family: Nunito, sans-serif !important;
+  font-size: 14px !important;
   color: #555;
   background: transparent;
-  border-radius: 3px;
+  border-radius: 3px !important;
   outline: 0;
 }
 
@@ -32,9 +32,9 @@ select {
 }
 
 button {
-  font-family: Nunito, sans-serif;
-  font-size: 14px;
-  border-radius: 3px;
+  font-family: Nunito, sans-serif !important;
+  // font-size: 14px !important;
+  border-radius: 3px !important;
 }
 
 textarea {

@@ -26,6 +26,13 @@ export default {
                     type: 'item',
                     url: '/add-client/',
                     icon: 'feather icon-user-plus',
+                },
+                {
+                    id: 'create_invoice',
+                    title: 'Create Invoice',
+                    type: 'item',
+                    url: '/create-invoice/',
+                    icon: 'feather icon-file-text',
                 }
             ]
         },
