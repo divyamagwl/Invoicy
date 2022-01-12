@@ -9,6 +9,7 @@ import avatar2 from '../assets/images/user/avatar-2.jpg';
 
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import RangeSlider from 'react-bootstrap-range-slider';
+import Dialog from 'react-bootstrap-dialog';
 
 class BillsDashboard extends React.Component {
 
@@ -37,16 +38,16 @@ class BillsDashboard extends React.Component {
         const discount = this.state.discount;
         const isValidAddr = web3.utils.isAddress(clientAddr)
         if(!isValidAddr) {
-            alert(`Client ${clientAddr} is an invalid address`);
+            this.dialog.showAlert(`Client '${clientAddr}' is an invalid address`);
             return;
         }
         const result = await addClient(clientAddr, discount);
         if (result) {
-            alert(`Client ${clientAddr} added successfully`);
+            this.dialog.showAlert(`Client '${clientAddr}' added successfully!`);
             this.props.history.push('/dashboard');
         }
         else {
-            alert(`Something went wrong!`);
+            this.addClient.showAlert(`Something went wrong!`);
         }
     }
 
@@ -114,6 +115,7 @@ class BillsDashboard extends React.Component {
                 
                     <InputGroup.Append>
                         <Button onClick={() => this.addClient()}>Add</Button>
+                        <Dialog ref={(component) => { this.dialog = component }} />
                     </InputGroup.Append>
                     </div>
                     }

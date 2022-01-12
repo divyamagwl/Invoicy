@@ -9,6 +9,8 @@ import avatar2 from '../assets/images/user/avatar-2.jpg';
 
 import {loadWeb3, loadAccount, getCompanyId, getInvoiceDetails,
     web3, getAllInvoicesByClient} from "../services/web3";
+import Dialog from 'react-bootstrap-dialog';
+
 
 const _invoices =
 [
@@ -226,7 +228,8 @@ class Dashboard extends React.Component {
                         </td>
                         <td>
                             <a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">View Details</a>
-                            <button style={{border: 0}} onClick={() => alert('Reminder sent!')} className="label theme-bg text-white f-12">Remind</button>
+                            <button style={{border: 0}} onClick={() => this.dialog.showAlert('Reminder sent!')} className="label theme-bg text-white f-12">Remind</button>
+                            <Dialog ref={(component) => { this.dialog = component }} />
                         </td>
                     </tr>
                 )
