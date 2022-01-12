@@ -257,14 +257,29 @@ class Dashboard extends React.Component {
         this.getClients();
     }  
 
+    compareFilterTopInvoices(a, b){
+        if(a.data.payment.dueAmount < b.data.payment.dueAmount) return 1;
+        if(a.data.payment.dueAmount > b.data.payment.dueAmount) return -1;
+        return 0;
+    }
+
+    // Sorts in desc order based on dueAmount. Returns only top 5 results
+    filterTopInvoices(){
+        let invoices = this.state.topInvoices;
+        invoices.sort(this.compareFilterTopInvoices);
+        return invoices.slice(0,5);
+    }
+
     render() {       
         let topPendingInvoices = [];
         let clients = [];
         let totalInvoices = 100;
         let totalPendingInvoices = 56;
         let totalClients = 30;
+        
+        let invoices = this.filterTopInvoices();
 
-        this.state.topInvoices.forEach(invoice => {
+        invoices.forEach(invoice => {
             topPendingInvoices.push(
                 <tr className="unread" key = {invoice.id}>
                     <td><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></td>
@@ -280,14 +295,14 @@ class Dashboard extends React.Component {
                     </td>
 
                     <td>
-                        <h6 className="text-muted">10 ETH</h6>
+                        <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.dueAmount)} ETH due</h6>
                     </td>
                     <td>
                         <a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">View Details</a>
                         <button style={{border: 0}} onClick={() => {alert("Reminder sent!")}} className="label theme-bg text-white f-12">Remind</button>
                     </td>
                 </tr>
-            )
+            );
         })
 
         this.state.clients.forEach(client => {
