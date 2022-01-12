@@ -1,5 +1,5 @@
 import React from 'react';
-import {Row, Col, Card, Table} from 'react-bootstrap';
+import {Row, Col, Card, Table, Button, Collapse} from 'react-bootstrap';
 
 import Aux from "../hoc/_Aux";
 import DEMO from "../store/constant";
@@ -53,7 +53,7 @@ class Dashboard extends React.Component {
 
     constructor (props) {
         super(props);        
-        this.state = {wallet: '', companyId: 0, clients: [], topInvoices: []};
+        this.state = {wallet: '', companyId: 0, clients: [], topInvoices: [], isBlockedClientsCollapsed: false};
         this.fetchAccount();
     }
 
@@ -129,6 +129,7 @@ class Dashboard extends React.Component {
     render() {       
         let topPendingInvoices = [];
         let clients = [];
+        let blockedClients = [];
         let totalInvoices = 100;
         let totalPendingInvoices = 56;
         let totalClients = 30;
@@ -163,8 +164,9 @@ class Dashboard extends React.Component {
         })
 
         this.state.clients.forEach(client => {
-            clients.push(
-                <tr className="unread" key = {client.id}>
+            if(!client.data.isBlocked) {
+                clients.push(
+                    <tr className="unread" key = {client.id}>
                     <td><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></td>
                     <td>
                         <h6 className="mb-1">{client.data.clientAddr}</h6>
@@ -175,7 +177,23 @@ class Dashboard extends React.Component {
                     </td>
                     <td><a href={'/clients/'+client.data.clientId} className="label theme-bg text-white f-12">View Details</a></td>
                 </tr>
-            );
+                );
+            }
+            else {
+                blockedClients.push(
+                    <tr className="unread" key = {client.id}>
+                    <td><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></td>
+                    <td>
+                        <h6 className="mb-1">{client.data.clientAddr}</h6>
+                        <p className="m-0">{client.data.name}</p>
+                    </td>
+                    <td>
+                        <h6 className="text-muted">{client.data.numInvoices} Invoices</h6>
+                    </td>
+                    <td><a href={'/clients/'+client.data.clientId} className="label theme-bg text-white f-12">View Details</a></td>
+                </tr>
+                );
+            }
         });
 
         return (
@@ -291,6 +309,35 @@ class Dashboard extends React.Component {
                             </tbody>
                             </Table>
                             </Card.Body>
+                        </Card>
+                    </Col>
+
+                    {/* Row 5 */}
+                    <Col md={12} xl={12}>
+                        <Card className='Recent-Users'>
+                            <Card.Header>
+                                <Button onClick={() => this.setState({ isBlockedClientsCollapsed: !this.state.isBlockedClientsCollapsed })}>
+                                {
+                                    !this.state.isBlockedClientsCollapsed &&
+                                    "View Blocked clients"
+                                }
+                                {
+                                    this.state.isBlockedClientsCollapsed &&
+                                    "Close Blocked clients"
+                                }
+                                </Button>
+                            </Card.Header>
+                            <Collapse in={this.state.isBlockedClientsCollapsed}>
+                                <div id="basic-collapse">
+                                    <Card.Body className='px-0 py-2'>
+                                        <Table responsive hover>
+                                            <tbody>
+                                                {blockedClients}
+                                            </tbody>
+                                        </Table>
+                                    </Card.Body>
+                                </div>
+                            </Collapse>
                         </Card>
                     </Col>
                 </Row>
