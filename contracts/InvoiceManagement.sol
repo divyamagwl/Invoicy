@@ -30,6 +30,7 @@ contract InvoiceManagement {
   ) 
     public 
   {
+    require(msg.sender != address(0), "Company wallet address cannot be 0x00...");
     _companyIds.increment();
     uint256 companyId = _companyIds.current();
 
@@ -53,6 +54,34 @@ contract InvoiceManagement {
     return company.companyAddr;
   }
 
+  function getAllCompanies() public view returns(
+    uint[] memory, 
+    string[] memory, 
+    string[] memory, 
+    address[] memory
+  ) {
+    uint256 maxCompanies = _companyIds.current();
+    uint[] memory companyIdList = new uint[](maxCompanies);
+    string[] memory namesList = new string[](maxCompanies);
+    string[] memory emailList = new string[](maxCompanies);
+    address[] memory addressList = new address[](maxCompanies);
+
+    for (uint i = 1; i <= maxCompanies; i++) {
+      Company memory company = idToCompany[i];
+      companyIdList[i-1] = company.companyId;
+      namesList[i-1] = company.name;
+      emailList[i-1] = company.email;
+      addressList[i-1] = company.companyAddr;
+    }
+
+    return (
+      companyIdList,
+      namesList,
+      emailList,
+      addressList
+    );
+  }
+
   //#################################################################
   //# Client
   //#################################################################
@@ -66,7 +95,7 @@ contract InvoiceManagement {
 
   mapping(uint => Client[]) public companyToClients;
 
-  function addClient(address _clientAddr) public {
+  function addClient(address _clientAddr, uint discount) public {
     uint companyId = getCompanyId(msg.sender);
     require(companyId > 0, "Company is not registered");
     uint256 clientId = companyToClients[companyId].length;
@@ -75,7 +104,7 @@ contract InvoiceManagement {
       clientId,
       _clientAddr,
       false,
-      0
+      discount
     ));
   }
 
@@ -97,6 +126,16 @@ contract InvoiceManagement {
     uint clientCompanyId = getCompanyId(clientAddr);
     // require(clientCompanyId > 0, "Client Company is not registered on portal");
     return clientCompanyId;
+  }
+
+  function updateClientBlockedStatus(uint companyId, uint clientId) public {
+    Client storage client = companyToClients[companyId][clientId];
+    client.isBlocked = !client.isBlocked;
+  }
+
+  function updateClientDiscount(uint companyId, uint clientId) public {
+    Client storage client = companyToClients[companyId][clientId];
+    client.isBlocked = !client.isBlocked;
   }
 
   //#################################################################

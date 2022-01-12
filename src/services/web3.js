@@ -69,6 +69,26 @@ export const getCompanyById = async (companyId) => {
 };
 
 
+export const getAllCompanies = async () => {
+  const data = await InvoiceManagement_Contract.methods
+    .getAllCompanies()
+    .call();
+
+  const companies = []
+  for(var i = 0; i < data[0].length; i++) {
+    const company = {
+      'companyId': data[0][i],
+      'name': data[1][i],
+      'email': data[2][i],
+      'companyAddr': data[3][i],
+    }
+    companies.push(company);
+  }
+  console.log(companies);
+  return companies;
+};
+
+
 //#################################################################
 //# Client
 //#################################################################
@@ -77,7 +97,7 @@ export const addClient = async (clientAddr, discount) => {
   const accounts = await web3.eth.getAccounts();
   const account = accounts[0];
   const result = await InvoiceManagement_Contract.methods
-    .addClient(clientAddr)
+    .addClient(clientAddr, discount)
     .send({
       from: account,
     });
@@ -96,6 +116,14 @@ export const getAllClients = async () => {
       from: account,
     });
   return clients;
+};
+
+
+export const getClientbyId = async (companyId, clientId) => {
+  const client = await InvoiceManagement_Contract.methods
+    .companyToClients(companyId, clientId)
+    .call();
+  return client;
 };
 
 //#################################################################

@@ -3,10 +3,8 @@ import {Row, Col, Card, Form, Table, Button, InputGroup, FormControl} from 'reac
 
 import Aux from "../hoc/_Aux";
 
-import {loadWeb3, loadAccount, getCompanyId, getInvoiceDetails,
-    web3, getAllClients, getCompanyById, getAllInvoicesByClient, addClient} from "../services/web3";
+import {loadWeb3, loadAccount, getCompanyId, web3, addClient, getAllCompanies} from "../services/web3";
 
-import avatar1 from '../assets/images/user/avatar-1.jpg';
 import avatar2 from '../assets/images/user/avatar-2.jpg';
 
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
@@ -55,7 +53,14 @@ class BillsDashboard extends React.Component {
     async getClients(){
         await this.fetchAccount();
         try{
-           ;
+            const companies = await getAllCompanies();
+            companies.forEach(company => {
+                const client = {'id': company.companyId, 'data': company}
+                this.setState({
+                    clients: [...this.state.clients, client]
+                });
+            })
+
         } catch(e){
             console.log(e);
         }
@@ -73,13 +78,16 @@ class BillsDashboard extends React.Component {
                 <tr className="unread" key = {client.id}>
                     <td><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></td>
                     <td>
-                        <h6 className="mb-1">{client.data.clientAddr}</h6>
+                        <h6 className="mb-1">{client.data.companyAddr}</h6>
+                    </td>
+                    <td>
                         <p className="m-0">{client.data.name}</p>
+                        <p className="m-0">{client.data.email}</p>
                     </td>
                     {/* <td>
                         <h6 className="text-muted">{client.data.numInvoices} Invoices</h6>
                     </td> */}
-                    <td><a href={'/clients/'+client.data.clientId} className="label theme-bg text-white f-12">View Details</a></td>
+                    {/* <td><a href={'/clients/'+client.data.clientId} className="label theme-bg text-white f-12">View Details</a></td> */}
                 </tr>
             );
         });
