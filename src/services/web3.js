@@ -49,16 +49,11 @@ export const createCompany = async (name, email) => {
   else return false;
 };
 
-export const getCompanyId = async () => {
-  const accounts = await web3.eth.getAccounts();
-  const account = accounts[0];
-  const companyId = await InvoiceManagement_Contract.methods
-    .getCompanyId(account)
-    .call();
-  return companyId;
-};
-
-export const getCompanyIdByAddr = async (address) => {
+export const getCompanyId = async (address) => {
+  if(address === undefined) {  // Optional parameter
+    const accounts = await web3.eth.getAccounts();
+    address = accounts[0];
+  }
   const companyId = await InvoiceManagement_Contract.methods
     .getCompanyId(address)
     .call();

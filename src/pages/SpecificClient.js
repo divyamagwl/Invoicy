@@ -1,16 +1,13 @@
 import React from 'react';
-import {Row, Col, Card, Table, Tabs, Tab, Button} from 'react-bootstrap';
+import {Row, Col, Card, Table} from 'react-bootstrap';
 
 import Aux from "../hoc/_Aux";
 import DEMO from "../store/constant";
 
 import avatar1 from '../assets/images/user/avatar-1.jpg';
 import avatar2 from '../assets/images/user/avatar-2.jpg';
-import avatar3 from '../assets/images/user/avatar-3.jpg';
-import invoiceData from './invoices.json'
 
-import {web3} from '../services/web3';
-import {loadWeb3, loadAccount, getCompanyId} from "../services/web3";
+import {loadWeb3, loadAccount, getCompanyId, getAllInvoicesByClient, getInvoiceDetails} from "../services/web3";
 
 const _invoices =
 [
@@ -129,7 +126,7 @@ class Dashboard extends React.Component {
     constructor (props) {
         super(props);      
         this.clientId = this.props.match.params.id;
-        this.state = {wallet: '', companyId: 0, invoices: [], completedInvoices: []};
+        this.state = {wallet: '', companyId: 0, invoices: []};
         this.fetchAccount();
     }
 
@@ -149,7 +146,15 @@ class Dashboard extends React.Component {
     async getInvoices(){
         try{
             await this.fetchAccount();
-        }catch(e){
+            const ids = await getAllInvoicesByClient(this.state.companyId, this.clientId);
+            ids.forEach(async id => {
+                const data = await getInvoiceDetails(id);
+                const invoice = {'id': id, 'data': data}
+                this.setState({
+                    invoices: [...this.state.invoices, invoice]
+                });
+            })
+    }catch(e){
             console.log(e);
         }
     }
@@ -162,7 +167,7 @@ class Dashboard extends React.Component {
         let invoices = [];
         let completedInvoices = [];
 
-        _invoices.forEach(invoice => {
+        this.state.invoices.forEach(invoice => {
             if(invoice.data.isSettled){
                 completedInvoices.push(
                     <tr className="unread" key = {invoice.id}>
