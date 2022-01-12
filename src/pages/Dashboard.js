@@ -8,7 +8,7 @@ import avatar1 from '../assets/images/user/avatar-1.jpg';
 import avatar2 from '../assets/images/user/avatar-2.jpg';
 
 import {loadWeb3, loadAccount, getCompanyId, getInvoiceDetails,
-        web3, getAllClients, getCompanyIdByAddr, getCompanyById, getAllInvoicesByClient} from "../services/web3";
+        web3, getAllClients, getCompanyById, getAllInvoicesByClient} from "../services/web3";
 
 import NVD3Chart from 'react-nvd3';
 
@@ -223,7 +223,7 @@ class Dashboard extends React.Component {
         try{
             const clients = await getAllClients();
             clients.forEach(async client => {
-                const companyId = await getCompanyIdByAddr(client.clientAddr);
+                const companyId = await getCompanyId(client.clientAddr);
                 const company = await getCompanyById(companyId);
                 const data = {
                     "clientId" : client.clientId,
