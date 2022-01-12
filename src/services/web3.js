@@ -126,6 +126,20 @@ export const getClientbyId = async (companyId, clientId) => {
   return client;
 };
 
+export const updateClientBlockStatus = async (companyId, clientId) => {
+  const accounts = await web3.eth.getAccounts();
+  const account = accounts[0];
+  const result = await InvoiceManagement_Contract.methods
+    .updateClientBlockedStatus(companyId, clientId)
+    .send({
+      from: account,
+    });
+
+  if (result) return true;
+  else return false;
+};
+
+
 //#################################################################
 //# Invoice
 //#################################################################
@@ -202,3 +216,4 @@ export const getAllInvoicesByClient = async (companyId, clientId) => {
     .call();
   return invoiceIds;
 };
+

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Row, Col, Card, Table} from 'react-bootstrap';
+import {Row, Col, Card, Table, Button} from 'react-bootstrap';
 
 import Aux from "../hoc/_Aux";
 import DEMO from "../store/constant";
@@ -7,129 +7,29 @@ import DEMO from "../store/constant";
 import avatar1 from '../assets/images/user/avatar-1.jpg';
 import avatar2 from '../assets/images/user/avatar-2.jpg';
 
-import {loadWeb3, loadAccount, getCompanyId, getInvoiceDetails,
-    web3, getAllInvoicesByClient} from "../services/web3";
+import {web3, loadWeb3, loadAccount, getCompanyId, getCompanyById, updateClientBlockStatus,
+    getAllInvoicesByClient, getInvoiceDetails, getClientbyId} from "../services/web3";
 import Dialog from 'react-bootstrap-dialog';
 
+// For Reference
+    // client = {
+    // clientAddr: "0xA4DD021Df55c4b746cf6Be71b9b639f8A3099F39"
+    // clientId: "0"
+    // companyAddr: "0xA4DD021Df55c4b746cf6Be71b9b639f8A3099F39"
+    // companyId: "2"
+    // discount: "35"
+    // email: "adidas@gmail.com"
+    // isBlocked: false
+    // name: "Adidas"
+    // }
 
-const _invoices =
-[
-    {
-        "id":"0",
-        "data": {
-            "company": {
-                "name": "ClientX",
-                "email": "xyz@gnail.com",
-                "companyId": 1,
-                "companyAddr": "0x5cB2dB3A9c7C073D619C637dfD99dE2cf2C51037"
-            },
-            "invoiceId": 0,
-            "companyId": 1,
-            "clientId": 0,
-            "items" : [ 
-                {
-                    "desc": "",
-                    "qty":1,
-                    "price":1,
-                    "discount":1,
-                    "tax":1
-                }
-            ],
-            "payment": {    
-                "method": "", 
-                "network": "",
-                "totalAmount":1000,
-                "dueAmount":1,
-                "advancePercent":1 
-            },
-            "workCompleted": false,
-            "isSettled": false,
-            "invoiceDate": "09-01-22",
-            "dueDate": "09-02-22",
-            "uploadDocURI": "", 
-            "note": "Important"
-        }
-    },
-    {
-        "id":"1",
-        "data": {
-            "company": {
-                "name": "ClientX",
-                "email": "xyz@gnail.com",
-                "companyId": 1,
-                "companyAddr": "0x5cB2dB3A9c7C073D619C637dfD99dE2cf2C51037"
-            },
-            "invoiceId": 1,
-            "companyId": 1,
-            "clientId": 0,
-            "items" : [ 
-                {
-                    "desc": "",
-                    "qty":1,
-                    "price":1,
-                    "discount":1,
-                    "tax":1
-                }
-            ],
-            "payment": {    
-                "method": "", 
-                "network": "",
-                "totalAmount":1500,
-                "dueAmount":1,
-                "advancePercent":1 
-            },
-            "workCompleted": false,
-            "isSettled": false,
-            "invoiceDate": "09-01-22",
-            "dueDate": "25-02-22",
-            "uploadDocURI": "", 
-            "note": "Important"
-        }
-    },
-    {
-        "id":"2",
-        "data": {
-            "company": {
-                "name": "ClientX",
-                "email": "xyz@gnail.com",
-                "companyId": 1,
-                "companyAddr": "0x5cB2dB3A9c7C073D619C637dfD99dE2cf2C51037"
-            },
-            "invoiceId": 2,
-            "companyId": 1,
-            "clientId": 0,
-            "items" : [ 
-                {
-                    "desc": "",
-                    "qty":1,
-                    "price":1,
-                    "discount":1,
-                    "tax":1
-                }
-            ],
-            "payment": {    
-                "method": "", 
-                "network": "",
-                "totalAmount":2000,
-                "dueAmount":1,
-                "advancePercent":1 
-            },
-            "workCompleted": false,
-            "isSettled": true,
-            "invoiceDate": "09-01-22",
-            "dueDate": "15-03-22",
-            "uploadDocURI": "", 
-            "note": "Important"
-        }
-    }
-];
 
-class Dashboard extends React.Component {
+class ClientDashboard extends React.Component {
 
     constructor (props) {
         super(props);      
         this.clientId = this.props.match.params.id;
-        this.state = {wallet: '', companyId: 0, invoices: []};
+        this.state = {wallet: '', companyId: 0, client:{}, invoices: []};
         this.fetchAccount();
     }
 
@@ -157,42 +57,53 @@ class Dashboard extends React.Component {
                     invoices: [...this.state.invoices, invoice]
                 });
             })
-    }catch(e){
+        }catch(e){
+                console.log(e);
+            }
+    }
+
+    async getClientDetails(){
+        try{
+            await this.fetchAccount();
+            const client = await getClientbyId(this.state.companyId, this.clientId);
+            const companyId = await getCompanyId(client.clientAddr);
+            const company = await getCompanyById(companyId);
+            const data = {...client, ...company}
+            this.setState({
+                client: data
+            })
+        }catch(e){
             console.log(e);
         }
     }
 
     componentDidMount() {
+        this.getClientDetails();
         this.getInvoices();
     }  
 
-    compareFilterInvoices(a, b){
-        if(a.data.payment.dueAmount < b.data.payment.dueAmount) return 1;
-        if(a.data.payment.dueAmount > b.data.payment.dueAmount) return -1;
-        return 0;
-    }
-
-    // Sorts in desc order based on dueAmount. Returns only top 5 results
-    filterInvoices(){
-        let invoices = this.state.invoices;
-        invoices.sort(this.compareFilterInvoices);
-        return invoices;
+    async blockClient() {
+        const result = await updateClientBlockStatus(this.state.companyId, this.clientId);
+        if(result) {
+            alert('Success!');
+        }
+        else {
+            alert('Something went wrong!');
+        }
     }
 
     render() {       
         let invoices = [];
         let completedInvoices = [];
-        
-        let filteredInvoices = this.filterInvoices();
 
-        filteredInvoices.forEach(invoice => {
+        this.state.invoices.forEach(invoice => {
             if(invoice.data.isSettled){
                 completedInvoices.push(
                     <tr className="unread" key = {invoice.id}>
                         <td><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></td>
                         <td>
                             <h6 className="mb-1">{invoice.data.company.name}</h6>
-                            <p className="m-0">{invoice.data.company.email}</p>
+                            {/* <p className="m-0">{invoice.data.note}</p> */}
                         </td>
                         <td>
                             <h6 className="text-muted"><i className="fa fa-circle text-c-green f-10 m-r-15"/>{invoice.data.invoiceDate}</h6>
@@ -202,7 +113,7 @@ class Dashboard extends React.Component {
                         </td>
     
                         <td>
-                            <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.totalAmount)} ETH total</h6>
+                            <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.totalAmount)} ETH</h6>
                         </td>
                         <td><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">View Details</a></td>
                     </tr>
@@ -214,7 +125,7 @@ class Dashboard extends React.Component {
                         <td><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></td>
                         <td>
                             <h6 className="mb-1">{invoice.data.company.name}</h6>
-                            <p className="m-0">{invoice.data.company.email}</p>
+                            {/* <p className="m-0">{invoice.data.note}</p> */}
                         </td>
                         <td>
                             <h6 className="text-muted"><i className="fa fa-circle text-c-green f-10 m-r-15"/>{invoice.data.invoiceDate}</h6>
@@ -224,7 +135,7 @@ class Dashboard extends React.Component {
                         </td>
 
                         <td>
-                            <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.dueAmount)} ETH due</h6>
+                            <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.dueAmount)} ETH</h6>
                         </td>
                         <td>
                             <a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">View Details</a>
@@ -241,9 +152,16 @@ class Dashboard extends React.Component {
             <Aux>
                 <Row>
                     <Col md={12} xl={12}>
+                        <h3>Name: {this.state.client.name}</h3>
+                        <h5>Email: {this.state.client.email}</h5>
+                        <h5>Discount: {this.state.client.discount}</h5>
+                        <h5>Wallet Address: {this.state.client.clientAddr}</h5>
+                    </Col>
+
+                    <Col md={12} xl={12}>
                         <Card className='Recent-Users'>
                             <Card.Header>
-                                <Card.Title as='h5'>Invoices</Card.Title>
+                                <Card.Title as='h5'>Pending Invoices</Card.Title>
                             </Card.Header>
                             
                             <Card.Body className='px-0 py-2'>
@@ -270,10 +188,23 @@ class Dashboard extends React.Component {
                             </Card.Body>
                         </Card>
                     </Col>
+
+                    {
+                        !this.state.client.isBlocked &&
+                        <Col md={12} xl={12}>
+                            <Button variant='danger' onClick={() => this.blockClient()}>Block Client</Button>
+                        </Col>
+                    }
+                    {
+                        this.state.client.isBlocked &&
+                        <Col md={12} xl={12}>
+                            <Button variant='primary' onClick={() => this.blockClient()}>Unblock Client</Button>
+                        </Col>
+                    }
                 </Row>
             </Aux>
         );
     }
 }
 
-export default Dashboard;
+export default ClientDashboard;
