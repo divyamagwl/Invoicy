@@ -46,7 +46,8 @@ class Landing extends React.Component {
                                 <div className="mb-4">
                                     <i className="feather icon-clipboard auth-icon"/>
                                 </div>
-                                <h3 className="mb-4">Welcome to Invoice Management System</h3>
+                                <h3 className="mb-4">Welcome to Invoicsy</h3>
+                                <p className="mb-4">Invoice management systemized!</p>
                                 <Link to="/signup" className="btn btn-primary shadow-2 mb-4">Sign up</Link>
                                 <button className="btn btn-primary shadow-2 mb-4" onClick={this.loginHandler.bind(this)}>Login</button>
                             </div>

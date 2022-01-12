@@ -17,7 +17,7 @@ const SpecificClient = React.lazy(() => import('./pages/SpecificClient'));
 // const UIBasicCollapse = React.lazy(() => import('./Demo/UIElements/Basic/Collapse'));
 // const UIBasicTabsPills = React.lazy(() => import('./Demo/UIElements/Basic/TabsPills'));
 // const UIBasicBasicTypography = React.lazy(() => import('./Demo/UIElements/Basic/Typography'));
-const FormsElements = React.lazy(() => import('./Demo/Forms/FormsElements'));
+// const FormsElements = React.lazy(() => import('./Demo/Forms/FormsElements'));
 // const BootstrapTable = React.lazy(() => import('./Demo/Tables/BootstrapTable'));
 // const Nvd3Chart = React.lazy(() => import('./Demo/Charts/Nvd3Chart/index'));
 // const GoogleMap = React.lazy(() => import('./Demo/Maps/GoogleMap/index'));
@@ -38,7 +38,7 @@ const routes = [
     // { path: '/basic/collapse', exact: true, name: 'Basic Collapse', component: UIBasicCollapse },
     // { path: '/basic/tabs-pills', exact: true, name: 'Basic Tabs & Pills', component: UIBasicTabsPills },
     // { path: '/basic/typography', exact: true, name: 'Basic Typography', component: UIBasicBasicTypography },
-    { path: '/forms/form-basic', exact: true, name: 'Forms Elements', component: FormsElements },
+    // { path: '/forms/form-basic', exact: true, name: 'Forms Elements', component: FormsElements },
     // { path: '/tables/bootstrap', exact: true, name: 'Bootstrap Table', component: BootstrapTable },
     // { path: '/charts/nvd3', exact: true, name: 'Nvd3 Chart', component: Nvd3Chart },
     // { path: '/maps/google-map', exact: true, name: 'Google Map', component: GoogleMap },
