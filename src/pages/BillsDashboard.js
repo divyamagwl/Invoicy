@@ -56,7 +56,7 @@ class BillsDashboard extends React.Component {
     }  
 
     async payInvoice(invoice) {
-        console.log(invoice)
+        // console.log(invoice)
         const invoiceId = invoice.id;
         const advance =  parseInt(invoice.data.payment.advancePercent);
         const workCompleted = invoice.data.workCompleted;

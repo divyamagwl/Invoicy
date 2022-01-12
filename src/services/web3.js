@@ -76,13 +76,16 @@ export const getCompanyById = async (companyId) => {
 export const addClient = async (clientAddr, discount) => {
   const accounts = await web3.eth.getAccounts();
   const account = accounts[0];
+  const isValidAddr = web3.utils.isAddress(clientAddr)
+  if(!isValidAddr) {
+    return false;
+  }
   const result = await InvoiceManagement_Contract.methods
     .addClient(clientAddr)
     .send({
       from: account,
     });
 
-  // console.log(result);
   if (result) return true;
   else return false;
 };

@@ -1,18 +1,16 @@
 import React from 'react';
-import {Row, Col, Card, Form, Button, InputGroup, FormControl, DropdownButton, Dropdown} from 'react-bootstrap';
+import {Row, Col, Button, InputGroup, FormControl} from 'react-bootstrap';
 
 import Aux from "../hoc/_Aux";
-import DEMO from "../store/constant";
 
-import {web3, getAllBillsByCompany, getInvoiceDetails, payBill} from '../services/web3';
+import {web3, addClient} from '../services/web3';
 import {loadWeb3, loadAccount, getCompanyId} from "../services/web3";
-
 
 class BillsDashboard extends React.Component {
 
     constructor (props) {
         super(props);
-        this.state = {wallet: '', companyId: 0, client_addr: ''};
+        this.state = {wallet: '', companyId: 0, clientAddr: '', discount: 0};
         this.fetchAccount();
     }
 
@@ -30,8 +28,22 @@ class BillsDashboard extends React.Component {
     }
 
     
-    async addClient(addr){
-        alert(`Client (${addr}) added successfully`);
+    async addClient(){
+        const clientAddr = this.state.clientAddr;
+        const discount = this.state.discount;
+        const isValidAddr = web3.utils.isAddress(clientAddr)
+        if(!isValidAddr) {
+            alert(`Client ${clientAddr} is an invalid address`);
+            return;
+        }
+        const result = await addClient(clientAddr, discount);
+        if (result) {
+            alert(`Client ${clientAddr} added successfully`);
+            this.props.history.push('/dashboard');
+        }
+        else {
+            alert(`Something went wrong!`);
+        }
     }
 
     render() {
@@ -42,17 +54,29 @@ class BillsDashboard extends React.Component {
                     <Col md={3}>
                     </Col>
                     <Col md={6}>
-                    {this.state.wallet && <InputGroup className="mb-3">
+                    {this.state.wallet && 
+                    <div>
+                    <InputGroup className="mb-3">
                         <FormControl
-                            placeholder="Client's Eth Address"
-                            aria-label="Client's Eth Address"
+                            placeholder="Client's Ethereum Wallet Address"
+                            aria-label="Client's Ethereum Wallet Address"
                             aria-describedby="basic-addon2"
-                            onChange={e => this.setState({client_addr: e.target.value})}
+                            onChange={e => this.setState({clientAddr: e.target.value})}
                         />
-                        <InputGroup.Append>
-                            <Button onClick={() => this.addClient(this.state.client_addr)}>Add</Button>
-                        </InputGroup.Append>
-                    </InputGroup>}
+                    </InputGroup>
+                    <InputGroup className="mb-3">
+                        <FormControl
+                            placeholder="Disount for the client in Percentage (0 - 100)"
+                            aria-label="Disount for the client in Percentage (0 - 100)"
+                            aria-describedby="basic-addon2"
+                            onChange={e => this.setState({discount: e.target.value})}
+                        />
+                    </InputGroup>
+                    <InputGroup.Append>
+                        <Button onClick={() => this.addClient()}>Add</Button>
+                    </InputGroup.Append>
+                    </div>
+                    }
                     </Col>
                     <Col md={3}>
                     </Col>
