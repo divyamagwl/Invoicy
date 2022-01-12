@@ -287,7 +287,7 @@ class Dashboard extends React.Component {
                     <td><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></td>
                     <td>
                         <h6 className="mb-1">{invoice.data.company.name}</h6>
-                        {/* <p className="m-0">{invoice.data.note}</p> */}
+                        <p className="m-0">{invoice.data.company.email}</p>
                     </td>
                     <td>
                         <h6 className="text-muted"><i className="fa fa-circle text-c-green f-10 m-r-15"/>{invoice.data.invoiceDate}</h6>

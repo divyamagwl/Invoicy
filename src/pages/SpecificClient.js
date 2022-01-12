@@ -7,12 +7,8 @@ import DEMO from "../store/constant";
 import avatar1 from '../assets/images/user/avatar-1.jpg';
 import avatar2 from '../assets/images/user/avatar-2.jpg';
 
-<<<<<<< HEAD
 import {loadWeb3, loadAccount, getCompanyId, getInvoiceDetails,
     web3, getAllInvoicesByClient} from "../services/web3";
-=======
-import {web3, loadWeb3, loadAccount, getCompanyId, getAllInvoicesByClient, getInvoiceDetails} from "../services/web3";
->>>>>>> 8818149a368a0196f6cb195aeea4dfd11864f28c
 
 const _invoices =
 [
