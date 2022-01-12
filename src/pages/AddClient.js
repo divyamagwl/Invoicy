@@ -66,8 +66,8 @@ class BillsDashboard extends React.Component {
                     </InputGroup>
                     <InputGroup className="mb-3">
                         <FormControl
-                            placeholder="Disount for the client in Percentage (0 - 100)"
-                            aria-label="Disount for the client in Percentage (0 - 100)"
+                            placeholder="Discount for the client in Percentage (0 - 100)"
+                            aria-label="Discount for the client in Percentage (0 - 100)"
                             aria-describedby="basic-addon2"
                             onChange={e => this.setState({discount: e.target.value})}
                         />
