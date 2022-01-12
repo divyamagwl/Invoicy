@@ -314,7 +314,7 @@ class Dashboard extends React.Component {
 
                     {/* Row 5 */}
                     <Col md={12} xl={12}>
-                        <Card className='Recent-Users'>
+                        <Card className='Recent-Users justify-content-center text-center'>
                             <Card.Header>
                                 <Button onClick={() => this.setState({ isBlockedClientsCollapsed: !this.state.isBlockedClientsCollapsed })}>
                                 {
@@ -340,6 +340,7 @@ class Dashboard extends React.Component {
                             </Collapse>
                         </Card>
                     </Col>
+
                 </Row>
             </Aux>
         );

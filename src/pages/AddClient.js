@@ -71,10 +71,20 @@ class BillsDashboard extends React.Component {
         this.getClients();
     }  
 
+    filterSuggestedClients(){
+        let clients = [];
+        this.state.clients.forEach(client => {
+            if(client.data.companyAddr != this.state.wallet) clients.push(client);
+        });
+        return clients;
+    }
+
     render() {
         let suggestedClients = [];
 
-        this.state.clients.forEach(client => {
+        let clients = this.filterSuggestedClients();
+
+        clients.forEach(client => {
             suggestedClients.push(
                 <tr className="unread" key = {client.id}>
                     <td><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></td>

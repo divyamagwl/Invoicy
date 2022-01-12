@@ -32,7 +32,7 @@ export default {
                     title: 'Create Invoice',
                     type: 'item',
                     url: '/create-invoice/',
-                    icon: 'feather icon-file-text',
+                    icon: 'feather icon-file-plus',
                 }
             ]
         },
