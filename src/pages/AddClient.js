@@ -121,7 +121,7 @@ class BillsDashboard extends React.Component {
                     </InputGroup>
                     
                     <Form.Label htmlFor="customRange1">Discount for the client</Form.Label>
-                        <RangeSlider value={this.state.discount} onChange={e=>this.setState({discount: e.target.value})}/>
+                    <RangeSlider value={this.state.discount} onChange={e=>this.setState({discount: e.target.value})}/>
                 
                     <InputGroup.Append>
                         <Button onClick={() => this.addClient()}>Add</Button>

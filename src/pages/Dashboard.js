@@ -15,35 +15,36 @@ import Dialog from 'react-bootstrap-dialog';
 
 
 const pieChartData = [
-    {key: "Type1", y: 33, color: "#1de9b6"},
+    {key: "Type1", y: 33, color: "#239f1c"},
     {key: "Type2", y: 33, color: "#f4c22b"},
-    {key: "Type3", y: 33, color: "#ff8a65"},
+    {key: "Type3", y: 33, color: "#F45d55"},
 ];
 
 function lineChart() {
     var raised = [],
         pending = [];
-    for (var i = 0; i < 365; i++) {
+    for (var i = 0; i < 10; i++) {
         raised.push({
             'x': i,
-            'y': 400*(Math.sin(i / 70) * 0.25 + 0.5)
+            'y': parseInt(100*(Math.sin(i/1.5) * 0.25 + 0.5))
         });
         pending.push({
             'x': i,
-            'y': Math.abs(100*(Math.sin(i / 100)))
+            'y': parseInt(15/Math.abs((Math.sin(i/20))+0.5))
         });
     }
     return [
         {
             values: raised,
             key: 'Invoices Raised',
-            color: '#1de9b6',
+            color: '#239f1c',
             area: true
         },
         {
             values: pending,
             key: 'Pending Invoices',
-            color: '#ff8a65'
+            color: '#F45d55',
+            area: true
         }
     ];
 }
@@ -238,7 +239,7 @@ class Dashboard extends React.Component {
                     </Col>
 
                     {/* Row 2 */}
-                    <Col md={6}>
+                    <Col md={6} xl={6}>
                         <Card>
                             <Card.Header>
                                 <Card.Title as="h5">Types of Invoices</Card.Title>
@@ -248,10 +249,10 @@ class Dashboard extends React.Component {
                             </Card.Body>
                         </Card>
                     </Col>
-                    <Col md={6}>
+                    <Col md={6} xl={6}>
                         <Card className='Recent-Users'>
                             <Card.Header>
-                                <Card.Title as='h5'>Invoices Raised</Card.Title>
+                                <Card.Title as='h5'>Invoices Raised<small> [In last 10 days]</small></Card.Title>
                             </Card.Header>
                             <Card.Body className="text-center">
                                 <div>

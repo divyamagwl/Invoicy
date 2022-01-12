@@ -10,6 +10,7 @@ import avatar2 from '../assets/images/user/avatar-2.jpg';
 import {web3, loadWeb3, loadAccount, getCompanyId, getCompanyById, updateClientBlockStatus,
     getAllInvoicesByClient, getInvoiceDetails, getClientbyId} from "../services/web3";
 import Dialog from 'react-bootstrap-dialog';
+import RangeSlider from 'react-bootstrap-range-slider';
 
 // For Reference
     // client = {
@@ -29,7 +30,7 @@ class ClientDashboard extends React.Component {
     constructor (props) {
         super(props);      
         this.clientId = this.props.match.params.id;
-        this.state = {wallet: '', companyId: 0, client:{}, invoices: []};
+        this.state = {wallet: '', companyId: 0, client:{}, invoices: [], discount: 0};
         this.fetchAccount();
     }
 
@@ -72,6 +73,7 @@ class ClientDashboard extends React.Component {
             this.setState({
                 client: data
             })
+            this.setState({discount: this.state.client.discount});
         }catch(e){
             console.log(e);
         }
@@ -86,6 +88,9 @@ class ClientDashboard extends React.Component {
         const result = await updateClientBlockStatus(this.state.companyId, this.clientId);
         if(result) {
             this.dialog.showAlert('Success!');
+            this.props.history.push({
+                pathname: '/dashboard'
+            })
         }
         else {
             this.dialog.showAlert('Something went wrong!');
@@ -156,9 +161,10 @@ class ClientDashboard extends React.Component {
                         <div class="mt-3 text-center">
                             <h4 class="mb-0">{this.state.client.name}</h4> 
                             <span class="text-muted d-block mb-2">{this.state.client.email}</span>
-                            <span class="text-muted d-block mb-2">{this.state.client.clientAddr}</span>
-                            <h6 class="mb-0">Discount</h6> 
-                            <span>{this.state.client.discount} %</span>
+                            <span class="text-muted d-block mb-2">{this.state.client.clientAddr}</span> 
+                            <h5 class="mb-3">{this.state.client.discount} %</h5> 
+                            <span><RangeSlider value={this.state.discount} onChange={e=>this.setState({discount: e.target.value})}/></span>
+                            <Button size='sm' onClick={() => {alert(this.state.discount)}}>Update Discount</Button>
                         </div>  
                     </Col>
 
