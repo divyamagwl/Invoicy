@@ -22,7 +22,7 @@
     "react": "^16.8.4",
     "react-bootstrap": "^1.0.0-beta.5",
     "react-bootstrap-dialog": "^0.13.0",
-    "react-bootstrap-range-slider": "^3.0.3",
+    "react-bootstrap-range-slider": "^2.0.2",
     "react-datepicker": "^4.6.0",
     "react-dom": "^16.8.4",
     "react-full-screen": "^0.2.4",
