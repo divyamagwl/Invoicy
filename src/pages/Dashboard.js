@@ -218,9 +218,10 @@ class Dashboard extends React.Component {
     /*Set both clients and topInvoices state vars*/
     async getClients(){
         try{
+            await this.fetchAccount();
             ; 
-        }catch{
-            ;
+        }catch(e){
+            console.log(e);
         }
     }
 

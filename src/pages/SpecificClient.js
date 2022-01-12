@@ -148,9 +148,9 @@ class Dashboard extends React.Component {
 
     async getInvoices(){
         try{
-            ; 
-        }catch{
-            ;
+            await this.fetchAccount();
+        }catch(e){
+            console.log(e);
         }
     }
 
