@@ -7,7 +7,8 @@ import DEMO from "../store/constant";
 import avatar1 from '../assets/images/user/avatar-1.jpg';
 import avatar2 from '../assets/images/user/avatar-2.jpg';
 
-import {loadWeb3, loadAccount, getCompanyId, getAllInvoicesByClient, getInvoiceDetails} from "../services/web3";
+import {loadWeb3, loadAccount, getCompanyId, getInvoiceDetails,
+    web3, getAllInvoicesByClient} from "../services/web3";
 
 const _invoices =
 [
@@ -163,18 +164,33 @@ class Dashboard extends React.Component {
         this.getInvoices();
     }  
 
+    compareFilterInvoices(a, b){
+        if(a.data.payment.dueAmount < b.data.payment.dueAmount) return 1;
+        if(a.data.payment.dueAmount > b.data.payment.dueAmount) return -1;
+        return 0;
+    }
+
+    // Sorts in desc order based on dueAmount. Returns only top 5 results
+    filterInvoices(){
+        let invoices = this.state.invoices;
+        invoices.sort(this.compareFilterInvoices);
+        return invoices;
+    }
+
     render() {       
         let invoices = [];
         let completedInvoices = [];
+        
+        let filteredInvoices = this.filterInvoices();
 
-        this.state.invoices.forEach(invoice => {
+        filteredInvoices.forEach(invoice => {
             if(invoice.data.isSettled){
                 completedInvoices.push(
                     <tr className="unread" key = {invoice.id}>
                         <td><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></td>
                         <td>
                             <h6 className="mb-1">{invoice.data.company.name}</h6>
-                            {/* <p className="m-0">{invoice.data.note}</p> */}
+                            <p className="m-0">{invoice.data.company.email}</p>
                         </td>
                         <td>
                             <h6 className="text-muted"><i className="fa fa-circle text-c-green f-10 m-r-15"/>{invoice.data.invoiceDate}</h6>
@@ -184,7 +200,7 @@ class Dashboard extends React.Component {
                         </td>
     
                         <td>
-                            <h6 className="text-muted">100 ETH</h6>
+                            <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.totalAmount)} ETH total</h6>
                         </td>
                         <td><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">View Details</a></td>
                     </tr>
@@ -196,7 +212,7 @@ class Dashboard extends React.Component {
                         <td><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></td>
                         <td>
                             <h6 className="mb-1">{invoice.data.company.name}</h6>
-                            {/* <p className="m-0">{invoice.data.note}</p> */}
+                            <p className="m-0">{invoice.data.company.email}</p>
                         </td>
                         <td>
                             <h6 className="text-muted"><i className="fa fa-circle text-c-green f-10 m-r-15"/>{invoice.data.invoiceDate}</h6>
@@ -206,7 +222,7 @@ class Dashboard extends React.Component {
                         </td>
 
                         <td>
-                            <h6 className="text-muted">100 ETH</h6>
+                            <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.dueAmount)} ETH due</h6>
                         </td>
                         <td>
                             <a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">View Details</a>
