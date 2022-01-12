@@ -76,8 +76,8 @@ class BillsDashboard extends React.Component {
     viewDetails(invoice) {
         this.props.history.push({
             pathname: '/view-invoice/',
-            // state: { invoice: invoiceData }
-            state: { invoice: invoice }
+            state: { invoice: invoiceData }
+            // state: { invoice: invoice }
         })
     }
 
