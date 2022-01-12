@@ -166,7 +166,7 @@ class Dashboard extends React.Component {
         this.state.clients.forEach(client => {
             if(!client.data.isBlocked) {
                 clients.push(
-                    <tr className="unread" key = {client.id}>
+                <tr className="unread" key = {client.id}>
                     <td><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></td>
                     <td>
                         <h6 className="mb-1">{client.data.clientAddr}</h6>
@@ -300,7 +300,7 @@ class Dashboard extends React.Component {
                     <Col md={12} xl={12}>
                         <Card className='Recent-Users'>
                             <Card.Header>
-                                <Card.Title as='h5'>Clients</Card.Title>
+                                <Card.Title as='h5'>Clients <a href="/add-client/"><i className="feather icon-plus-circle f-15 m-r-5"/></a></Card.Title>
                             </Card.Header>
                             <Card.Body className='px-0 py-2'>
                             <Table responsive hover>

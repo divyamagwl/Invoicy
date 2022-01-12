@@ -85,10 +85,10 @@ class ClientDashboard extends React.Component {
     async blockClient() {
         const result = await updateClientBlockStatus(this.state.companyId, this.clientId);
         if(result) {
-            alert('Success!');
+            this.dialog.showAlert('Success!');
         }
         else {
-            alert('Something went wrong!');
+            this.dialog.showAlert('Something went wrong!');
         }
     }
 
@@ -152,14 +152,18 @@ class ClientDashboard extends React.Component {
             <Aux>
                 <Row>
                     <Col md={12} xl={12}>
-                        <h3>Name: {this.state.client.name}</h3>
-                        <h5>Email: {this.state.client.email}</h5>
-                        <h5>Discount: {this.state.client.discount}</h5>
-                        <h5>Wallet Address: {this.state.client.clientAddr}</h5>
+                        <div className="justify-content-center text-center"><img className="rounded-circle" style={{width: '140px'}} src={avatar2} alt="user"/></div>
+                        <div class="mt-3 text-center">
+                            <h4 class="mb-0">{this.state.client.name}</h4> 
+                            <span class="text-muted d-block mb-2">{this.state.client.email}</span>
+                            <span class="text-muted d-block mb-2">{this.state.client.clientAddr}</span>
+                            <h6 class="mb-0">Discount</h6> 
+                            <span>{this.state.client.discount} %</span>
+                        </div>  
                     </Col>
 
                     <Col md={12} xl={12}>
-                        <Card className='Recent-Users'>
+                        <Card className='Recent-Users mt-5'>
                             <Card.Header>
                                 <Card.Title as='h5'>Pending Invoices</Card.Title>
                             </Card.Header>
@@ -192,13 +196,19 @@ class ClientDashboard extends React.Component {
                     {
                         !this.state.client.isBlocked &&
                         <Col md={12} xl={12}>
+                        <div className="justify-content-center text-center">
                             <Button variant='danger' onClick={() => this.blockClient()}>Block Client</Button>
+                            <Dialog ref={(component) => { this.dialog = component }} />
+                        </div>
                         </Col>
                     }
                     {
                         this.state.client.isBlocked &&
                         <Col md={12} xl={12}>
+                        <div className="justify-content-center text-center">
                             <Button variant='primary' onClick={() => this.blockClient()}>Unblock Client</Button>
+                            <Dialog ref={(component) => { this.dialog = component }} />
+                        </div>
                         </Col>
                     }
                 </Row>
