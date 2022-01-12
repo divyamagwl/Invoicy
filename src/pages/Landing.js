@@ -28,7 +28,6 @@ class Landing extends React.Component {
             })
         }
         else {
-            // window.alert('Please register your company first or connnect with other wallet address.');
             this.dialog.showAlert('Please register your company first or connnect with other wallet address.');
         }
     }

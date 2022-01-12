@@ -11,6 +11,8 @@ import {loadWeb3, loadAccount, getCompanyId, getInvoiceDetails,
         web3, getAllClients, getCompanyById, getAllInvoicesByClient} from "../services/web3";
 
 import NVD3Chart from 'react-nvd3';
+import Dialog from 'react-bootstrap-dialog';
+
 
 const pieChartData = [
     {key: "Type1", y: 33, color: "#1de9b6"},
@@ -301,7 +303,8 @@ class Dashboard extends React.Component {
                     </td>
                     <td>
                         <a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">View Details</a>
-                        <button style={{border: 0}} onClick={() => {alert("Reminder sent!")}} className="label theme-bg text-white f-12">Remind</button>
+                        <button style={{border: 0}} onClick={() => {this.dialog.showAlert("Reminder sent!")}} className="label theme-bg text-white f-12">Remind</button>
+                        <Dialog ref={(component) => { this.dialog = component }} />
                     </td>
                 </tr>
             );
