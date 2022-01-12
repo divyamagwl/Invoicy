@@ -225,17 +225,6 @@ class Dashboard extends React.Component {
             clients.forEach(async client => {
                 const companyId = await getCompanyId(client.clientAddr);
                 const company = await getCompanyById(companyId);
-                const data = {
-                    "clientId" : client.clientId,
-                    "clientAddr" : client.clientAddr,
-                    "isBlocked" : client.isBlocked,
-                    "discount" : client.discount,
-                    "name" : company.name
-                }
-                const newClient = {'id': client.clientId, 'data': data}
-                this.setState({
-                    clients: [...this.state.clients, newClient]
-                });
 
                 const ids = await getAllInvoicesByClient(currentCompanyId, client.clientId);
                 ids.forEach(async id => {
@@ -245,6 +234,19 @@ class Dashboard extends React.Component {
                         topInvoices:[...this.state.topInvoices, invoice]
                     });
                 })
+
+                const data = {
+                    "clientId" : client.clientId,
+                    "clientAddr" : client.clientAddr,
+                    "isBlocked" : client.isBlocked,
+                    "discount" : client.discount,
+                    "name" : company.name,
+                    "numInvoices": ids.length,
+                }
+                const newClient = {'id': client.clientId, 'data': data}
+                this.setState({
+                    clients: [...this.state.clients, newClient]
+                });
     
             })
 
@@ -409,7 +411,7 @@ class Dashboard extends React.Component {
                     <Col md={12} xl={12}>
                         <Card className='Recent-Users'>
                             <Card.Header>
-                                <Card.Title as='h5'>Top Pending Invoices</Card.Title>
+                                <Card.Title as='h5'>Most Important Invoices</Card.Title>
                             </Card.Header>
                             <Card.Body className='px-0 py-2'>
                             <Table responsive hover>

@@ -7,7 +7,7 @@ import DEMO from "../store/constant";
 import avatar1 from '../assets/images/user/avatar-1.jpg';
 import avatar2 from '../assets/images/user/avatar-2.jpg';
 
-import {loadWeb3, loadAccount, getCompanyId, getAllInvoicesByClient, getInvoiceDetails} from "../services/web3";
+import {web3, loadWeb3, loadAccount, getCompanyId, getAllInvoicesByClient, getInvoiceDetails} from "../services/web3";
 
 const _invoices =
 [
@@ -184,7 +184,7 @@ class Dashboard extends React.Component {
                         </td>
     
                         <td>
-                            <h6 className="text-muted">100 ETH</h6>
+                            <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.totalAmount)} ETH</h6>
                         </td>
                         <td><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">View Details</a></td>
                     </tr>
@@ -206,7 +206,7 @@ class Dashboard extends React.Component {
                         </td>
 
                         <td>
-                            <h6 className="text-muted">100 ETH</h6>
+                            <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.dueAmount)} ETH</h6>
                         </td>
                         <td>
                             <a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">View Details</a>
