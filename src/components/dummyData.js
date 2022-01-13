@@ -21,7 +21,9 @@ export const invoiceData = {
         "price": "100.00"
       }
     ],
-    
+    "method": "ETH",
+    "network": "Ethereum",
+     
     // Release company
     "companyName": "Company Name",
     "companyAddr": "0x68EFB190a40B2E568E4147BEb01C8D78770eE514",

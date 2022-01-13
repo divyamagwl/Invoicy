@@ -33,4 +33,6 @@ export const initialInvoice: Invoice = {
   dueAmount: '100',
   discount: '10',
   tax: '10',
+  method: "ETH",
+  network: "Ethereum"
 }

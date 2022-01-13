@@ -30,6 +30,9 @@ export interface Invoice {
   clientName: string
   clientAddr: string
   clientEmail: string
+
+  method: string
+  network: string
 }
 
 export interface CSSClasses {
