@@ -16,9 +16,9 @@ import Dialog from 'react-bootstrap-dialog';
 
 
 const pieChartData = [
-    {key: "Type1", y: 33, color: "#239f1c"},
-    {key: "Type2", y: 33, color: "#f4c22b"},
-    {key: "Type3", y: 33, color: "#F45d55"},
+    {key: "100% Advance", y: 50, color: "#239f1c"},
+    {key: "50% Advance 50% Postwork", y: 20, color: "#f4c22b"},
+    {key: "100% Postwork", y: 30, color: "#F45d55"},
 ];
 
 function lineChart() {
