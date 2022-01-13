@@ -128,6 +128,13 @@ class Dashboard extends React.Component {
         return invoices.slice(0,5);
     }
 
+    viewDetails(invoice) {
+        this.props.history.push({
+            pathname: '/view-invoice/',
+            state: { invoice: invoice }
+        })
+    }
+
     render() {       
         let topPendingInvoices = [];
         let clients = [];
@@ -168,7 +175,7 @@ class Dashboard extends React.Component {
                         <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.dueAmount)} ETH due</h6>
                     </td>
                     <td>
-                        <a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">View Details</a>
+                        <button style={{border: 0}} onClick={() => this.viewDetails(invoice)} className="label theme-bg2 text-white f-12">View Details</button>
                         <button style={{border: 0}} onClick={() => this.updateWorkStatus(invoice.id)} className="label theme-bg text-white f-12">
                             {
                                 !invoice.data.workCompleted &&

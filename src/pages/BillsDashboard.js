@@ -9,7 +9,6 @@ import avatar2 from '../assets/images/user/avatar-2.jpg';
 
 import {web3, getAllBillsByCompany, getInvoiceDetails, payBill} from '../services/web3';
 import {loadWeb3, loadAccount, getCompanyId} from "../services/web3";
-import {invoiceData} from "../components/dummyData";
 
 class BillsDashboard extends React.Component {
 
@@ -76,7 +75,6 @@ class BillsDashboard extends React.Component {
     viewDetails(invoice) {
         this.props.history.push({
             pathname: '/view-invoice/',
-            // state: { invoice: invoiceData }
             state: { invoice: invoice }
         })
     }
@@ -119,7 +117,9 @@ class BillsDashboard extends React.Component {
                             }
                             </h6>
                         </td>
-                        <td><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">View Details</a></td>
+                        <td>
+                            <button style={{border: 0}} onClick={() => this.viewDetails(invoice)} className="label theme-bg text-white f-12">View Details</button>
+                        </td>
                     </tr>
                 )
                 totalMoneySpent += parseFloat(web3.utils.fromWei(invoice.data.payment.totalAmount));
@@ -155,7 +155,6 @@ class BillsDashboard extends React.Component {
 
                     </td>
                     <td>
-                        {/* <a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">View Details</a> */}
                         <button style={{border: 0}} onClick={() => this.viewDetails(invoice)} className="label theme-bg text-white f-12">View Details</button>
                         <button style={{border: 0}} onClick={() => this.payInvoice(invoice)} className="label theme-bg text-white f-12">Pay</button>
                     </td>

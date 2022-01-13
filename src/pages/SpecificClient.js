@@ -112,7 +112,6 @@ class ClientDashboard extends React.Component {
         }
     }
 
-    
     async updateWorkStatus(invoiceId) {
         const result = await updateInvoiceWorkCompletedStatus(invoiceId);
         if(result) {
@@ -122,6 +121,13 @@ class ClientDashboard extends React.Component {
         else {
             this.dialog.showAlert('Something went wrong!');
         }
+    }
+
+    viewDetails(invoice) {
+        this.props.history.push({
+            pathname: '/view-invoice/',
+            state: { invoice: invoice }
+        })
     }
 
     render() {       
@@ -159,7 +165,7 @@ class ClientDashboard extends React.Component {
                             </h6>
                         </td>
                         <td>
-                        <a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">View Details</a>
+                        <button style={{border: 0}} onClick={() => this.viewDetails(invoice)} className="label theme-bg text-white f-12">View Details</button>
                         <button style={{border: 0}} onClick={() => this.updateWorkStatus(invoice.id)} className="label theme-bg text-white f-12">
                             {
                                 !invoice.data.workCompleted &&
@@ -205,7 +211,7 @@ class ClientDashboard extends React.Component {
                             </h6>
                         </td>
                         <td>
-                            <a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">View Details</a>
+                            <button style={{border: 0}} onClick={() => this.viewDetails(invoice)} className="label theme-bg text-white f-12">View Details</button>
                             <button style={{border: 0}} onClick={() => this.updateWorkStatus(invoice.id)} className="label theme-bg text-white f-12">
                             {
                                 !invoice.data.workCompleted &&
