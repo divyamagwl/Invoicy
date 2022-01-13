@@ -1,5 +1,6 @@
 import React from 'react';
 import {Row, Col, Card, Table, Button, Collapse} from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 
 import Aux from "../hoc/_Aux";
 import DEMO from "../store/constant";
@@ -301,7 +302,7 @@ class Dashboard extends React.Component {
                     <Col md={12} xl={12}>
                         <Card className='Recent-Users'>
                             <Card.Header>
-                                <Card.Title as='h5'>Clients <a href="/add-client/"><i className="feather icon-plus-circle f-15 m-r-5"/></a></Card.Title>
+                                <Card.Title as='h5'>Clients <Link to="/add-client/"><i className="feather icon-plus-circle f-15 m-r-5"/></Link></Card.Title>
                             </Card.Header>
                             <Card.Body className='px-0 py-2'>
                             <Table responsive hover>

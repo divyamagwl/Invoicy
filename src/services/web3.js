@@ -126,7 +126,20 @@ export const getClientbyId = async (companyId, clientId) => {
   return client;
 };
 
-export const updateClientBlockStatus = async (companyId, clientId) => {
+export const updateClientDiscount = async (companyId, clientId, discount) => {
+  const accounts = await web3.eth.getAccounts();
+  const account = accounts[0];
+  const result = await InvoiceManagement_Contract.methods
+    .updateClientDiscount(companyId, clientId, discount)
+    .send({
+      from: account,
+    });
+
+  if (result) return true;
+  else return false;
+};
+
+export const updateClientBlockedStatus = async (companyId, clientId) => {
   const accounts = await web3.eth.getAccounts();
   const account = accounts[0];
   const result = await InvoiceManagement_Contract.methods
