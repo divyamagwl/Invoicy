@@ -148,6 +148,16 @@ class ClientDashboard extends React.Component {
                             <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.totalAmount)} ETH</h6>
                         </td>
                         <td><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">View Details</a></td>
+                        <button style={{border: 0}} onClick={() => this.updateWorkStatus(invoice.id)} className="label theme-bg text-white f-12">
+                            {
+                                !invoice.data.workCompleted &&
+                                "Update Progress"
+                            }
+                            {
+                                invoice.data.workCompleted &&
+                                "Delete Progress"
+                            }
+                        </button>
                     </tr>
                 )
             }
@@ -170,7 +180,7 @@ class ClientDashboard extends React.Component {
                             <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.dueAmount)} ETH</h6>
                         </td>
                         <td>
-                            <h6 className="text-muted">Status: &nbsp; 
+                            <h6 className="text-muted">Work Status: &nbsp; 
                             {
                                 invoice.data.workCompleted &&
                                 <span className="text-success">Completed</span>
@@ -183,7 +193,16 @@ class ClientDashboard extends React.Component {
                         </td>
                         <td>
                             <a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">View Details</a>
-                            <button style={{border: 0}} onClick={() => this.updateWorkStatus(invoice.id)} className="label theme-bg text-white f-12">Update Progress</button>
+                            <button style={{border: 0}} onClick={() => this.updateWorkStatus(invoice.id)} className="label theme-bg text-white f-12">
+                            {
+                                !invoice.data.workCompleted &&
+                                "Update Progress"
+                            }
+                            {
+                                invoice.data.workCompleted &&
+                                "Delete Progress"
+                            }                            
+                            </button>
                             <button style={{border: 0}} onClick={() => this.dialog.showAlert('Reminder sent!')} className="label theme-bg2 text-white f-12">Remind</button>
                             <Dialog ref={(component) => { this.dialog = component }} />
                         </td>
