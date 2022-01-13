@@ -3,12 +3,16 @@ import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
 import { Invoice } from '../data/types'
 import InvoicePage from './InvoicePage'
 import {invoiceData} from './dummyData'
+
+// import { RouteComponentProps } from "react-router-dom";
 interface Props {
-  data: Invoice
+  // data: Invoice
+  location: any
 }
 
-const ViewInvoice: FC<Props> = ({ data }) => {
-data = invoiceData
+const ViewInvoice: FC<Props> = (props) => {
+  console.log(props.location.state)
+  const data = props.location.state.invoice
 
   return (
       <div >
