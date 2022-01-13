@@ -230,3 +230,16 @@ export const getAllInvoicesByClient = async (companyId, clientId) => {
   return invoiceIds;
 };
 
+
+export const updateInvoiceWorkCompletedStatus = async (invoiceId) => {
+  const accounts = await web3.eth.getAccounts();
+  const account = accounts[0];
+  const result = await InvoiceManagement_Contract.methods
+    .updateInvoiceWorkCompleted(invoiceId)
+    .send({
+      from: account,
+    });
+
+  if (result) return true;
+  else return false;
+};
