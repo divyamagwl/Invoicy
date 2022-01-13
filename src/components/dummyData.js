@@ -2,16 +2,18 @@ export const invoiceData = {
     "logo": "",
     "logoWidth": 100,
     "title": "INVOICE",
-    "companyName": "My Company",
-    "name": "My Name",
-    "companyAddress": "1241411",
-    "companyAddress2": "City",
-    "companyCountry": "United States",
-    "billTo": "Bill To: Your Company",
-    "clientName": "Your Name",
-    "clientAddress": "213131",
-    "clientAddress2": "City",
-    "clientCountry": "United States",
+    "clientID": "1",
+    "companyID": "2",
+    "companyName": "Your Company",
+    "name": "Your Name",
+    "companyAddress": "0x68EFB190a40B2E568E4147BEb01C8D78770eE514",
+    "companyAddress2": "Email Address",
+    "companyCountry": "India",
+    "billTo": "Bill To: Company Y",
+    "clientName": "Your Client's Name",
+    "clientAddress": "0xE76710212607eFF9E8c021E862D26fe9cE41DC6f",
+    "clientAddress2": "Email Address",
+    "clientCountry": "India",
     "invoiceTitleLabel": "Invoice#",
     "invoiceTitle": "INV-01",
     "invoiceDateLabel": "Invoice Date",
@@ -29,14 +31,9 @@ export const invoiceData = {
         "rate": "100.00"
       },
       {
-        "description": "Game Design",
+        "description": "Designing",
         "quantity": "1",
         "rate": "100.00"
-      },
-      {
-        "description": "",
-        "quantity": "1",
-        "rate": "0.00"
       }
     ],
     "subTotalLabel": "Sub Total",
@@ -44,6 +41,7 @@ export const invoiceData = {
     "totalLabel": "TOTAL",
     "currency": "$",
     "notesLabel": "Notes",
+    "advancePercent": "50",
     "notes": "It was great doing business with you.",
     "termLabel": "Terms & Conditions",
     "term": "Please make the payment by the due date."

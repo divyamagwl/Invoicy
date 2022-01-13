@@ -12,11 +12,13 @@ export interface Invoice {
   title: string
   companyName: string
   name: string
+  companyID: string
   companyAddress: string
   companyAddress2: string
   companyCountry: string
 
   billTo: string
+  clientID:string
   clientName: string
   clientAddress: string
   clientAddress2: string
@@ -41,7 +43,7 @@ export interface Invoice {
 
   totalLabel: string
   currency: string
-
+  advancePercent: string
   notesLabel: string
   notes: string
   termLabel: string
