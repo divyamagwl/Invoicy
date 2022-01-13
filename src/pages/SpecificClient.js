@@ -142,12 +142,24 @@ class ClientDashboard extends React.Component {
                         </td>
                         <td>
                             <h6 className="text-muted"><i className="fa fa-circle text-c-red f-10 m-r-15"/>{invoice.data.dueDate}</h6>
-                        </td>
-    
+                        </td>    
                         <td>
                             <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.totalAmount)} ETH</h6>
                         </td>
-                        <td><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">View Details</a></td>
+                        <td>
+                            <h6 className="text-muted">Work Status: &nbsp; 
+                            {
+                                invoice.data.workCompleted &&
+                                <span className="text-success">Completed</span>
+                            }
+                            {
+                                !invoice.data.workCompleted &&
+                                <span className="text-danger">Not Completed</span>
+                            }
+                            </h6>
+                        </td>
+                        <td>
+                        <a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">View Details</a>
                         <button style={{border: 0}} onClick={() => this.updateWorkStatus(invoice.id)} className="label theme-bg text-white f-12">
                             {
                                 !invoice.data.workCompleted &&
@@ -158,6 +170,7 @@ class ClientDashboard extends React.Component {
                                 "Delete Progress"
                             }
                         </button>
+                        </td>
                     </tr>
                 )
             }
