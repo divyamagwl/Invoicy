@@ -175,6 +175,12 @@ export const getInvoiceDetails = async (invoiceId) => {
   const company = await getCompanyById(invoice.companyId);
   invoice['company'] = company;
 
+  const clientForCompany = await getClientbyId(invoice.companyId, invoice.clientId)
+  const clientAddr = clientForCompany['clientAddr']
+  const clientId = await getCompanyId(clientAddr);
+  const clientCompany = await getCompanyById(clientId);
+  invoice['client'] = clientCompany;
+
   return invoice;
 };
 

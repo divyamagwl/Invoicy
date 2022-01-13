@@ -134,8 +134,8 @@ class ClientDashboard extends React.Component {
                     <tr className="unread" key = {invoice.id}>
                         <td><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></td>
                         <td>
-                            <h6 className="mb-1">{invoice.data.company.name}</h6>
-                            {/* <p className="m-0">{invoice.data.note}</p> */}
+                            <h6 className="mb-1">{invoice.data.client.name}</h6>
+                            <p className="m-0">{invoice.data.client.email}</p>
                         </td>
                         <td>
                             <h6 className="text-muted"><i className="fa fa-circle text-c-green f-10 m-r-15"/>{invoice.data.invoiceDate}</h6>
@@ -179,8 +179,8 @@ class ClientDashboard extends React.Component {
                     <tr className="unread" key = {invoice.id}>
                         <td><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></td>
                         <td>
-                            <h6 className="mb-1">{invoice.data.company.name}</h6>
-                            {/* <p className="m-0">{invoice.data.note}</p> */}
+                            <h6 className="mb-1">{invoice.data.client.name}</h6>
+                            <p className="m-0">{invoice.data.client.email}</p>
                         </td>
                         <td>
                             <h6 className="text-muted"><i className="fa fa-circle text-c-green f-10 m-r-15"/>{invoice.data.invoiceDate}</h6>

@@ -2,6 +2,12 @@
     {
         "id":"0",
         "data": {
+            "client": {
+                "name": "CompanyX",
+                "email": "xyz@gnail.com",
+                "companyId": 1,
+                "companyAddr": "0x5cB2dB3A9c7C073D619C637dfD99dE2cf2C51037"
+            },
             "company": {
                 "name": "CompanyX",
                 "email": "xyz@gnail.com",
