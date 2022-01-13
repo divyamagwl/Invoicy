@@ -268,7 +268,7 @@ class Dashboard extends React.Component {
                     <Col md={6} xl={6}>
                         <Card>
                             <Card.Header>
-                                <Card.Title as="h5">Types of Invoices</Card.Title>
+                                <Card.Title as="h5">Types of Invoices Raised <small>Distribution</small></Card.Title>
                             </Card.Header>
                             <Card.Body className="text-center">
                             <NVD3Chart id="chart" height={300} type="pieChart" datum={pieChartData} x="key" y="y"  />
