@@ -143,8 +143,8 @@ class Dashboard extends React.Component {
                 <tr className="unread" key = {invoice.id}>
                     <td><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></td>
                     <td>
-                        <h6 className="mb-1">{invoice.data.company.name}</h6>
-                        <p className="m-0">{invoice.data.company.email}</p>
+                        <h6 className="mb-1">{invoice.data.client.name}</h6>
+                        <p className="m-0">{invoice.data.client.email}</p>
                     </td>
                     <td>
                         <h6 className="text-muted"><i className="fa fa-circle text-c-green f-10 m-r-15"/>{invoice.data.invoiceDate}</h6>
@@ -152,12 +152,33 @@ class Dashboard extends React.Component {
                     <td>
                         <h6 className="text-muted"><i className="fa fa-circle text-c-red f-10 m-r-15"/>{invoice.data.dueDate}</h6>
                     </td>
-
+                    <td>
+                        <h6 className="text-muted">Work Status: &nbsp; 
+                        {
+                            invoice.data.workCompleted &&
+                            <span className="text-success">Completed</span>
+                        }
+                        {
+                            !invoice.data.workCompleted &&
+                            <span className="text-danger">Not Completed</span>
+                        }
+                        </h6>
+                    </td>
                     <td>
                         <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.dueAmount)} ETH due</h6>
                     </td>
                     <td>
                         <a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">View Details</a>
+                        <button style={{border: 0}} onClick={() => this.updateWorkStatus(invoice.id)} className="label theme-bg text-white f-12">
+                            {
+                                !invoice.data.workCompleted &&
+                                "Update Progress"
+                            }
+                            {
+                                invoice.data.workCompleted &&
+                                "Delete Progress"
+                            }                            
+                        </button>
                         <button style={{border: 0}} onClick={() => {this.dialog.showAlert("Reminder sent!")}} className="label theme-bg text-white f-12">Remind</button>
                         <Dialog ref={(component) => { this.dialog = component }} />
                     </td>
