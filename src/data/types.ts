@@ -30,9 +30,6 @@ export interface Invoice {
   clientName: string
   clientAddr: string
   clientEmail: string
-
-  logo: string
-  logoWidth: number
 }
 
 export interface CSSClasses {

@@ -78,20 +78,20 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
 
       const newInvoice = { ...invoice }
 
-      if (name === 'logoWidth' && typeof value === 'number') {
-        newInvoice[name] = value
-      }
-      else if (name !== 'logoWidth' && typeof value === 'string') {
-        if(name !== 'advancePercent')
-          {newInvoice[name] = value}
-        else {
-          const match = value.match(/(\d+)%/)
-          const taxRate = match ? parseFloat(match[1]) : 0
-          console.log(match,taxRate)
-          setAdvance(taxRate)
-          newInvoice[name] = taxRate.toString() + '%';
-        }
-      }
+      // if (name === 'logoWidth' && typeof value === 'number') {
+      //   newInvoice[name] = value
+      // }
+      // else if (name !== 'logoWidth' && typeof value === 'string') {
+      //   if(name !== 'advancePercent')
+      //     {newInvoice[name] = value}
+      //   else {
+      //     const match = value.match(/(\d+)%/)
+      //     const taxRate = match ? parseFloat(match[1]) : 0
+      //     console.log(match,taxRate)
+      //     setAdvance(taxRate)
+      //     newInvoice[name] = taxRate.toString() + '%';
+      //   }
+      // }
 
       setInvoice(newInvoice)
     }
@@ -190,7 +190,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
 
         <View className="flex" pdfMode={pdfMode}>
           <View className="w-50" pdfMode={pdfMode}>
-            <EditableFileImage
+            {/* <EditableFileImage
               className="logo"
               placeholder="Your Logo"
               value={invoice.logo}
@@ -198,7 +198,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
               pdfMode={pdfMode}
               onChangeImage={(value) => handleChange('logo', value)}
               onChangeWidth={(value) => handleChange('logoWidth', value)}
-            />
+            /> */}
             <EditableInput
               className="fs-20 bold"
               placeholder="Your Company"

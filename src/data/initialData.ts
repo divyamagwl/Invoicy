@@ -7,8 +7,6 @@ export const initialProductLine: ProductLine = {
 }
 
 export const initialInvoice: Invoice = {
-  logo: '',
-  logoWidth: 100,
   clientID:'1',
   companyID:'1',
   companyName: '',

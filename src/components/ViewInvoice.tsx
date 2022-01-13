@@ -10,12 +10,6 @@ interface Props {
 }
 
 /*
-- append this object:
-  {
-    "logo": "",
-    "logoWidth": 100,
-  }
-
 - Release company obj as 
     {
     "companyName": "Your Company",

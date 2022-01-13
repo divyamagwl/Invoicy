@@ -36,9 +36,4 @@ export const invoiceData = {
     // Generate
     "discount":"10",
     "tax":"10",
-
-
-    // Add manually
-    "logo": "",
-    "logoWidth": 100,
 }
