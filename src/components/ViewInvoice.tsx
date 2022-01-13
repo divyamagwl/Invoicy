@@ -4,7 +4,6 @@ import { Invoice } from '../data/types'
 import InvoicePage from './InvoicePage'
 import {invoiceData} from './dummyData'
 
-// import { RouteComponentProps } from "react-router-dom";
 interface Props {
   // data: Invoice
   location: any
@@ -15,30 +14,11 @@ interface Props {
   {
     "logo": "",
     "logoWidth": 100,
-    "title": "INVOICE",
-    "companyName": "Your Company",
-    "companyCountry": "India",
-    "billTo": "Bill To: ",
-    "clientCountry": "India",
-    "invoiceTitleLabel": "Invoice#",
-    "invoiceDueDateLabel": "Due Date",
-    "invoiceDateLabel": "Invoice Date",
-    "productLineDescription": "Item Description",
-    "productLineQuantity": "Qty",
-    "productLineQuantityRate": "Rate",
-    "productLineQuantityAmount": "Amount",
-    "subTotalLabel": "Sub Total",
-    "taxLabel": "Total Service Tax",
-    "totalLabel": "TOTAL",
-    "currency": "ETH",
-    "notesLabel": "Notes",
-    "termLabel": "Terms & Conditions",
-    "term": "Please make the payment by the due date."
   }
 
 - Release company obj as 
     {
-    "name": "Your Name",
+    "companyName": "Your Company",
     "companyAddr": "0x68EFB190a40B2E568E4147BEb01C8D78770eE514",
     "email": "Email Address",
     }
@@ -59,13 +39,13 @@ interface Props {
 
 
 const convertData:any = (data:any)=>{
-  ;
+  return data;
 }
 
 const ViewInvoice: FC<Props> = (props) => {
-  let data = props.location.state.invoice;
+  // let data = props.location.state.invoice;
+  let data = convertData(props.location.state.invoice);
   console.log(data);
-  // data = convertData(props.location.state.invoice);
 
   return (
       <div >

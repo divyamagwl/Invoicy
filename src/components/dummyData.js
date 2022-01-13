@@ -23,7 +23,7 @@ export const invoiceData = {
     ],
     
     // Release company
-    "name": "Your Name",
+    "companyName": "Company Name",
     "companyAddr": "0x68EFB190a40B2E568E4147BEb01C8D78770eE514",
     "email": "Email Address",
 
@@ -41,23 +41,4 @@ export const invoiceData = {
     // Add manually
     "logo": "",
     "logoWidth": 100,
-    "title": "INVOICE",
-    "companyName": "Your Company",
-    "companyCountry": "India",
-    "billTo": "Bill To: ",
-    "clientCountry": "India",
-    "invoiceTitleLabel": "Invoice#",
-    "invoiceDueDateLabel": "Due Date",
-    "invoiceDateLabel": "Invoice Date",
-    "productLineDescription": "Item Description",
-    "productLineQuantity": "Qty",
-    "productLineQuantityRate": "Rate",
-    "productLineQuantityAmount": "Amount",
-    "subTotalLabel": "Sub Total",
-    "taxLabel": "Total Service Tax",
-    "totalLabel": "TOTAL",
-    "currency": "ETH",
-    "notesLabel": "Notes",
-    "termLabel": "Terms & Conditions",
-    "term": "Please make the payment by the due date."
 }

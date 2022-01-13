@@ -17,7 +17,8 @@ export interface Invoice {
   note: string
   advancePercent: string
   productLines: ProductLine[]
-  name: string
+
+  companyName: string 
   companyAddr: string
   email: string
   
@@ -32,25 +33,6 @@ export interface Invoice {
 
   logo: string
   logoWidth: number
-  title: string
-  companyName: string 
-  companyCountry: string
-  billTo: string  
-  clientCountry: string
-  invoiceTitleLabel: string
-  invoiceDateLabel: string
-  invoiceDueDateLabel: string
-  productLineDescription: string
-  productLineQuantity: string
-  productLineQuantityRate: string
-  productLineQuantityAmount: string
-  subTotalLabel: string
-  taxLabel: string
-  totalLabel: string
-  currency: string
-  notesLabel: string
-  termLabel: string
-  term: string
 }
 
 export interface CSSClasses {
