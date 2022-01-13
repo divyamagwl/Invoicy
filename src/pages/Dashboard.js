@@ -177,13 +177,15 @@ class Dashboard extends React.Component {
                     <td>
                         <h6 className="text-muted">{client.data.numInvoices} Invoices</h6>
                     </td>
-                    <td><a href={'/clients/'+client.data.clientId} className="label theme-bg text-white f-12">View Details</a></td>
+                    <td>
+                        <Link to={'/clients/'+client.data.clientId} className="label theme-bg text-white f-12">View Details</Link>
+                    </td>
                 </tr>
                 );
             }
             else {
                 blockedClients.push(
-                    <tr className="unread" key = {client.id}>
+                <tr className="unread" key = {client.id}>
                     <td><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></td>
                     <td>
                         <h6 className="mb-1">{client.data.clientAddr}</h6>
@@ -192,7 +194,9 @@ class Dashboard extends React.Component {
                     <td>
                         <h6 className="text-muted">{client.data.numInvoices} Invoices</h6>
                     </td>
-                    <td><a href={'/clients/'+client.data.clientId} className="label theme-bg text-white f-12">View Details</a></td>
+                    <td>
+                        <Link to={'/clients/'+client.data.clientId} className="label theme-bg text-white f-12">View Details</Link>
+                    </td>
                 </tr>
                 );
             }
