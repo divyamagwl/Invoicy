@@ -2,15 +2,19 @@
     {
         "id":"0",
         "data": {
-            "company": {
-                "name": "CompanyX",
-                "email": "xyz@gnail.com",
-                "companyId": 1,
-                "companyAddr": "0x5cB2dB3A9c7C073D619C637dfD99dE2cf2C51037"
-            },
-            "invoiceId": 0,
-            "companyId": 1,
             "clientId": 0,
+            "companyId": 1,
+            "invoiceId": 0,
+            "invoiceDate": "09-01-22",
+            "dueDate": "09-02-22",
+            "note": "Important",
+            "payment": {    
+                "method": "", 
+                "network": "",
+                "totalAmount":1000,
+                "dueAmount":1,
+                "advancePercent":1
+            },
             "items" : [ 
                 {
                     "desc": "",
@@ -20,19 +24,23 @@
                     "tax":1
                 }
             ],
-            "payment": {    
-                "method": "", 
-                "network": "",
-                "totalAmount":1000,
-                "dueAmount":1,
-                "advancePercent":1 
+            "company": {
+                "name": "CompanyX",
+                "email": "xyz@gnail.com",
+                "companyId": 1,
+                "companyAddr": "0x5cB2dB3A9c7C073D619C637dfD99dE2cf2C51037"
             },
+            "client": {
+                "name": "CompanyX",
+                "email": "xyz@gnail.com",
+                "companyId": 1,
+                "companyAddr": "0x5cB2dB3A9c7C073D619C637dfD99dE2cf2C51037"
+            },
+            
+            
             "workCompleted": false,
             "isSettled": false,
-            "invoiceDate": "09-01-22",
-            "dueDate": "09-02-22",
-            "uploadDocURI": "", 
-            "note": "Important"
+            "uploadDocURI": ""
         }
     },
     {

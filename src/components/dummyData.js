@@ -1,48 +1,63 @@
 export const invoiceData = {
+       
+    "clientID": "1",
+    "companyID": "2",
+    "invoiceId": "1",
+    "invoiceDate": "",
+    "dueDate": "",
+    "note": "It was great doing business with you.",
+    "totalAmount": "1000",
+    "dueAmount":"100",
+    "advancePercent": 50,
+    "productLines": [
+      {
+        "desc": "Brochure Design",
+        "qty": "2",
+        "price": "100.00"
+      },
+      {
+        "desc": "Designing", 
+        "qty": "1", 
+        "price": "100.00"
+      }
+    ],
+    
+    // Release company
+    "name": "Your Name",
+    "companyAddr": "0x68EFB190a40B2E568E4147BEb01C8D78770eE514",
+    "email": "Email Address",
+
+   
+    // Release client
+    "clientName": "Your Client's Name",
+    "clientAddr": "0xE76710212607eFF9E8c021E862D26fe9cE41DC6f",
+    "clientEmail": "Email Address",
+    
+    // Generate
+    "discount":"10",
+    "tax":"10",
+
+
+    // Add manually
     "logo": "",
     "logoWidth": 100,
     "title": "INVOICE",
-    "clientID": "1",
-    "companyID": "2",
     "companyName": "Your Company",
-    "name": "Your Name",
-    "companyAddress": "0x68EFB190a40B2E568E4147BEb01C8D78770eE514",
-    "companyAddress2": "Email Address",
     "companyCountry": "India",
-    "billTo": "Bill To: Company Y",
-    "clientName": "Your Client's Name",
-    "clientAddress": "0xE76710212607eFF9E8c021E862D26fe9cE41DC6f",
-    "clientAddress2": "Email Address",
+    "billTo": "Bill To: ",
     "clientCountry": "India",
     "invoiceTitleLabel": "Invoice#",
-    "invoiceTitle": "INV-01",
-    "invoiceDateLabel": "Invoice Date",
-    "invoiceDate": "",
     "invoiceDueDateLabel": "Due Date",
-    "invoiceDueDate": "",
+    "invoiceDateLabel": "Invoice Date",
     "productLineDescription": "Item Description",
     "productLineQuantity": "Qty",
     "productLineQuantityRate": "Rate",
     "productLineQuantityAmount": "Amount",
-    "productLines": [
-      {
-        "description": "Brochure Design",
-        "quantity": "2",
-        "rate": "100.00"
-      },
-      {
-        "description": "Designing",
-        "quantity": "1",
-        "rate": "100.00"
-      }
-    ],
     "subTotalLabel": "Sub Total",
-    "taxLabel": "Sale Tax (10%)",
+    "taxLabel": "Total Service Tax",
     "totalLabel": "TOTAL",
-    "currency": "$",
+    "currency": "ETH",
     "notesLabel": "Notes",
-    "advancePercent": "50",
-    "notes": "It was great doing business with you.",
     "termLabel": "Terms & Conditions",
     "term": "Please make the payment by the due date."
 }

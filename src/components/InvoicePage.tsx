@@ -40,11 +40,11 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
   const dateFormat = 'MMM dd, yyyy'
   const invoiceDate = invoice.invoiceDate !== '' ? new Date(invoice.invoiceDate) : new Date()
   const invoiceDueDate =
-    invoice.invoiceDueDate !== ''
-      ? new Date(invoice.invoiceDueDate)
+    invoice.dueDate !== ''
+      ? new Date(invoice.dueDate)
       : new Date(invoiceDate.valueOf())
 
-  if (invoice.invoiceDueDate === '') {
+  if (invoice.dueDate === '') {
     invoiceDueDate.setDate(invoiceDueDate.getDate() + 30)
   }
 
@@ -61,15 +61,15 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
     const newInvoice = { ...invoice }
     newInvoice.companyID = companyId;
     try {
-      newInvoice.clientAddress = allClients[0].value;
+      newInvoice.clientAddr = allClients[0].value;
       newInvoice.clientID = allClients[0].id;
     }
     catch(e) {
       console.log(e);
-      newInvoice.clientAddress = account;
+      newInvoice.clientAddr = account;
       newInvoice.clientID = "0";
     }
-    newInvoice.companyAddress = account;
+    newInvoice.companyAddr = account;
     setMyClients(allClients)
     setInvoice(newInvoice)
 }
@@ -102,7 +102,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
       if (i === index) {
         const newProductLine = { ...productLine }
 
-        if (name === 'description') {
+        if (name === 'desc') {
           newProductLine[name] = value
         } else {
           if (
@@ -152,8 +152,8 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
     let subTotal = 0
 
     invoice.productLines.forEach((productLine) => {
-      const quantityNumber = parseFloat(productLine.quantity)
-      const rateNumber = parseFloat(productLine.rate)
+      const quantityNumber = parseFloat(productLine.qty)
+      const rateNumber = parseFloat(productLine.price)
       const amount = quantityNumber && rateNumber ? quantityNumber * rateNumber : 0
 
       subTotal += amount
@@ -173,13 +173,13 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
 
   const storeInvoiceData = (event: any) => {
     const invoiceData = {...invoice}
-    console.log(invoiceData)
+    // console.log(invoiceData)
     // Store this so that we can retrieve it later
   }
 
   const sendInvoice = (event: any) => {
     const invoiceData = {...invoice}
-    console.log(invoiceData)
+    // console.log(invoiceData)
     // Send invoice to client
   }
 
@@ -215,12 +215,12 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
 
 
             {pdfMode ? (
-              <PdfText style={{fontSize:'10px'}}>{invoice.companyAddress}</PdfText>
+              <PdfText style={{fontSize:'10px'}}>{invoice.companyAddr}</PdfText>
             ) : (
               <input
               type="text"
               className={'input'}
-              value={invoice.companyAddress}
+              value={invoice.companyAddr}
               readOnly
               style={{textOverflow:'ellipsis',width:'110%'}}
             />
@@ -228,8 +228,8 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
 
             <EditableInput
               placeholder="Email Address"
-              value={invoice.companyAddress2}
-              onChange={(value) => handleChange('companyAddress2', value)}
+              value={invoice.email}
+              onChange={(value) => handleChange('email', value)}
               pdfMode={pdfMode}
             />
             <EditableSelect
@@ -250,7 +250,11 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
           </View>
         </View>
 
+
+
+
         <View className="flex mt-40" pdfMode={pdfMode}>
+          
           <View className="w-55" pdfMode={pdfMode}>
             <EditableInput
               className="bold dark mb-1"
@@ -266,19 +270,19 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
             />
             {/* <div style={{fontSize:'14px',fontWeight:'600'}}>Client's Payment Address:</div> */}
             {pdfMode ? (
-        <PdfText style={{fontSize:'10px'}}>{invoice.clientAddress}</PdfText>
-      ) : (
-            <EditableSelect
-              options={myClients}
-              value={invoice.clientAddress}
-              onChange={(value) => handleChange('clientAddress', value)}
-              pdfMode={pdfMode}
-              />            
-      )}
+              <PdfText style={{fontSize:'10px'}}>{invoice.clientAddr}</PdfText>
+            ) : (
+                  <EditableSelect
+                    options={myClients}
+                    value={invoice.clientAddr}
+                    onChange={(value) => handleChange('clientAddr', value)}
+                    pdfMode={pdfMode}
+                    />            
+            )}
             <EditableInput
               placeholder="Email Address"
-              value={invoice.clientAddress2}
-              onChange={(value) => handleChange('clientAddress2', value)}
+              value={invoice.clientEmail}
+              onChange={(value) => handleChange('clientEmail', value)}
               pdfMode={pdfMode}
             />
             <EditableSelect
@@ -288,7 +292,9 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
               pdfMode={pdfMode}
             />
           </View>
+          
           <View className="w-45" pdfMode={pdfMode}>
+            
             <View className="flex mb-1" pdfMode={pdfMode}>
               <View className="w-40" pdfMode={pdfMode}>
                 <EditableInput
@@ -301,12 +307,13 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
               <View className="w-60" pdfMode={pdfMode}>
                 <EditableInput
                   placeholder="INV-12"
-                  value={invoice.invoiceTitle}
-                  onChange={(value) => handleChange('invoiceTitle', value)}
+                  value={"INV-0"+ invoice.invoiceId}
+                  onChange={(value) => handleChange('invoiceId', value)}
                   pdfMode={pdfMode}
                 />
               </View>
             </View>
+            
             <View className="flex mb-1" pdfMode={pdfMode}>
               <View className="w-40" pdfMode={pdfMode}>
                 <EditableInput
@@ -330,6 +337,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
                 />
               </View>
             </View>
+            
             <View className="flex mb-1" pdfMode={pdfMode}>
               <View className="w-40" pdfMode={pdfMode}>
                 <EditableInput
@@ -345,40 +353,46 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
                   selected={invoiceDueDate}
                   onChange={(date) =>
                     handleChange(
-                      'invoiceDueDate',
+                      'dueDate',
                       date && !Array.isArray(date) ? format(date, dateFormat) : ''
                     )
                   }
                   pdfMode={pdfMode}
                 />
               </View>
-              </View>
-              <View className="flex mb-1" pdfMode={pdfMode}>
+            </View>
+            
+            <View className="flex mb-1" pdfMode={pdfMode}>
               <View className="w-40" pdfMode={pdfMode}>
-              {pdfMode ? (
-              <PdfText style={{fontSize:'12px',fontWeight:'bold',marginRight:'26px'}}>Advance Payment</PdfText>
-            ) : (
-              <PdfText style={{fontSize:'14px',fontWeight:'bold'}}>Advance Payment</PdfText>
-            )}    
+              <EditableInput
+                  className="bold"
+                  value="Advance Percent"
+                  onChange={(value) => handleChange('invoiceDueDateLabel', value)}
+                  pdfMode={pdfMode}
+                />
               </View>
               <View className="w-50 p-1" pdfMode={pdfMode}>
                 <EditableInput
-                  value={invoice.advancePercent}
+                  value={invoice.advancePercent + "%"}
                   onChange={(value) => handleChange('advancePercent', value)}
                   pdfMode={pdfMode}
                 />
               </View>
-              <View className="w-60" pdfMode={pdfMode}>
+              {/* <View className="w-60" pdfMode={pdfMode}>
               <Text className="dark w-auto" pdfMode={pdfMode}>
-              {'$ ' + (typeof subTotal !== 'undefined' && typeof saleTax !== 'undefined'
-                ? (subTotal + saleTax) * (advance/100)
-                : 0
-              ).toFixed(2) + ' (' + invoice.advancePercent + ') '}
-            </Text>
-              </View>
+                {'$ ' + (typeof subTotal !== 'undefined' && typeof saleTax !== 'undefined'
+                  ? (subTotal + saleTax) * (advance/100)
+                  : 0
+                ).toFixed(2) + ' (' + invoice.advancePercent + ') '}
+              </Text>
+              </View> */}
             </View>
-            </View>
+            
           </View>
+        </View>
+
+
+
 
         <View className="mt-30 bg-dark flex" pdfMode={pdfMode}>
           <View className="w-48 p-4-8" pdfMode={pdfMode}>
@@ -415,8 +429,10 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
           </View>
         </View>
 
+
+
         {invoice.productLines.map((productLine, i) => {
-          return pdfMode && productLine.description === '' ? (
+          return pdfMode && productLine.desc === '' ? (
             <Text key={i}></Text>
           ) : (
             <View key={i} className="row flex ml-0 mr-0" pdfMode={pdfMode}>
@@ -425,30 +441,30 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
                   className="dark"
                   rows={2}
                   placeholder="Enter item name/description"
-                  value={productLine.description}
-                  onChange={(value) => handleProductLineChange(i, 'description', value)}
+                  value={productLine.desc}
+                  onChange={(value) => handleProductLineChange(i, 'desc', value)}
                   pdfMode={pdfMode}
                 />
               </View>
               <View className="w-17 p-4-8 pb-10" pdfMode={pdfMode}>
                 <EditableInput
                   className="dark right"
-                  value={productLine.quantity}
-                  onChange={(value) => handleProductLineChange(i, 'quantity', value)}
+                  value={productLine.qty}
+                  onChange={(value) => handleProductLineChange(i, 'qty', value)}
                   pdfMode={pdfMode}
                 />
               </View>
               <View className="w-17 p-4-8 pb-10" pdfMode={pdfMode}>
                 <EditableInput
                   className="dark right"
-                  value={productLine.rate}
-                  onChange={(value) => handleProductLineChange(i, 'rate', value)}
+                  value={productLine.price}
+                  onChange={(value) => handleProductLineChange(i, 'price', value)}
                   pdfMode={pdfMode}
                 />
               </View>
               <View className="w-18 p-4-8 pb-10" pdfMode={pdfMode}>
                 <Text className="dark right" pdfMode={pdfMode}>
-                  {calculateAmount(productLine.quantity, productLine.rate)}
+                  {calculateAmount(productLine.qty, productLine.price)}
                 </Text>
               </View>
               {!pdfMode && (
@@ -474,21 +490,23 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
               </button>
             )}
           </View>
+          
           <View className="w-50 mt-20" pdfMode={pdfMode}>
+
             <View className="flex" pdfMode={pdfMode}>
               <View className="w-50 p-1" pdfMode={pdfMode}>
                 <EditableInput
-                  value={invoice.subTotalLabel}
-                  onChange={(value) => handleChange('subTotalLabel', value)}
+                  value="Total Discount"
                   pdfMode={pdfMode}
                 />
               </View>
               <View className="w-50 p-1" pdfMode={pdfMode}>
                 <Text className="right bold dark" pdfMode={pdfMode}>
-                  {subTotal?.toFixed(2)}
+                  {invoice.discount}
                 </Text>
               </View>
             </View>
+
             <View className="flex" pdfMode={pdfMode}>
               <View className="w-50 p-1" pdfMode={pdfMode}>
                 <EditableInput
@@ -499,10 +517,11 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
               </View>
               <View className="w-50 p-1" pdfMode={pdfMode}>
                 <Text className="right bold dark" pdfMode={pdfMode}>
-                  {saleTax?.toFixed(2)}
+                  {invoice.tax}
                 </Text>
               </View>
             </View>
+            
             <View className="flex bg-gray p-1" pdfMode={pdfMode}>
               <View className="w-50 p-1" pdfMode={pdfMode}>
                 <EditableInput
@@ -520,10 +539,28 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
                   pdfMode={pdfMode}
                 />
                 <Text className="right bold dark w-auto" pdfMode={pdfMode}>
-                  {(typeof subTotal !== 'undefined' && typeof saleTax !== 'undefined'
-                    ? subTotal + saleTax
-                    : 0
-                  ).toFixed(2)}
+                  {invoice.totalAmount}
+                </Text>
+              </View>
+            </View>
+
+            <View className="flex bg-gray p-1" pdfMode={pdfMode}>
+              <View className="w-50 p-1" pdfMode={pdfMode}>
+                <EditableInput
+                  className="bold"
+                  value="TOTAL DUE"
+                  pdfMode={pdfMode}
+                />
+              </View>
+              <View className="w-50 p-1 flex" pdfMode={pdfMode}>
+                <EditableInput
+                  className="dark bold right ml-30"
+                  value={invoice.currency}
+                  onChange={(value) => handleChange('currency', value)}
+                  pdfMode={pdfMode}
+                />
+                <Text className="right bold dark w-auto" pdfMode={pdfMode}>
+                  {invoice.dueAmount}
                 </Text>
               </View>
             </View>
@@ -540,8 +577,8 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
           <EditableTextarea
             className="w-100"
             rows={2}
-            value={invoice.notes}
-            onChange={(value) => handleChange('notes', value)}
+            value={invoice.note}
+            onChange={(value) => handleChange('note', value)}
             pdfMode={pdfMode}
           />
         </View>
