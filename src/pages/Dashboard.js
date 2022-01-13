@@ -1,5 +1,6 @@
 import React from 'react';
 import {Row, Col, Card, Table, Button, Collapse} from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 
 import Aux from "../hoc/_Aux";
 import DEMO from "../store/constant";
@@ -15,9 +16,9 @@ import Dialog from 'react-bootstrap-dialog';
 
 
 const pieChartData = [
-    {key: "Type1", y: 33, color: "#239f1c"},
-    {key: "Type2", y: 33, color: "#f4c22b"},
-    {key: "Type3", y: 33, color: "#F45d55"},
+    {key: "100% Advance", y: 50, color: "#239f1c"},
+    {key: "50% Advance 50% Postwork", y: 20, color: "#f4c22b"},
+    {key: "100% Postwork", y: 30, color: "#F45d55"},
 ];
 
 function lineChart() {
@@ -176,13 +177,15 @@ class Dashboard extends React.Component {
                     <td>
                         <h6 className="text-muted">{client.data.numInvoices} Invoices</h6>
                     </td>
-                    <td><a href={'/clients/'+client.data.clientId} className="label theme-bg text-white f-12">View Details</a></td>
+                    <td>
+                        <Link to={'/clients/'+client.data.clientId} className="label theme-bg text-white f-12">View Details</Link>
+                    </td>
                 </tr>
                 );
             }
             else {
                 blockedClients.push(
-                    <tr className="unread" key = {client.id}>
+                <tr className="unread" key = {client.id}>
                     <td><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></td>
                     <td>
                         <h6 className="mb-1">{client.data.clientAddr}</h6>
@@ -191,7 +194,9 @@ class Dashboard extends React.Component {
                     <td>
                         <h6 className="text-muted">{client.data.numInvoices} Invoices</h6>
                     </td>
-                    <td><a href={'/clients/'+client.data.clientId} className="label theme-bg text-white f-12">View Details</a></td>
+                    <td>
+                        <Link to={'/clients/'+client.data.clientId} className="label theme-bg text-white f-12">View Details</Link>
+                    </td>
                 </tr>
                 );
             }
@@ -301,7 +306,7 @@ class Dashboard extends React.Component {
                     <Col md={12} xl={12}>
                         <Card className='Recent-Users'>
                             <Card.Header>
-                                <Card.Title as='h5'>Clients <a href="/add-client/"><i className="feather icon-plus-circle f-15 m-r-5"/></a></Card.Title>
+                                <Card.Title as='h5'>Clients <Link to="/add-client/"><i className="feather icon-plus-circle f-15 m-r-5"/></Link></Card.Title>
                             </Card.Header>
                             <Card.Body className='px-0 py-2'>
                             <Table responsive hover>

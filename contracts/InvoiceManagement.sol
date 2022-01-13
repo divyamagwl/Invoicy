@@ -133,9 +133,9 @@ contract InvoiceManagement {
     client.isBlocked = !client.isBlocked;
   }
 
-  function updateClientDiscount(uint companyId, uint clientId) public {
+  function updateClientDiscount(uint companyId, uint clientId, uint discount) public {
     Client storage client = companyToClients[companyId][clientId];
-    client.isBlocked = !client.isBlocked;
+    client.discount = discount;
   }
 
   //#################################################################

@@ -7,8 +7,8 @@ import DEMO from "../store/constant";
 import avatar1 from '../assets/images/user/avatar-1.jpg';
 import avatar2 from '../assets/images/user/avatar-2.jpg';
 
-import {web3, loadWeb3, loadAccount, getCompanyId, getCompanyById, updateClientBlockStatus,
-    getAllInvoicesByClient, getInvoiceDetails, getClientbyId} from "../services/web3";
+import {web3, loadWeb3, loadAccount, getCompanyId, getCompanyById, updateClientBlockedStatus, updateInvoiceWorkCompletedStatus,
+    getAllInvoicesByClient, getInvoiceDetails, getClientbyId, updateClientDiscount} from "../services/web3";
 import Dialog from 'react-bootstrap-dialog';
 import RangeSlider from 'react-bootstrap-range-slider';
 
@@ -84,13 +84,40 @@ class ClientDashboard extends React.Component {
         this.getInvoices();
     }  
 
+    async updateDiscount(discount) {
+        const result = await updateClientDiscount(this.state.companyId, this.clientId, discount);
+        if(result) {
+            this.dialog.showAlert('Success!');
+            this.setState({
+                client: {...this.state.client, 
+                    discount: discount
+                }
+            });
+        }
+        else {
+            this.dialog.showAlert('Something went wrong!');
+        }
+    }
+
     async blockClient() {
-        const result = await updateClientBlockStatus(this.state.companyId, this.clientId);
+        const result = await updateClientBlockedStatus(this.state.companyId, this.clientId);
         if(result) {
             this.dialog.showAlert('Success!');
             this.props.history.push({
                 pathname: '/dashboard'
             })
+        }
+        else {
+            this.dialog.showAlert('Something went wrong!');
+        }
+    }
+
+    
+    async updateWorkStatus(invoiceId) {
+        const result = await updateInvoiceWorkCompletedStatus(invoiceId);
+        if(result) {
+            this.dialog.showAlert('Success!');
+            window.location.reload();
         }
         else {
             this.dialog.showAlert('Something went wrong!');
@@ -143,6 +170,19 @@ class ClientDashboard extends React.Component {
                             <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.dueAmount)} ETH</h6>
                         </td>
                         <td>
+                            <h6>Work Completed: &nbsp; 
+                            {
+                                invoice.data.workCompleted &&
+                                "Yes"
+                            }
+                            {
+                                !invoice.data.workCompleted &&
+                                "No"
+                            }
+                            </h6>
+                            <button style={{border: 0}} onClick={() => this.updateWorkStatus(invoice.id)} className="label theme-bg text-white f-12">Reverse</button>
+                        </td>
+                        <td>
                             <a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">View Details</a>
                             <button style={{border: 0}} onClick={() => this.dialog.showAlert('Reminder sent!')} className="label theme-bg text-white f-12">Remind</button>
                             <Dialog ref={(component) => { this.dialog = component }} />
@@ -158,13 +198,13 @@ class ClientDashboard extends React.Component {
                 <Row>
                     <Col md={12} xl={12}>
                         <div className="justify-content-center text-center"><img className="rounded-circle" style={{width: '140px'}} src={avatar2} alt="user"/></div>
-                        <div class="mt-3 text-center">
-                            <h4 class="mb-0">{this.state.client.name}</h4> 
-                            <span class="text-muted d-block mb-2">{this.state.client.email}</span>
-                            <span class="text-muted d-block mb-2">{this.state.client.clientAddr}</span> 
-                            <h5 class="mb-3">{this.state.client.discount} %</h5> 
+                        <div className="mt-3 text-center">
+                            <h4 className="mb-0">{this.state.client.name}</h4> 
+                            <span className="text-muted d-block mb-2">{this.state.client.email}</span>
+                            <span className="text-muted d-block mb-2">{this.state.client.clientAddr}</span> 
+                            <h5 className="mb-3">Discount: {this.state.client.discount} %</h5> 
                             <span><RangeSlider value={this.state.discount} onChange={e=>this.setState({discount: e.target.value})}/></span>
-                            <Button size='sm' onClick={() => {alert(this.state.discount)}}>Update Discount</Button>
+                            <Button size='sm' onClick={() => {this.updateDiscount(this.state.discount)}}>Update Discount</Button>
                         </div>  
                     </Col>
 
