@@ -32,14 +32,37 @@ interface Props {
 */
 
 
-const convertData:any = (data:any)=>{
-  return data;
+const convertData:any = (input:any)=>{
+  const discount = input.data.items[0].discount;
+  const tax = input.data.items[0].tax;
+  input.data.items.forEach((item:any) => {
+    delete item['discount'];
+    delete item['tax'];
+  })
+  const invoice = {
+    ...input.data,
+    ...input.data.payment,
+    companyName: input.data.company.name,
+    companyAddr: input.data.company.companyAddr,
+    email: input.data.company.email,
+    clientName: input.data.client.name,
+    clientAddr: input.data.client.companyAddr,
+    clientemail: input.data.client.email,
+    productLines: input.data.items,
+    discount: discount,
+    tax: tax,
+  }
+  delete invoice['payment']
+  delete invoice['company']
+  delete invoice['client']
+  delete invoice['items']
+  // console.log(invoice)
+  return invoice;
+  // return invoiceData;
 }
 
 const ViewInvoice: FC<Props> = (props) => {
-  // let data = props.location.state.invoice;
   let data = convertData(props.location.state.invoice);
-  console.log(data);
 
   return (
       <div >
