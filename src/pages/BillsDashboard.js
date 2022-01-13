@@ -95,7 +95,7 @@ class BillsDashboard extends React.Component {
                         <td><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></td>
                         <td>
                             <h6 className="mb-1">{invoice.data.company.name}</h6>
-                            {/* <p className="m-0">{invoice.data.note}</p> */}
+                            <p className="m-0">{invoice.data.company.email}</p>
                         </td>
                         <td>
                             <h6 className="text-muted"><i className="fa fa-circle text-c-green f-10 m-r-15"/>{invoice.data.invoiceDate}</h6>
@@ -130,7 +130,7 @@ class BillsDashboard extends React.Component {
                     <td><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></td>
                     <td>
                         <h6 className="mb-1">{invoice.data.company.name}</h6>
-                        {/* <p className="m-0">{invoice.data.note}</p> */}
+                        <p className="m-0">{invoice.data.company.email}</p>
                     </td>
                     <td>
                         <h6 className="text-muted"><i className="fa fa-circle text-c-green f-10 m-r-15"/>{invoice.data.invoiceDate}</h6>
@@ -139,7 +139,7 @@ class BillsDashboard extends React.Component {
                         <h6 className="text-muted"><i className="fa fa-circle text-c-red f-10 m-r-15"/>{invoice.data.dueDate}</h6>
                     </td>
                     <td>
-                        <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.dueAmount)} ETH</h6>
+                        <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.dueAmount)} ETH due</h6>
                     </td>
                     <td>
                         <h6 className="text-muted">Work Status: &nbsp; 
@@ -152,6 +152,7 @@ class BillsDashboard extends React.Component {
                             <span className="text-danger">Not Completed</span>
                         }
                         </h6>
+
                     </td>
                     <td>
                         {/* <a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">View Details</a> */}

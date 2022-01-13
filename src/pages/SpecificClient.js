@@ -190,7 +190,7 @@ class ClientDashboard extends React.Component {
                         </td>
 
                         <td>
-                            <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.dueAmount)} ETH</h6>
+                            <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.dueAmount)} ETH due</h6>
                         </td>
                         <td>
                             <h6 className="text-muted">Work Status: &nbsp; 
