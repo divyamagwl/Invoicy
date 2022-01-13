@@ -60,9 +60,16 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
 
     const newInvoice = { ...invoice }
     newInvoice.companyID = companyId;
-    newInvoice.clientAddress = allClients[0].value;
+    try {
+      newInvoice.clientAddress = allClients[0].value;
+      newInvoice.clientID = allClients[0].id;
+    }
+    catch(e) {
+      console.log(e);
+      newInvoice.clientAddress = account;
+      newInvoice.clientID = "0";
+    }
     newInvoice.companyAddress = account;
-    newInvoice.clientID = allClients[0].id;
     setMyClients(allClients)
     setInvoice(newInvoice)
 }
