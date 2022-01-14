@@ -8,31 +8,36 @@ export interface ProductLine {
 
 export interface Invoice {
   
-  
-  clientID:string
-  companyID: string
+  clientId:string
+  companyId: string
   invoiceId: string
+
   invoiceDate: string
   dueDate: string
+
   note: string
+
+  method: string
+  network: string
+  totalAmount: string
+  dueAmount: string
   advancePercent: string
+
   productLines: ProductLine[]
+  discount: string
+  tax: string
 
   companyName: string 
   companyAddr: string
   email: string
   
-  totalAmount: string
-  dueAmount: string
-  discount: string
-  tax: string
-
   clientName: string
   clientAddr: string
   clientEmail: string
 
-  method: string
-  network: string
+  workCompleted: string,
+  isSettled: string,
+  uploadDocURI: string
 }
 
 export interface CSSClasses {

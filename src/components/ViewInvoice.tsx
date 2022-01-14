@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react'
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
 import { Invoice } from '../data/types'
 import InvoicePage from './InvoicePage'
-import {invoiceData} from './dummyData'
+import { web3 } from '../services/web3'
 
 interface Props {
   // data: Invoice
@@ -36,6 +36,7 @@ const convertData:any = (input:any)=>{
   const discount = input.data.items[0].discount;
   const tax = input.data.items[0].tax;
   input.data.items.forEach((item:any) => {
+    item['price'] = web3.utils.fromWei(item.price)
     delete item['discount'];
     delete item['tax'];
   })
@@ -57,6 +58,8 @@ const convertData:any = (input:any)=>{
   delete invoice['client']
   delete invoice['items']
   // console.log(invoice)
+  invoice['totalAmount'] = web3.utils.fromWei(invoice.totalAmount)
+  invoice['dueAmount'] = web3.utils.fromWei(invoice.dueAmount)
   return invoice;
   // return invoiceData;
 }

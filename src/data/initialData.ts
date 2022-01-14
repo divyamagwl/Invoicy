@@ -7,32 +7,34 @@ export const initialProductLine: ProductLine = {
 }
 
 export const initialInvoice: Invoice = {
-  clientID:'1',
-  companyID:'1',
+  clientId:'1',
+  companyId:'1',
   companyName: '',
   companyAddr: '',
   email: '',
   clientName: '',
   clientAddr: '',
   clientEmail: '',
-  invoiceId: '',
-  invoiceDate: '',
-  dueDate: '',
+  invoiceId: '1',
+  invoiceDate: 'Jan 15, 2022',
+  dueDate: 'Feb 24, 2022',
   productLines: [
     {
-      desc: 'Brochure Design',
+      desc: 'Item 1',
       qty: '2',
       price: '100.00',
-    },
-    { ...initialProductLine },
-    { ...initialProductLine },
+    }
   ],
   advancePercent: '50',
   note: 'It was great doing business with you.',
-  totalAmount: '1000.00',
-  dueAmount: '100',
-  discount: '10',
+  totalAmount: '180.00',
+  dueAmount: '180.00',
+  discount: '20',
   tax: '10',
   method: "ETH",
-  network: "Ethereum"
+  network: "Ethereum",
+
+  workCompleted:"false",
+  isSettled: "false",
+  uploadDocURI: "www.google.com"
 }

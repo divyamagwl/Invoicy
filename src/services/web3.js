@@ -188,6 +188,18 @@ export const getInvoiceDetails = async (invoiceId) => {
 
   return invoice;
 };
+export const createInvoice = async (array) => {
+  const accounts = await web3.eth.getAccounts();
+  const account = accounts[0];
+  const result = await InvoiceManagement_Contract.methods
+    .addNewInvoice(...array)
+    .send({
+      from: account,
+    });
+
+  if (result) return true;
+  else return false;
+};
 
 export const getItemsbyInvoice = async (invoiceId) => {
   const items = await InvoiceManagement_Contract.methods
