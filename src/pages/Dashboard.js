@@ -157,7 +157,7 @@ class Dashboard extends React.Component {
         invoices.forEach(invoice => {
             topPendingInvoices.push(
                 <tr className="unread" key = {invoice.id}>
-                    <td><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></td>
+                    <td><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></td>
                     <td>
                         <h6 className="mb-1">{invoice.data.client.name}</h6>
                         <p className="m-0">{invoice.data.client.email}</p>
@@ -391,19 +391,3 @@ class Dashboard extends React.Component {
 }
 
 export default Dashboard;
-
-// For reference
-// const _clients = 
-// [
-//     {
-//         "id":"0",
-//         "data": {
-//             "clientId" : 0,
-//             "clientAddr" : "0x123456789",
-//             "isBlocked" : false,
-//             "discount" : 97,
-//             "numInvoices" : 10,
-//             "name": "Comapny Genius"
-//         }
-//     }
-// ];

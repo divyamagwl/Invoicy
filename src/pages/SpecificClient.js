@@ -12,18 +12,6 @@ import {web3, loadWeb3, loadAccount, getCompanyId, getCompanyById, updateClientB
 import Dialog from 'react-bootstrap-dialog';
 import RangeSlider from 'react-bootstrap-range-slider';
 
-// For Reference
-    // client = {
-    // clientAddr: "0xA4DD021Df55c4b746cf6Be71b9b639f8A3099F39"
-    // clientId: "0"
-    // companyAddr: "0xA4DD021Df55c4b746cf6Be71b9b639f8A3099F39"
-    // companyId: "2"
-    // discount: "35"
-    // email: "adidas@gmail.com"
-    // isBlocked: false
-    // name: "Adidas"
-    // }
-
 
 class ClientDashboard extends React.Component {
 
@@ -183,7 +171,7 @@ class ClientDashboard extends React.Component {
             else{
                 invoices.push(
                     <tr className="unread" key = {invoice.id}>
-                        <td><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></td>
+                        <td><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></td>
                         <td>
                             <h6 className="mb-1">{invoice.data.client.name}</h6>
                             <p className="m-0">{invoice.data.client.email}</p>

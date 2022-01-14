@@ -36,7 +36,6 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
   const [subTotal, setSubTotal] = useState<number>()
   const [saleTax, setSaleTax] = useState<number>()
   const [discount, setDiscount] = useState<number>()
-  // const [advance, setAdvance] = useState<number>(0)
   
   const [myClients, setMyClients] = useState<any[]>();
   const dateFormat = 'MMM dd, yyyy'
@@ -95,7 +94,6 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
           newInvoice[name] = value;
           const clientCompanyId = await getCompanyId(value);
           const clientCompany = await getCompanyById(clientCompanyId)
-          // console.log(clientCompany);
           newInvoice["clientName"] = clientCompany.name;
           newInvoice["clientEmail"] = clientCompany.email;
         }
@@ -191,11 +189,6 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
   }, [subTotal, invoice.tax,invoice.discount])
 
 
-  // const storeInvoiceData = (event: any) => {
-  //   const invoiceData = {...invoice}
-  //   // console.log(invoiceData)
-  //   // Store this so that we can retrieve it later
-  // }
 
    const sendInvoice = async (): Promise<any> =>  {
     let data = {...invoice}
@@ -208,9 +201,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
         itemData['tax'] = data.tax
         finalItems.push(Object.values(itemData));
     })
-    // "1","0",[["A","1","2","3",4],["B","12","32","32",41]],
-    //["ETH","Ethereum","1000000000000000000","1000000000000000000",0],
-    // false,"09-01-22","12-01-22","google.com","None"
+
     let paymentDetails = {    
       "method": data.method, 
       "network": data.network,
@@ -245,20 +236,11 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
 
         <View className="flex" pdfMode={pdfMode}>
           <View className="w-50" pdfMode={pdfMode}>
-            {/* <EditableFileImage
-              className="logo"
-              placeholder="Your Logo"
-              value={invoice.logo}
-              width={invoice.logoWidth}
-              pdfMode={pdfMode}
-              onChangeImage={(value) => handleChange('logo', value)}
-              onChangeWidth={(value) => handleChange('logoWidth', value)}
-            /> */}
+
             <EditableInput
               className="fs-20 bold"
               placeholder="Your Company"
               value={invoice.companyName}
-              // onChange={(value) => handleChange('companyName', value)}
               pdfMode={pdfMode}
             />
 
@@ -277,7 +259,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
             <EditableInput
               placeholder="Email Address"
               value={invoice.email}
-              // onChange={(value) => handleChange('email', value)}
+              
               pdfMode={pdfMode}
             />
           </View>
@@ -286,7 +268,6 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
               className="fs-45 right bold"
               placeholder="Invoice"
               value={"INVOICE"}
-              // onChange={(value) => handleChange('title', value)}
               pdfMode={pdfMode}
             />
           </View>
@@ -304,11 +285,9 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
             ) : (
               <PdfText style={{fontSize:'16px',fontWeight:'bold'}}>Bill To:</PdfText>
             )}    
-            {/* <div style={{fontSize:'14px',fontWeight:'600'}}>Client's Payment Address:</div> */}
             <EditableInput
               placeholder="Your Client's Name"
               value={invoice.clientName}
-              // onChange={(value) => handleChange('clientName', value)}
               pdfMode={pdfMode}
             />
             {pdfMode ? (
@@ -326,7 +305,6 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
             <EditableInput
               placeholder="Email Address"
               value={invoice.clientEmail}
-              // onChange={(value) => handleChange('clientEmail', value)}
               pdfMode={pdfMode}
             />
             {pdfMode ? (
@@ -453,7 +431,6 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
             <EditableInput
               className="white bold"
               value={"Item Description"}
-              // onChange={(value) => handleChange('productLineDescription', value)}
               pdfMode={pdfMode}
             />
           </View>
@@ -461,7 +438,6 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
             <EditableInput
               className="white bold right"
               value={"Qty"}
-              // onChange={(value) => handleChange('productLineQuantity', value)}
               pdfMode={pdfMode}
             />
           </View>
@@ -469,7 +445,6 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
             <EditableInput
               className="white bold right"
               value={"Rate"}
-              // onChange={(value) => handleChange('productLineQuantityRate', value)}
               pdfMode={pdfMode}
             />
           </View>
@@ -477,7 +452,6 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
             <EditableInput
               className="white bold right"
               value={"Amount"}
-              // onChange={(value) => handleChange('productLineQuantityAmount', value)}
               pdfMode={pdfMode}
             />
           </View>
@@ -644,7 +618,6 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
           <EditableInput
             className="bold w-100"
             value={"Notes"}
-            // onChange={(value) => handleChange('notesLabel', value)}
             pdfMode={pdfMode}
           />
           <EditableTextarea
@@ -659,14 +632,12 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
           <EditableInput
             className="bold w-100"
             value={"Terms & Conditions"}
-            // onChange={(value) => handleChange('termLabel', value)}
             pdfMode={pdfMode}
           />
           <EditableTextarea
             className="w-100"
             rows={2}
             value={"Please make the payment by the due date."}
-            // onChange={(value) => handleChange('term', value)}
             pdfMode={pdfMode}
           />
         </View>

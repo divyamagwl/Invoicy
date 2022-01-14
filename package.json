@@ -1,8 +1,8 @@
 {
-  "name": "datta-able-rv18.0.4",
+  "name": "invoicsy",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://lite.codedthemes.com/datta-able/react/default/",
+  "homepage": "",
   "dependencies": {
     "@react-pdf/renderer": "^2.0.21",
     "@types/jest": "^27.4.0",

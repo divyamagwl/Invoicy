@@ -4,7 +4,6 @@ import {Row, Col, Card, Table} from 'react-bootstrap';
 import Aux from "../hoc/_Aux";
 import DEMO from "../store/constant";
 
-import avatar1 from '../assets/images/user/avatar-1.jpg';
 import avatar2 from '../assets/images/user/avatar-2.jpg';
 
 import {web3, getAllBillsByCompany, getInvoiceDetails, payBill} from '../services/web3';
@@ -53,7 +52,6 @@ class BillsDashboard extends React.Component {
     }  
 
     async payInvoice(invoice) {
-        // console.log(invoice)
         const invoiceId = invoice.id;
         const advance =  parseInt(invoice.data.payment.advancePercent);
         const workCompleted = invoice.data.workCompleted;
@@ -127,7 +125,7 @@ class BillsDashboard extends React.Component {
             else{
             pendingData.push(
                 <tr className="unread" key = {invoice.id}>
-                    <td><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></td>
+                    <td><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></td>
                     <td>
                         <h6 className="mb-1">{invoice.data.company.name}</h6>
                         <p className="m-0">{invoice.data.company.email}</p>
@@ -166,66 +164,6 @@ class BillsDashboard extends React.Component {
         var settledProgressBar = (settledData.length / (settledData.length + pendingData.length) * 100).toString();
         var pendingProgressBar = (pendingData.length / (settledData.length + pendingData.length) * 100).toString();
         var paymentProgressBar = (totalMoneySpent / (totalMoneySpent + totalMoneyDue) * 100).toString();
-        
-        // invoiceData.
-        // const tabContent = (
-        //     <Aux>
-        //         <div className="media friendlist-box align-items-center justify-content-center m-b-20">
-        //             <div className="m-r-10 photo-table">
-        //                 <a href={DEMO.BLANK_LINK}><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></a>
-        //             </div>
-        //             <div className="media-body">
-        //                 <h6 className="m-0 d-inline">Silje Larsen</h6>
-        //                 <span className="float-right d-flex  align-items-center"><i className="fa fa-caret-up f-22 m-r-10 text-c-green"/>3784</span>
-        //             </div>
-        //         </div>
-        //         <div className="media friendlist-box align-items-center justify-content-center m-b-20">
-        //             <div className="m-r-10 photo-table">
-        //                 <a href={DEMO.BLANK_LINK}><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></a>
-        //             </div>
-        //             <div className="media-body">
-        //                 <h6 className="m-0 d-inline">Julie Vad</h6>
-        //                 <span className="float-right d-flex  align-items-center"><i className="fa fa-caret-up f-22 m-r-10 text-c-green"/>3544</span>
-        //             </div>
-        //         </div>
-        //         <div className="media friendlist-box align-items-center justify-content-center m-b-20">
-        //             <div className="m-r-10 photo-table">
-        //                 <a href={DEMO.BLANK_LINK}><img className="rounded-circle" style={{width: '40px'}} src={avatar3} alt="activity-user"/></a>
-        //             </div>
-        //             <div className="media-body">
-        //                 <h6 className="m-0 d-inline">Storm Hanse</h6>
-        //                 <span className="float-right d-flex  align-items-center"><i className="fa fa-caret-down f-22 m-r-10 text-c-red"/>2739</span>
-        //             </div>
-        //         </div>
-        //         <div className="media friendlist-box align-items-center justify-content-center m-b-20">
-        //             <div className="m-r-10 photo-table">
-        //                 <a href={DEMO.BLANK_LINK}><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></a>
-        //             </div>
-        //             <div className="media-body">
-        //                 <h6 className="m-0 d-inline">Frida Thomse</h6>
-        //                 <span className="float-right d-flex  align-items-center"><i className="fa fa-caret-down f-22 m-r-10 text-c-red"/>1032</span>
-        //             </div>
-        //         </div>
-        //         <div className="media friendlist-box align-items-center justify-content-center m-b-20">
-        //             <div className="m-r-10 photo-table">
-        //                 <a href={DEMO.BLANK_LINK}><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></a>
-        //             </div>
-        //             <div className="media-body">
-        //                 <h6 className="m-0 d-inline">Silje Larsen</h6>
-        //                 <span className="float-right d-flex  align-items-center"><i className="fa fa-caret-up f-22 m-r-10 text-c-green"/>8750</span>
-        //             </div>
-        //         </div>
-        //         <div className="media friendlist-box align-items-center justify-content-center">
-        //             <div className="m-r-10 photo-table">
-        //                 <a href={DEMO.BLANK_LINK}><img className="rounded-circle" style={{width: '40px'}} src={avatar3} alt="activity-user"/></a>
-        //             </div>
-        //             <div className="media-body">
-        //                 <h6 className="m-0 d-inline">Storm Hanse</h6>
-        //                 <span className="float-right d-flex  align-items-center"><i className="fa fa-caret-down f-22 m-r-10 text-c-red"/>8750</span>
-        //             </div>
-        //         </div>
-        //     </Aux>
-        // );
 
         return (
             <Aux>
@@ -240,7 +178,7 @@ class BillsDashboard extends React.Component {
                                     </div>
 
                                     <div className="col-3 text-right">
-                                        <p className="m-b-0">{settledProgressBar}%</p>
+                                        <p className="m-b-0">{parseFloat(settledProgressBar).toFixed(2)}%</p>
                                     </div>
                                 </div>
                                 <div className="progress m-t-30" style={{height: '7px'}}>
@@ -263,7 +201,7 @@ class BillsDashboard extends React.Component {
                                     </div>
 
                                     <div className="col-3 text-right">
-                                        <p className="m-b-0">{pendingProgressBar}%</p>
+                                        <p className="m-b-0">{parseFloat(pendingProgressBar).toFixed(2)}%</p>
                                     </div>
                                 </div>
                                 <div className="progress m-t-30" style={{height: '7px'}}>

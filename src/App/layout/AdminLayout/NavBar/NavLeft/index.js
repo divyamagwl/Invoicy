@@ -60,7 +60,7 @@ class NavLeft extends Component {
                                 Connect Wallet
                             </p>}
                     </li>
-                    <li className="nav-item"><NavSearch/></li>
+                    
                 </ul>
             </Aux>
         );
