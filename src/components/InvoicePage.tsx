@@ -127,7 +127,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
           ) {
             newProductLine[name] = value
           } else {
-            const n = parseInt(value)
+            const n = parseFloat(value)
 
             newProductLine[name] = (n ? n : 0).toString()
           }
@@ -155,8 +155,8 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
   }
 
   const calculateAmount = (quantity: string, rate: string) => {
-    const quantityNumber = parseInt(quantity)
-    const rateNumber = parseInt(rate)
+    const quantityNumber = parseFloat(quantity)
+    const rateNumber = parseFloat(rate)
     const amount = quantityNumber && rateNumber ? quantityNumber * rateNumber : 0
 
     return amount.toFixed(2)
@@ -168,8 +168,8 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
     let subTotal = 0
 
     invoice.productLines.forEach((productLine) => {
-      const quantityNumber = parseInt(productLine.qty)
-      const rateNumber = parseInt(productLine.price)
+      const quantityNumber = parseFloat(productLine.qty)
+      const rateNumber = parseFloat(productLine.price)
       const amount = quantityNumber && rateNumber ? quantityNumber * rateNumber : 0
 
       subTotal += amount
@@ -179,11 +179,11 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
   }, [invoice.productLines])
 
   useEffect(() => {
-    const match = parseInt(invoice.tax)
+    const match = parseFloat(invoice.tax)
     const taxRate = match ? match : 0
-    const saleTax = subTotal ? Math.round(subTotal * taxRate / 100) : 0
-    const discountRate = parseInt(invoice.discount) ? parseInt(invoice.discount) : 0
-    const discount = subTotal ? Math.round((subTotal * discountRate) / 100): 0
+    const saleTax = subTotal ? (subTotal * taxRate / 100) : 0
+    const discountRate = parseFloat(invoice.discount) ? parseFloat(invoice.discount) : 0
+    const discount = subTotal ? ((subTotal * discountRate) / 100): 0
     const total = subTotal? subTotal + saleTax - discount : 0
     setSaleTax(saleTax)
     setDiscount(discount)
@@ -436,7 +436,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
               <View className="w-60" pdfMode={pdfMode}>
               <Text className="dark w-auto" pdfMode={pdfMode}>
               {'ETH ' + (typeof subTotal !== 'undefined' && typeof saleTax !== 'undefined'
-                ? Math.round(parseInt(invoice.totalAmount) * (parseInt(invoice.advancePercent)/100))
+                ? (parseFloat(invoice.totalAmount) * (parseFloat(invoice.advancePercent)/100))
                 : 0
               ).toFixed(2)}
             </Text>

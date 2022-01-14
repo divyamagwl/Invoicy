@@ -9,7 +9,7 @@ import avatar1 from '../assets/images/user/avatar-1.jpg';
 import avatar2 from '../assets/images/user/avatar-2.jpg';
 
 import {loadWeb3, loadAccount, getCompanyId, getInvoiceDetails,
-        web3, getAllClients, getCompanyById, getAllInvoicesByClient} from "../services/web3";
+        web3, getAllClients, getCompanyById, getAllInvoicesByClient,updateInvoiceWorkCompletedStatus} from "../services/web3";
 
 import NVD3Chart from 'react-nvd3';
 import Dialog from 'react-bootstrap-dialog';
@@ -134,7 +134,16 @@ class Dashboard extends React.Component {
             state: { invoice: invoice }
         })
     }
-
+    async updateWorkStatus(invoiceId) {
+        const result = await updateInvoiceWorkCompletedStatus(invoiceId);
+        if(result) {
+            this.dialog.showAlert('Success!');
+            window.location.reload();
+        }
+        else {
+            this.dialog.showAlert('Something went wrong!');
+        }
+    }
     render() {       
         let topPendingInvoices = [];
         let clients = [];
