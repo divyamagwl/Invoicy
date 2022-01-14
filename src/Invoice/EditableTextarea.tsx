@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 import { Text } from '@react-pdf/renderer'
-import compose from '../styles/compose'
+import compose from './styles/compose'
 
 interface Props {
   className?: string

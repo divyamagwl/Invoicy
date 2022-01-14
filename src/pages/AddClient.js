@@ -74,7 +74,7 @@ class BillsDashboard extends React.Component {
     filterSuggestedClients(){
         let clients = [];
         this.state.clients.forEach(client => {
-            if(client.data.companyAddr != this.state.wallet) clients.push(client);
+            if(client.data.companyAddr !== this.state.wallet) clients.push(client);
         });
         return clients;
     }
@@ -95,10 +95,6 @@ class BillsDashboard extends React.Component {
                         <p className="m-0">{client.data.name}</p>
                         <p className="m-0">{client.data.email}</p>
                     </td>
-                    {/* <td>
-                        <h6 className="text-muted">{client.data.numInvoices} Invoices</h6>
-                    </td> */}
-                    {/* <td><a href={'/clients/'+client.data.clientId} className="label theme-bg text-white f-12">View Details</a></td> */}
                 </tr>
             );
         });

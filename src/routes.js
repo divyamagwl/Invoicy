@@ -8,8 +8,8 @@ global.jQuery = $;
 const DashboardDefault = React.lazy(() => import('./pages/Dashboard'));
 const BillsDashboardDefault = React.lazy(() => import('./pages/BillsDashboard'));
 const AddClient = React.lazy(() => import('./pages/AddClient'));
-const InvoicePage = React.lazy(() => import('./components/InvoicePage'))
-const ViewInvoice = React.lazy(() => import('./components/ViewInvoice'))
+const InvoicePage = React.lazy(() => import('./Invoice/InvoicePage'))
+const ViewInvoice = React.lazy(() => import('./Invoice/ViewInvoice'))
 const SpecificClient = React.lazy(() => import('./pages/SpecificClient'));
 
 

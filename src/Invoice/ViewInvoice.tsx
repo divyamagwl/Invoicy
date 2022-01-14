@@ -1,6 +1,5 @@
-import React, { FC, useEffect, useState } from 'react'
-import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
-import { Invoice } from '../data/types'
+import React, { FC } from 'react'
+import { PDFViewer } from '@react-pdf/renderer'
 import InvoicePage from './InvoicePage'
 import { web3 } from '../services/web3'
 

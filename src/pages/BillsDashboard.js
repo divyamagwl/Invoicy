@@ -2,7 +2,6 @@ import React from 'react';
 import {Row, Col, Card, Table} from 'react-bootstrap';
 
 import Aux from "../hoc/_Aux";
-import DEMO from "../store/constant";
 
 import avatar2 from '../assets/images/user/avatar-2.jpg';
 

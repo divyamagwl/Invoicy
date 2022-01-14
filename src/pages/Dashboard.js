@@ -3,9 +3,8 @@ import {Row, Col, Card, Table, Button, Collapse} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 
 import Aux from "../hoc/_Aux";
-import DEMO from "../store/constant";
 
-import avatar1 from '../assets/images/user/avatar-1.jpg';
+
 import avatar2 from '../assets/images/user/avatar-2.jpg';
 
 import {loadWeb3, loadAccount, getCompanyId, getInvoiceDetails,
@@ -16,9 +15,9 @@ import Dialog from 'react-bootstrap-dialog';
 
 
 const pieChartData = [
-    {key: "100% Advance", y: 50, color: "#239f1c"},
-    {key: "50% Advance 50% Postwork", y: 20, color: "#f4c22b"},
-    {key: "100% Postwork", y: 30, color: "#F45d55"},
+    {key: "50% Advance", y: 40, color: "#1ddec5"},
+    {key: "100% Advance", y: 30, color: "#1dcfda"},
+    {key: "100% Postwork", y: 30, color: "#20c997"},
 ];
 
 function lineChart() {
@@ -27,11 +26,11 @@ function lineChart() {
     for (var i = 0; i < 10; i++) {
         raised.push({
             'x': i,
-            'y': parseInt(100*(Math.sin(i/1.5) * 0.25 + 0.5))
+            'y': parseInt(15*(Math.sin(i/1.5) * 0.25 + 0.5))
         });
         pending.push({
             'x': i,
-            'y': parseInt(15/Math.abs((Math.sin(i/20))+0.5))
+            'y': parseInt(3/Math.abs((Math.sin(i/20))+0.5))
         });
     }
     return [
@@ -105,6 +104,7 @@ class Dashboard extends React.Component {
                 });
     
             })
+            
 
         } catch(e){
             console.log(e);
@@ -148,12 +148,10 @@ class Dashboard extends React.Component {
         let topPendingInvoices = [];
         let clients = [];
         let blockedClients = [];
-        let totalInvoices = 100;
-        let totalPendingInvoices = 56;
-        let totalClients = 30;
-        
-        let invoices = this.filterTopInvoices();
 
+
+        let invoices = this.filterTopInvoices();
+        // let pendingInvoices = 
         invoices.forEach(invoice => {
             topPendingInvoices.push(
                 <tr className="unread" key = {invoice.id}>
@@ -249,7 +247,7 @@ class Dashboard extends React.Component {
                                 <h6 className='mb-4'>Total Invoices Generated</h6>
                                 <div className="row d-flex align-items-center">
                                     <div className="col-9">
-                                        <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-file-text f-30 m-r-5"/>{totalInvoices}</h3>
+                                        <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-file-text f-30 m-r-5"/>{this.state.topInvoices.length}</h3>
                                     </div>
                                 </div>
                             </Card.Body>
@@ -261,7 +259,7 @@ class Dashboard extends React.Component {
                                 <h6 className='mb-4'>Total Pending Invoices</h6>
                                 <div className="row d-flex align-items-center">
                                     <div className="col-9">
-                                        <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-file-text text-c-red f-30 m-r-5"/>{totalPendingInvoices}</h3>
+                                        <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-file-text text-c-red f-30 m-r-5"/>{topPendingInvoices.length}</h3>
                                     </div>
                                 </div>
                             </Card.Body>
@@ -273,7 +271,7 @@ class Dashboard extends React.Component {
                                 <h6 className='mb-4'>Total Clients</h6>
                                 <div className="row d-flex align-items-center">
                                     <div className="col-9">
-                                        <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-users f-30 m-r-5"/> {totalClients}</h3>
+                                        <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-users f-30 m-r-5"/> {this.state.clients.length}</h3>
                                     </div>
                                 </div>
                             </Card.Body>

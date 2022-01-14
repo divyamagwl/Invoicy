@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react'
 import { Text } from '@react-pdf/renderer'
-import compose from '../styles/compose'
+import compose from './styles/compose'
 
 export interface SelectOption {
   value: string

@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { Text } from '@react-pdf/renderer'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import compose from '../styles/compose'
+import compose from './styles/compose'
 
 interface Props {
   className?: string

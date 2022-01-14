@@ -1,22 +1,21 @@
 import React, { FC, useState, useEffect } from 'react'
-import { Invoice, ProductLine } from '../data/types'
-import { initialInvoice, initialProductLine } from '../data/initialData'
+import { Invoice, ProductLine } from './data/types'
+import { initialInvoice, initialProductLine } from './data/initialData'
 import EditableInput from './EditableInput'
 import EditableSelect from './EditableSelect'
 import EditableTextarea from './EditableTextarea'
 import EditableCalendarInput from './EditableCalendarInput'
-import { networkList, methodList } from '../data/paymentList'
+import { networkList, methodList } from './data/paymentList'
 import Document from './Document'
 import Page from './Page'
 import View from './View'
 import Text from './Text'
-import { Font, pdf } from '@react-pdf/renderer'
+import { Font } from '@react-pdf/renderer'
 import Download from './DownloadPDF'
 import format from 'date-fns/format'
 import { Text as PdfText } from '@react-pdf/renderer'
 import {loadAccount, getCompanyId, getAllClients, getCompanyById, getClientCompany,createInvoice, web3} from "../services/web3";
-import '../scss/main.scss'
-import { totalmem } from 'os'
+import '../assets/invoice-scss/main.scss'
 
 Font.register({
   family: 'Nunito',

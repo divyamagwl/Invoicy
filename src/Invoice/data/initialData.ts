@@ -22,13 +22,13 @@ export const initialInvoice: Invoice = {
     {
       desc: 'Item 1',
       qty: '2',
-      price: '100.00',
+      price: '10.00',
     }
   ],
   advancePercent: '50',
   note: 'It was great doing business with you.',
-  totalAmount: '180.00',
-  dueAmount: '180.00',
+  totalAmount: '18.00',
+  dueAmount: '18.00',
   discount: '20',
   tax: '10',
   method: "ETH",

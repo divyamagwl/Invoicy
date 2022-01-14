@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {Dropdown} from 'react-bootstrap';
 import windowSize from 'react-window-size';
 
-import NavSearch from './NavSearch';
 import Aux from "../../../../../hoc/_Aux";
 import DEMO from "../../../../../store/constant";
 import * as actionTypes from "../../../../../store/actions";
