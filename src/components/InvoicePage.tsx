@@ -231,12 +231,11 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
     "note": data.note,
   }
 
-    
     let invoiceArray = Object.values(invoiceData)
-    console.log(invoiceArray)
+
     let result = await createInvoice(invoiceArray)
-    // window.location.href = '/dashboard'
-    // Send invoice to client
+    window.alert('Invoice Created')
+    window.location.href = '/dashboard'
   }
 
   return (
@@ -436,7 +435,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
               </View>
               <View className="w-60" pdfMode={pdfMode}>
               <Text className="dark w-auto" pdfMode={pdfMode}>
-              {'$ ' + (typeof subTotal !== 'undefined' && typeof saleTax !== 'undefined'
+              {'ETH ' + (typeof subTotal !== 'undefined' && typeof saleTax !== 'undefined'
                 ? Math.round(parseInt(invoice.totalAmount) * (parseInt(invoice.advancePercent)/100))
                 : 0
               ).toFixed(2)}
@@ -556,7 +555,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
               </View>
               <View className="w-50 p-1" pdfMode={pdfMode}>
                 <Text className="right bold dark" pdfMode={pdfMode}>
-                  {'$ '+subTotal?.toFixed(2)}
+                  {'ETH '+subTotal?.toFixed(2)}
                 </Text>
               </View>
             </View>
@@ -577,7 +576,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
               </View>
               <View className="w-50 p-1" pdfMode={pdfMode}>
                 <Text className="right bold dark" pdfMode={pdfMode}>
-                  {'$ '+ saleTax?.toFixed(2)}
+                  {'ETH '+ saleTax?.toFixed(2)}
                 </Text>
               </View>
             </View>
@@ -598,7 +597,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
               </View>
               <View className="w-50 p-1" pdfMode={pdfMode}>
                 <Text className="right bold dark" pdfMode={pdfMode}>
-                  {'$ '+discount?.toFixed(2)}
+                  {'ETH '+discount?.toFixed(2)}
                 </Text>
               </View>
             </View>
@@ -612,7 +611,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
                 </View>
               <View className="w-50 p-1" pdfMode={pdfMode}>
                 <Text className="right bold dark" pdfMode={pdfMode}>
-                  {'$ '+(typeof subTotal !== 'undefined' && typeof saleTax !== 'undefined' && typeof discount !== 'undefined'
+                  {'ETH '+(typeof subTotal !== 'undefined' && typeof saleTax !== 'undefined' && typeof discount !== 'undefined'
                     ? subTotal + saleTax - discount
                     : 0
                   ).toFixed(2)}
@@ -632,7 +631,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
                   </View>
               <View className="w-50 p-1" pdfMode={pdfMode}>
                 <Text className="right bold dark" pdfMode={pdfMode}>
-                  {'$ '+ parseFloat(invoice.dueAmount).toFixed(2)}
+                  {'ETH '+ parseFloat(invoice.dueAmount).toFixed(2)}
                 </Text>
               </View>
           </View>
