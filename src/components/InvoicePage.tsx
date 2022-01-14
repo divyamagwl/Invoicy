@@ -15,7 +15,7 @@ import { Font } from '@react-pdf/renderer'
 import Download from './DownloadPDF'
 import format from 'date-fns/format'
 import { Text as PdfText } from '@react-pdf/renderer'
-import {loadAccount, getCompanyId, getAllClients} from "../services/web3";
+import {loadAccount, getCompanyId, getAllClients, getCompanyById, getClientCompany} from "../services/web3";
 import '../scss/main.scss'
 Font.register({
   family: 'Nunito',
@@ -49,9 +49,11 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
   }
 
   let allClients: any[] = [];
+
   const myAsyncFunction = async (): Promise<any> => {
     const clients = await getAllClients();
     const companyId = await getCompanyId();
+    const company = await getCompanyById(companyId);
     const account = await loadAccount();
 
     clients.forEach((element: any[]) => {
@@ -59,10 +61,15 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
     });
 
     const newInvoice = { ...invoice }
+    newInvoice.companyName = company.name;
+    newInvoice.email = company.email;
     newInvoice.companyID = companyId;
     try {
       newInvoice.clientAddr = allClients[0].value;
       newInvoice.clientID = allClients[0].id;
+      const clientComany = await getClientCompany(companyId, newInvoice.clientID)
+      newInvoice.clientName = clientComany.name;
+      newInvoice.clientEmail = clientComany.email;
     }
     catch(e) {
       console.log(e);
@@ -70,10 +77,13 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
       newInvoice.clientID = "0";
     }
     newInvoice.companyAddr = account;
+
+    console.log(newInvoice)
     setMyClients(allClients)
     setInvoice(newInvoice)
-}
-  const handleChange = (name: keyof Invoice, value: string | number) => {
+  }
+
+  const handleChange = async (name: keyof Invoice, value: string | number) => {
     if (name !== 'productLines') {
 
       const newInvoice = { ...invoice }
@@ -92,6 +102,36 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
       //     newInvoice[name] = taxRate.toString() + '%';
       //   }
       // }
+
+      if(name === "clientAddr" && typeof value === 'string') {
+        newInvoice[name] = value;
+
+        // TODO: Change Client Name and email here by fetching details from client address
+        // console.log(newInvoice.companyID, value);
+
+        // allClients.forEach((element: any[]) => {
+        //   console.log(elemtn)
+        // });
+    
+        // let clientId;
+        // for(var i in allClients){
+        //   console.log(allClients[i])
+        //     if(allClients[i].value == value){
+        //       clientId = allClients[i].id
+        //       break; 
+        //     }
+        // }
+        // console.log(clientId)
+        // const clientComany = await getClientCompany(newInvoice.companyID, clientId)
+        // newInvoice["clientName"] = clientComany.name;
+        // newInvoice["clientEmail"] = clientComany.email;
+        }
+      if(typeof value === 'string') {
+        newInvoice[name] = value;
+      }
+      else {
+        newInvoice[name] = value.toString();
+      }
 
       setInvoice(newInvoice)
     }
@@ -203,7 +243,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
               className="fs-20 bold"
               placeholder="Your Company"
               value={invoice.companyName}
-              onChange={(value) => handleChange('companyName', value)}
+              // onChange={(value) => handleChange('companyName', value)}
               pdfMode={pdfMode}
             />
 
@@ -222,7 +262,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
             <EditableInput
               placeholder="Email Address"
               value={invoice.email}
-              onChange={(value) => handleChange('email', value)}
+              // onChange={(value) => handleChange('email', value)}
               pdfMode={pdfMode}
             />
           </View>
@@ -252,7 +292,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
             <EditableInput
               placeholder="Your Client's Name"
               value={invoice.clientName}
-              onChange={(value) => handleChange('clientName', value)}
+              // onChange={(value) => handleChange('clientName', value)}
               pdfMode={pdfMode}
             />
             {/* <div style={{fontSize:'14px',fontWeight:'600'}}>Client's Payment Address:</div> */}
@@ -269,7 +309,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
             <EditableInput
               placeholder="Email Address"
               value={invoice.clientEmail}
-              onChange={(value) => handleChange('clientEmail', value)}
+              // onChange={(value) => handleChange('clientEmail', value)}
               pdfMode={pdfMode}
             />
           </View>
