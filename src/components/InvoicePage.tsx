@@ -105,27 +105,11 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
 
       if(name === "clientAddr" && typeof value === 'string') {
         newInvoice[name] = value;
-
-        // TODO: Change Client Name and email here by fetching details from client address
-        // console.log(newInvoice.companyID, value);
-
-        // allClients.forEach((element: any[]) => {
-        //   console.log(elemtn)
-        // });
-    
-        // let clientId;
-        // for(var i in allClients){
-        //   console.log(allClients[i])
-        //     if(allClients[i].value == value){
-        //       clientId = allClients[i].id
-        //       break; 
-        //     }
-        // }
-        // console.log(clientId)
-        // const clientComany = await getClientCompany(newInvoice.companyID, clientId)
-        // newInvoice["clientName"] = clientComany.name;
-        // newInvoice["clientEmail"] = clientComany.email;
-        }
+        const clientCompanyId = await getCompanyId(value);
+        const clientCompany = await getCompanyById(clientCompanyId)
+        newInvoice["clientName"] = clientCompany.name;
+        newInvoice["clientEmail"] = clientCompany.email;
+      }
       if(typeof value === 'string') {
         newInvoice[name] = value;
       }
@@ -289,12 +273,6 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
               // onChange={(value) => handleChange('billTo', value)}
               pdfMode={pdfMode}
             />
-            <EditableInput
-              placeholder="Your Client's Name"
-              value={invoice.clientName}
-              // onChange={(value) => handleChange('clientName', value)}
-              pdfMode={pdfMode}
-            />
             {/* <div style={{fontSize:'14px',fontWeight:'600'}}>Client's Payment Address:</div> */}
             {pdfMode ? (
               <PdfText style={{fontSize:'10px'}}>{invoice.clientAddr}</PdfText>
@@ -306,6 +284,13 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
                     pdfMode={pdfMode}
                     />            
             )}
+
+            <EditableInput
+              placeholder="Your Client's Name"
+              value={invoice.clientName}
+              // onChange={(value) => handleChange('clientName', value)}
+              pdfMode={pdfMode}
+            />
             <EditableInput
               placeholder="Email Address"
               value={invoice.clientEmail}
