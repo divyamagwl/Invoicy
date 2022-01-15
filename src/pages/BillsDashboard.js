@@ -100,7 +100,7 @@ class BillsDashboard extends React.Component {
                         </td>
     
                         <td>
-                            <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.totalAmount)} ETH</h6>
+                            <h6 className="text-muted">{parseFloat(web3.utils.fromWei(invoice.data.payment.totalAmount)).toFixed(2)} ETH</h6>
                         </td>
                         <td>
                             <h6 className="text-muted">Work Status: &nbsp; 
@@ -136,7 +136,7 @@ class BillsDashboard extends React.Component {
                         <h6 className="text-muted"><i className="fa fa-circle text-c-red f-10 m-r-15"/>{invoice.data.dueDate}</h6>
                     </td>
                     <td>
-                        <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.dueAmount)} ETH due</h6>
+                        <h6 className="text-muted">{parseFloat(web3.utils.fromWei(invoice.data.payment.dueAmount)).toFixed(2)} ETH due</h6>
                     </td>
                     <td>
                         <h6 className="text-muted">Work Status: &nbsp; 
@@ -218,7 +218,7 @@ class BillsDashboard extends React.Component {
                                 <h6 className='mb-4'>Total Money Sent</h6>
                                 <div className="row d-flex align-items-center">
                                     <div className="col-9">
-                                        <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-arrow-up text-c-green f-30 m-r-5"/> {totalMoneySpent} ETH</h3>
+                                        <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-arrow-up text-c-green f-30 m-r-5"/> {parseFloat(totalMoneySpent).toFixed(2)} ETH</h3>
                                     </div>
 
                                     <div className="col-3 text-right">

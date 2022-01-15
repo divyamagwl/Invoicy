@@ -136,7 +136,7 @@ class ClientDashboard extends React.Component {
                             <h6 className="text-muted"><i className="fa fa-circle text-c-red f-10 m-r-15"/>{invoice.data.dueDate}</h6>
                         </td>    
                         <td>
-                            <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.totalAmount)} ETH</h6>
+                            <h6 className="text-muted">{parseFloat(web3.utils.fromWei(invoice.data.payment.totalAmount)).toFixed(2)} ETH</h6>
                         </td>
                         <td>
                             <h6 className="text-muted">Work Status: &nbsp; 
@@ -182,7 +182,7 @@ class ClientDashboard extends React.Component {
                         </td>
 
                         <td>
-                            <h6 className="text-muted">{web3.utils.fromWei(invoice.data.payment.dueAmount)} ETH due</h6>
+                            <h6 className="text-muted">{parseFloat(web3.utils.fromWei(invoice.data.payment.dueAmount)).toFixed(2)} ETH due</h6>
                         </td>
                         <td>
                             <h6 className="text-muted">Work Status: &nbsp; 
