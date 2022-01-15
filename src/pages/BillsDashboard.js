@@ -272,7 +272,7 @@ class BillsDashboard extends React.Component {
                                         <p className="m-0">Facebook</p>
                                     </div>
                                     <div className="col text-right">
-                                        <h4><i class="fab fa-ethereum"></i> 12,280</h4>
+                                        <h4><i class="fab fa-ethereum"></i> 10</h4>
                                         <p className="text-c-green mb-0"><span className="text-muted">Total Amount to Pay</span></p>
                                     </div>
                                 </div>
@@ -280,7 +280,7 @@ class BillsDashboard extends React.Component {
                             <Card.Body>
                                 <div className="row align-items-center justify-content-center card-active">
                                     <div className="col-6">
-                                        <h6 className="text-center m-b-10"><span className="text-muted m-r-5">Paid:</span> <i class="fab fa-ethereum"></i> 6,140</h6>
+                                        <h6 className="text-center m-b-10"><span className="text-muted m-r-5">Paid:</span> <i class="fab fa-ethereum"></i> 5</h6>
                                         <div className="progress">
                                             <div className="progress-bar progress-c-theme" role="progressbar" style={{width: '50%', height: '6px'}} aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"/>
                                         </div>
@@ -304,7 +304,7 @@ class BillsDashboard extends React.Component {
                                         <p className="m-0">Amazon</p>
                                     </div>
                                     <div className="col text-right">
-                                        <h4><i class="fab fa-ethereum"></i> 5,280</h4>
+                                        <h4><i class="fab fa-ethereum"></i> 5</h4>
                                         <p className="text-c-green mb-0"><span className="text-muted">Total Amount to Pay</span></p>
                                     </div>
                                 </div>
@@ -318,9 +318,9 @@ class BillsDashboard extends React.Component {
                                         </div>
                                     </div>
                                     <div className="col-6">
-                                        <h6 className="text-center  m-b-10"><span className="text-muted m-r-5">Duration:</span>2 months</h6>
+                                        <h6 className="text-center  m-b-10"><span className="text-muted m-r-5">Duration:</span>12 days</h6>
                                         <div className="progress">
-                                            <div className="progress-bar progress-c-theme2" role="progressbar" style={{width: '2%', height: '6px'}} aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"/>
+                                            <div className="progress-bar progress-c-theme2" role="progressbar" style={{width: '40%', height: '6px'}} aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"/>
                                         </div>
                                     </div>
                                 </div>
@@ -336,7 +336,7 @@ class BillsDashboard extends React.Component {
                                         <p className="m-0">Google</p>
                                     </div>
                                     <div className="col text-right">
-                                        <h4><i class="fab fa-ethereum"></i> 3,141</h4>
+                                        <h4><i class="fab fa-ethereum"></i> 3</h4>
                                         <p className="text-c-green mb-0"><span className="text-muted">Total Amount to Pay</span></p>
                                     </div>
                                 </div>
@@ -344,9 +344,9 @@ class BillsDashboard extends React.Component {
                             <Card.Body>
                                 <div className="row align-items-center justify-content-center card-active">
                                     <div className="col-6">
-                                        <h6 className="text-center m-b-10"><span className="text-muted m-r-5">Paid:</span> <i class="fab fa-ethereum"></i> 1,342</h6>
+                                        <h6 className="text-center m-b-10"><span className="text-muted m-r-5">Paid:</span> <i class="fab fa-ethereum"></i> 1.2</h6>
                                         <div className="progress">
-                                            <div className="progress-bar progress-c-theme" role="progressbar" style={{width: '35%', height: '6px'}} aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"/>
+                                            <div className="progress-bar progress-c-theme" role="progressbar" style={{width: '40%', height: '6px'}} aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"/>
                                         </div>
                                     </div>
                                     <div className="col-6">
