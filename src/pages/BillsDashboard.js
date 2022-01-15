@@ -160,9 +160,9 @@ class BillsDashboard extends React.Component {
             totalMoneyDue += parseFloat(web3.utils.fromWei(invoice.data.payment.dueAmount));
             }
         })
-        var settledProgressBar = (settledData.length / (settledData.length + pendingData.length) * 100).toString();
-        var pendingProgressBar = (pendingData.length / (settledData.length + pendingData.length) * 100).toString();
-        var paymentProgressBar = (totalMoneySpent / (totalMoneySpent + totalMoneyDue) * 100).toString();
+        var settledProgressBar = (settledData.length + pendingData.length) ? (settledData.length / (settledData.length + pendingData.length) * 100).toString() : "0";
+        var pendingProgressBar = (settledData.length + pendingData.length) ? (pendingData.length / (settledData.length + pendingData.length) * 100).toString() : "0";
+        var paymentProgressBar = (totalMoneySpent + totalMoneyDue) ? (totalMoneySpent / (totalMoneySpent + totalMoneyDue) * 100).toString() : "0";
 
         return (
             <Aux>
