@@ -1,21 +1,15 @@
 import React from 'react';
 import {Row, Col, Card, Table} from 'react-bootstrap';
-
 import Aux from "../hoc/_Aux";
-
 import avatar2 from '../assets/images/user/avatar-2.jpg';
-
 import {web3, getAllBillsByCompany, getInvoiceDetails, payBill} from '../services/web3';
 import {loadWeb3, loadAccount, getCompanyId} from "../services/web3";
-
 class BillsDashboard extends React.Component {
-
     constructor (props) {
         super(props);
         this.state = {wallet: '', companyId: 0, invoices: []};
         this.fetchAccount();
     }
-
     async fetchAccount(){
         await loadWeb3();
         const account = await loadAccount();
@@ -28,7 +22,6 @@ class BillsDashboard extends React.Component {
             this.props.history.push('/');
         }
     }
-
     async getBills() {
         await this.fetchAccount();
         try{
@@ -45,11 +38,9 @@ class BillsDashboard extends React.Component {
             console.log(e);
         }
     }
-
     componentDidMount() {
         this.getBills();
     }  
-
     async payInvoice(invoice) {
         const invoiceId = invoice.id;
         const advance =  parseInt(invoice.data.payment.advancePercent);
@@ -68,21 +59,18 @@ class BillsDashboard extends React.Component {
         }
         await payBill(invoiceId, amount);
     }
-
     viewDetails(invoice) {
         this.props.history.push({
             pathname: '/view-invoice/',
             state: { invoice: invoice }
         })
     }
-
     render() {
         const invoices = this.state.invoices;
         let settledData  = []
         let pendingData  = []
         let totalMoneySpent = 0
         let totalMoneyDue = 0
-
         invoices.forEach(invoice => {
             if(invoice.data.isSettled){
                 settledData.push(
@@ -165,7 +153,6 @@ class BillsDashboard extends React.Component {
         var settledProgressBar = (settledData.length + pendingData.length) ? (settledData.length / (settledData.length + pendingData.length) * 100).toString() : "0";
         var pendingProgressBar = (settledData.length + pendingData.length) ? (pendingData.length / (settledData.length + pendingData.length) * 100).toString() : "0";
         var paymentProgressBar = (totalMoneySpent + totalMoneyDue) ? (totalMoneySpent / (totalMoneySpent + totalMoneyDue) * 100).toString() : "0";
-
         return (
             <Aux>
                 <Row>
@@ -177,7 +164,6 @@ class BillsDashboard extends React.Component {
                                     <div className="col-9">
                                         <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-arrow-up text-c-green f-30 m-r-5"/>{settledData.length}</h3>
                                     </div>
-
                                     <div className="col-3 text-right">
                                         <p className="m-b-0">{parseFloat(settledProgressBar).toFixed(2)}%</p>
                                     </div>
@@ -200,7 +186,6 @@ class BillsDashboard extends React.Component {
                                     <div className="col-9">
                                         <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className="feather icon-arrow-down text-c-red f-30 m-r-5"/>{pendingData.length}</h3>
                                     </div>
-
                                     <div className="col-3 text-right">
                                         <p className="m-b-0">{parseFloat(pendingProgressBar).toFixed(2)}%</p>
                                     </div>
@@ -270,13 +255,11 @@ class BillsDashboard extends React.Component {
                             <Card.Body className='border-bottom'>
                                 <div className="row align-items-center justify-content-center">
                                     <div className="col-auto justify-content-center text-center">
-                                        <i className="fa fa-facebook text-primary f-36"/>
+                                        <i className="fab fa-facebook text-primary f-36"/>
                                         <p className="m-0">Facebook</p>
                                     </div>
                                     <div className="col text-right">
-                                        <h4>
-                                        {/* <i class="fab fa-ethereum"></i>  */}
-                                        ETH 12,280</h4>
+                                        <h4><i class="fab fa-ethereum"></i> 10</h4>
                                         <p className="text-c-green mb-0"><span className="text-muted">Total Amount to Pay</span></p>
                                     </div>
                                 </div>
@@ -284,9 +267,7 @@ class BillsDashboard extends React.Component {
                             <Card.Body>
                                 <div className="row align-items-center justify-content-center card-active">
                                     <div className="col-6">
-                                        <h6 className="text-center m-b-10"><span className="text-muted m-r-5">Paid:</span> 
-                                        {/* <i class="fab fa-ethereum"></i>  */}
-                                        ETH 6,140</h6>
+                                        <h6 className="text-center m-b-10"><span className="text-muted m-r-5">Paid:</span> <i class="fab fa-ethereum"></i> 5</h6>
                                         <div className="progress">
                                             <div className="progress-bar progress-c-theme" role="progressbar" style={{width: '50%', height: '6px'}} aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"/>
                                         </div>
@@ -306,13 +287,11 @@ class BillsDashboard extends React.Component {
                             <Card.Body className='border-bottom'>
                                 <div className="row align-items-center justify-content-center">
                                     <div className="col-auto justify-content-center text-center">
-                                        <i className="fa fa-amazon text-dark f-36"/>
+                                        <i className="fab fa-amazon text-dark f-36"/>
                                         <p className="m-0">Amazon</p>
                                     </div>
                                     <div className="col text-right">
-                                        <h4>
-                                        {/* <i class="fab fa-ethereum"></i>  */}
-                                        ETH 5,280</h4>
+                                        <h4><i class="fab fa-ethereum"></i> 5</h4>
                                         <p className="text-c-green mb-0"><span className="text-muted">Total Amount to Pay</span></p>
                                     </div>
                                 </div>
@@ -320,9 +299,7 @@ class BillsDashboard extends React.Component {
                             <Card.Body>
                                 <div className="row align-items-center justify-content-center card-active">
                                     <div className="col-6">
-                                        <h6 className="text-center m-b-10"><span className="text-muted m-r-5">Paid:</span> 
-                                        {/* <i class="fab fa-ethereum"></i>  */}
-                                        ETH 0</h6>
+                                        <h6 className="text-center m-b-10"><span className="text-muted m-r-5">Paid:</span> <i class="fab fa-ethereum"></i> 0</h6>
                                         <div className="progress">
                                             <div className="progress-bar progress-c-theme" role="progressbar" style={{width: '1%', height: '6px'}} aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"/>
                                         </div>
@@ -342,13 +319,11 @@ class BillsDashboard extends React.Component {
                             <Card.Body className='border-bottom'>
                                 <div className="row align-items-center justify-content-center">
                                     <div className="col-auto justify-content-center text-center">
-                                        <i className="fa fa-google text-warning f-36"/>
+                                        <i className="fab fa-google text-warning f-36"/>
                                         <p className="m-0">Google</p>
                                     </div>
                                     <div className="col text-right">
-                                        <h4>
-                                        {/* <i class="fab fa-ethereum"></i>  */}
-                                        ETH 3,141</h4>
+                                        <h4><i class="fab fa-ethereum"></i> 3</h4>
                                         <p className="text-c-green mb-0"><span className="text-muted">Total Amount to Pay</span></p>
                                     </div>
                                 </div>
@@ -356,9 +331,7 @@ class BillsDashboard extends React.Component {
                             <Card.Body>
                                 <div className="row align-items-center justify-content-center card-active">
                                     <div className="col-6">
-                                        <h6 className="text-center m-b-10"><span className="text-muted m-r-5">Paid:</span> 
-                                        {/* <i class="fab fa-ethereum"></i>  */}
-                                        ETH 1,342</h6>
+                                        <h6 className="text-center m-b-10"><span className="text-muted m-r-5">Paid:</span> <i class="fab fa-ethereum"></i> 1.2</h6>
                                         <div className="progress">
                                             <div className="progress-bar progress-c-theme" role="progressbar" style={{width: '40%', height: '6px'}} aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"/>
                                         </div>
