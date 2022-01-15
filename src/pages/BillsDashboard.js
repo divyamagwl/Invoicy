@@ -234,7 +234,7 @@ class BillsDashboard extends React.Component {
                             </Card.Body>
                         </Card>
                     </Col>
-                    <Col md={10} xl={12}>
+                    <Col md={12} xl={12}>
                         <Card className='Recent-Users'>
                             <Card.Header>
                                 <Card.Title as='h5'>Pending Invoices</Card.Title>
@@ -248,7 +248,7 @@ class BillsDashboard extends React.Component {
                             </Card.Body>
                         </Card>
                     </Col>
-                    <Col md={10} xl={12}>
+                    <Col md={12} xl={12}>
                         <Card className='Recent-Users'>
                             <Card.Header>
                                 <Card.Title as='h5'>Settled Invoices</Card.Title>
@@ -263,24 +263,24 @@ class BillsDashboard extends React.Component {
                         </Card>
                     </Col>
                     
-                    <Col md={6} xl={4}>
+                    <Col md={4} xl={4}>
                         <Card className='card-social'>
                             <Card.Body className='border-bottom'>
                                 <div className="row align-items-center justify-content-center">
-                                    <div className="col-auto">
-                                        {/* <i className="fa fa-facebook text-primary f-36"/> */}
-                                        <h3>Company X</h3>
+                                    <div className="col-auto justify-content-center text-center">
+                                        <i className="fab fa-facebook text-primary f-36"/>
+                                        <p className="m-0">Facebook</p>
                                     </div>
                                     <div className="col text-right">
-                                        <h3>12,280</h3>
-                                        <h5 className="text-c-green mb-0"><span className="text-muted">Total Amount to Pay</span></h5>
+                                        <h4><i class="fab fa-ethereum"></i> 12,280</h4>
+                                        <p className="text-c-green mb-0"><span className="text-muted">Total Amount to Pay</span></p>
                                     </div>
                                 </div>
                             </Card.Body>
                             <Card.Body>
                                 <div className="row align-items-center justify-content-center card-active">
                                     <div className="col-6">
-                                        <h6 className="text-center m-b-10"><span className="text-muted m-r-5">Paid:</span>6,140</h6>
+                                        <h6 className="text-center m-b-10"><span className="text-muted m-r-5">Paid:</span> <i class="fab fa-ethereum"></i> 6,140</h6>
                                         <div className="progress">
                                             <div className="progress-bar progress-c-theme" role="progressbar" style={{width: '50%', height: '6px'}} aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"/>
                                         </div>
@@ -295,24 +295,24 @@ class BillsDashboard extends React.Component {
                             </Card.Body>
                         </Card>
                     </Col>
-                    <Col md={6} xl={4}>
+                    <Col md={4} xl={4}>
                         <Card className='card-social'>
                             <Card.Body className='border-bottom'>
                                 <div className="row align-items-center justify-content-center">
-                                    <div className="col-auto">
-                                        {/* <i className="fa fa-facebook text-primary f-36"/> */}
-                                        <h3>Company Y</h3>
+                                    <div className="col-auto justify-content-center text-center">
+                                        <i className="fab fa-amazon text-dark f-36"/>
+                                        <p className="m-0">Amazon</p>
                                     </div>
                                     <div className="col text-right">
-                                        <h3>5,280</h3>
-                                        <h5 className="text-c-green mb-0"><span className="text-muted">Total Amount to Pay</span></h5>
+                                        <h4><i class="fab fa-ethereum"></i> 5,280</h4>
+                                        <p className="text-c-green mb-0"><span className="text-muted">Total Amount to Pay</span></p>
                                     </div>
                                 </div>
                             </Card.Body>
                             <Card.Body>
                                 <div className="row align-items-center justify-content-center card-active">
                                     <div className="col-6">
-                                        <h6 className="text-center m-b-10"><span className="text-muted m-r-5">Paid:</span>0</h6>
+                                        <h6 className="text-center m-b-10"><span className="text-muted m-r-5">Paid:</span> <i class="fab fa-ethereum"></i> 0</h6>
                                         <div className="progress">
                                             <div className="progress-bar progress-c-theme" role="progressbar" style={{width: '1%', height: '6px'}} aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"/>
                                         </div>
@@ -327,78 +327,39 @@ class BillsDashboard extends React.Component {
                             </Card.Body>
                         </Card>
                     </Col>
-                    
-                    <Col md={6} xl={4}>
-                        <Card>
-                            <Card.Header>
-                                <Card.Title as='h5'>Rating</Card.Title>
-                            </Card.Header>
-                            <Card.Body>
-                                <div className="row align-items-center justify-content-center m-b-20">
-                                    <div className="col-6">
-                                        <h2 className="f-w-300 d-flex align-items-center float-left m-0">4.7 <i className="fa fa-star f-10 m-l-10 text-c-yellow"/></h2>
+                    <Col md={4} xl={4}>
+                        <Card className='card-social'>
+                            <Card.Body className='border-bottom'>
+                                <div className="row align-items-center justify-content-center">
+                                    <div className="col-auto justify-content-center text-center">
+                                        <i className="fab fa-google text-warning f-36"/>
+                                        <p className="m-0">Google</p>
                                     </div>
-                                    <div className="col-6">
-                                        <h6 className="d-flex  align-items-center float-right m-0">0.4 <i className="fa fa-caret-up text-c-green f-22 m-l-10"/></h6>
+                                    <div className="col text-right">
+                                        <h4><i class="fab fa-ethereum"></i> 3,141</h4>
+                                        <p className="text-c-green mb-0"><span className="text-muted">Total Amount to Pay</span></p>
                                     </div>
                                 </div>
-
-                                <div className="row">
-                                    <div className="col-xl-12">
-                                        <h6 className="align-items-center float-left"><i className="fa fa-star f-10 m-r-10 text-c-yellow"/>5</h6>
-                                        <h6 className="align-items-center float-right">384</h6>
-                                        <div className="progress m-t-30 m-b-20" style={{height: '6px'}}>
-                                            <div className="progress-bar progress-c-theme" role="progressbar" style={{width: '70%'}} aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"/>
+                            </Card.Body>
+                            <Card.Body>
+                                <div className="row align-items-center justify-content-center card-active">
+                                    <div className="col-6">
+                                        <h6 className="text-center m-b-10"><span className="text-muted m-r-5">Paid:</span> <i class="fab fa-ethereum"></i> 1,342</h6>
+                                        <div className="progress">
+                                            <div className="progress-bar progress-c-theme" role="progressbar" style={{width: '35%', height: '6px'}} aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"/>
                                         </div>
                                     </div>
-
-                                    <div className="col-xl-12">
-                                        <h6 className="align-items-center float-left"><i className="fa fa-star f-10 m-r-10 text-c-yellow"/>4</h6>
-                                        <h6 className="align-items-center float-right">145</h6>
-                                        <div className="progress m-t-30  m-b-20" style={{height: '6px'}}>
-                                            <div className="progress-bar progress-c-theme" role="progressbar" style={{width: '35%'}} aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"/>
-                                        </div>
-                                    </div>
-
-                                    <div className="col-xl-12">
-                                        <h6 className="align-items-center float-left"><i className="fa fa-star f-10 m-r-10 text-c-yellow"/>3</h6>
-                                        <h6 className="align-items-center float-right">24</h6>
-                                        <div className="progress m-t-30  m-b-20" style={{height: '6px'}}>
-                                            <div className="progress-bar progress-c-theme" role="progressbar" style={{width: '25%'}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"/>
-                                        </div>
-                                    </div>
-
-                                    <div className="col-xl-12">
-                                        <h6 className="align-items-center float-left"><i className="fa fa-star f-10 m-r-10 text-c-yellow"/>2</h6>
-                                        <h6 className="align-items-center float-right">1</h6>
-                                        <div className="progress m-t-30  m-b-20" style={{height: '6px'}}>
-                                            <div className="progress-bar progress-c-theme" role="progressbar" style={{width: '10%'}} aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"/>
-                                        </div>
-                                    </div>
-                                    <div className="col-xl-12">
-                                        <h6 className="align-items-center float-left"><i className="fa fa-star f-10 m-r-10 text-c-yellow"/>1</h6>
-                                        <h6 className="align-items-center float-right">0</h6>
-                                        <div className="progress m-t-30  m-b-5" style={{height: '6px'}}>
-                                            <div className="progress-bar" role="progressbar" style={{width: '0%'}} aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"/>
+                                    <div className="col-6">
+                                        <h6 className="text-center  m-b-10"><span className="text-muted m-r-5">Duration:</span>13 days</h6>
+                                        <div className="progress">
+                                            <div className="progress-bar progress-c-theme2" role="progressbar" style={{width: '75%', height: '6px'}} aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"/>
                                         </div>
                                     </div>
                                 </div>
                             </Card.Body>
                         </Card>
                     </Col>
-                    {/* <Col md={6} xl={8} className='m-b-30'>
-                        <Tabs defaultActiveKey="today" id="uncontrolled-tab-example">
-                            <Tab eventKey="today" title="Today">
-                                {tabContent}
-                            </Tab>
-                            <Tab eventKey="week" title="This Week">
-                                {tabContent}
-                            </Tab>
-                            <Tab eventKey="all" title="All">
-                                {tabContent}
-                            </Tab>
-                        </Tabs>
-                    </Col> */}
+                    
                 </Row>
             </Aux>
         );
