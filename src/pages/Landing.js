@@ -50,7 +50,10 @@ class Landing extends React.Component {
                                 </div>
                                 <h3 className="mb-4">Welcome to Invoicy</h3>
                                 <p className="mb-4">Invoice management systemized!</p>
-                                <Link to="/signup" className="btn btn-primary shadow-2 mb-4">Sign up</Link>
+                                <Link to="/signup" className="btn btn-primary shadow-2 mb-4" 
+                                    style={{color: 'white', fontWeight: 'normal'}}>
+                                    Sign up
+                                </Link>
                                 <button className="btn btn-primary shadow-2 mb-4" onClick={this.loginHandler.bind(this)}>Login</button>
                                 <Dialog ref={(component) => { this.dialog = component }} />
                             </div>
