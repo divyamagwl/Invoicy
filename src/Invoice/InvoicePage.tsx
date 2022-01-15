@@ -55,9 +55,8 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
     const companyId = await getCompanyId();
     const company = await getCompanyById(companyId);
     const account = await loadAccount();
-    console.log(clients);
     clients.forEach((element: any[]) => {
-      allClients.push({value:element[1], text:element[1], id:element[0]});
+      allClients.push({value:element[1], text:element[1], id:element[0], discount:element[3]});
     });
 
     const newInvoice = { ...invoice }
@@ -67,9 +66,10 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
     try {
       newInvoice.clientAddr = allClients[0].value;
       newInvoice.clientId = allClients[0].id;
-      const clientComany = await getClientCompany(companyId, newInvoice.clientId)
-      newInvoice.clientName = clientComany.name;
-      newInvoice.clientEmail = clientComany.email;
+      newInvoice.discount = allClients[0].discount;
+      const clientCompany = await getClientCompany(companyId, newInvoice.clientId)
+      newInvoice.clientName = clientCompany.name;
+      newInvoice.clientEmail = clientCompany.email;
     }
     catch(e) {
       console.log(e);
@@ -78,7 +78,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
     }
     newInvoice.companyAddr = account;
 
-    console.log(newInvoice)
+    // console.log(newInvoice)
     setMyClients(allClients)
     setInvoice(newInvoice)
   }
@@ -92,9 +92,17 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
         if(name === "clientAddr") {
           newInvoice[name] = value;
           const clientCompanyId = await getCompanyId(value);
-          const clientCompany = await getCompanyById(clientCompanyId)
+          const clientCompany = await getCompanyById(clientCompanyId);
           newInvoice["clientName"] = clientCompany.name;
           newInvoice["clientEmail"] = clientCompany.email;
+
+          let length = myClients ? myClients.length : 0
+          for(var i = 0; i < length; i++) {
+            const address = myClients ? myClients[i].value : null;
+            if(address === value) {
+              newInvoice["discount"] = myClients ? myClients[i].discount : 0;
+            }
+          }          
         }
         if(name === "totalAmount"){
           newInvoice[name] = value;
