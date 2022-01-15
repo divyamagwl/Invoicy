@@ -137,6 +137,9 @@ class BillsDashboard extends React.Component {
                     </td>
                     <td>
                         <h6 className="text-muted">{parseFloat(web3.utils.fromWei(invoice.data.payment.dueAmount)).toFixed(2)} ETH due</h6>
+                        <p className="m-0">
+                            Advance: {invoice.data.payment.advancePercent}%
+                        </p>
                     </td>
                     <td>
                         <h6 className="text-muted">Work Status: &nbsp; 
@@ -149,7 +152,6 @@ class BillsDashboard extends React.Component {
                             <span className="text-danger">Not Completed</span>
                         }
                         </h6>
-
                     </td>
                     <td>
                         <button style={{border: 0}} onClick={() => this.viewDetails(invoice)} className="label theme-bg text-white f-12">View Details</button>
