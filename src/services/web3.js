@@ -38,15 +38,21 @@ export const InvoiceManagement_Contract = new web3.eth.Contract(
 export const createCompany = async (name, email) => {
   const accounts = await web3.eth.getAccounts();
   const account = accounts[0];
-  const result = await InvoiceManagement_Contract.methods
+
+  try {
+    const result = await InvoiceManagement_Contract.methods
     .createCompany(name, email)
     .send({
       from: account,
     });
-
-  // console.log(result);
+    
   if (result) return true;
-  else return false;
+  } catch (error) {
+    const reason = error.message.split("reason\":\"")[1].split('"}')[0]
+    window.alert(reason)
+    return false;
+  }
+
 };
 
 export const getCompanyId = async (address) => {

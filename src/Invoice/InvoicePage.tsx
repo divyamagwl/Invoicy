@@ -101,12 +101,13 @@ const InvoicePage: FC<Props> = ({ data, pdfMode }) => {
             const address = myClients ? myClients[i].value : null;
             if(address === value) {
               newInvoice["discount"] = myClients ? myClients[i].discount : 0;
+              newInvoice["clientId"] = myClients ? myClients[i].id : 0;
             }
           }          
         }
         if(name === "totalAmount"){
           newInvoice[name] = value;
-          newInvoice["dueAmount"] = value;
+          if(!pdfMode){ newInvoice["dueAmount"] = value; }
         }
         else{
           newInvoice[name] = value

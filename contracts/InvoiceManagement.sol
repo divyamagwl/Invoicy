@@ -31,6 +31,8 @@ contract InvoiceManagement {
     public 
   {
     require(msg.sender != address(0), "Company wallet address cannot be 0x00...");
+    require(msg.sender != addrToCompany[msg.sender].companyAddr, "Company with this wallet address already exists!");
+    
     _companyIds.increment();
     uint256 companyId = _companyIds.current();
 
